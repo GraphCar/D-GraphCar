@@ -15318,6 +15318,7 @@ dl {
       display: none; }
   .sidebar-icon-only .page-body-wrapper {
     width: calc(100% - 70px);
+    margin-left: 70px;
     transition: all 0.25s ease;
     -webkit-transition: all 0.25s ease;
     -moz-transition: all 0.25s ease;
