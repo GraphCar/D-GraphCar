@@ -31,9 +31,9 @@
               show: true,
               barWidth: 0.5,
               align: "center",
-              fillColor: "#3f50f6",
+              fillColor: "#cc1616",
             },
-            color: "#3f50f6",
+            color: "#cc1616",
             lines: {
               fill: true,
             },
@@ -73,9 +73,9 @@
               show: true,
               barWidth: 0.5,
               align: "center",
-              fillColor: "#3f50f6",
+              fillColor: "#cc1616",
             },
-            color: "#3f50f6",
+            color: "#cc1616",
             lines: {
               fill: true,
             },
@@ -115,9 +115,9 @@
               show: true,
               barWidth: 0.5,
               align: "center",
-              fillColor: "#3f50f6",
+              fillColor: "#cc1616",
             },
-            color: "#3f50f6",
+            color: "#cc1616",
             lines: {
               fill: true,
             },
@@ -772,8 +772,8 @@
         datasets: [
           {
             data: [14, 12, 9, 15, 10, 12, 10],
-            backgroundColor: "#3f50f6",
-            borderColor: "#3f50f6",
+            backgroundColor: "#cc1616",
+            borderColor: "#cc1616",
             pointRadius: 0,
             lineTension: 0,
             borderWidth: 1,
@@ -970,8 +970,8 @@
         datasets: [
           {
             data: [14, 12, 9, 15, 10, 12, 10],
-            backgroundColor: "#3f50f6",
-            borderColor: "#3f50f6",
+            backgroundColor: "#cc1616",
+            borderColor: "#cc1616",
             pointRadius: 0,
             lineTension: 0,
             borderWidth: 1,
@@ -1301,21 +1301,21 @@
         [
           {
             data: dashData4,
-            color: "#bcc1f3",
+            color: "#fd7f63",
             lines: {
-              fillColor: "#bcc1f3",
+              fillColor: "#fd7f63",
             },
           },
           {
             data: dashData3,
-            color: "#3f50f6",
+            color: "#cc1616",
             lines: {
-              fillColor: "#3f50f6",
+              fillColor: "#cc1616",
             },
           },
           {
             data: dashData2,
-            color: "#ffab2d",
+            color: "#cc1616",
             lines: {
               fillColor: { colors: [{ opacity: 0 }, { opacity: 0 }] },
             },
