@@ -280,9 +280,7 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-sm-7">
-                        <h4>Dados em tempo real de todos os veículos Tesla cadastrados.</h4>
-                      </div>
+                      <div class="col-sm-7" id="current_date"></div>
                       <!-- <div class="col-sm-5 text-md-right">
                         <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
                           <i class="mdi mdi-email btn-icon-prepend"></i>Download Report </button>
@@ -396,6 +394,13 @@
   
       window.location = "../../login.html";
     }
+    </script>
+    <script>
+      date = new Date();
+      year = date.getFullYear();
+      month = date.getMonth() + 1;
+      day = date.getDate();
+      document.getElementById("current_date").innerHTML = "<h3>Visão geral dos dados capturados hoje - " + day + "/" + month + "/" + year + "</h3>";
     </script>
   </body>
 </html>

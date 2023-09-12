@@ -220,8 +220,8 @@ $(function() {
     var multiAreaCanvas = $("#areachart-multi").get(0).getContext("2d");
     var multiAreaChart = new Chart(multiAreaCanvas, {
       type: 'line',
-      data: multiAreaData,
-      options: multiAreaOptions
+      data: data,
+      options: options
     });
   }
 
