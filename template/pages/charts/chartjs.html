@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../assets/vendors/flag-icon-css/css/flag-icon.min.css" />
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css" />
     <link rel="stylesheet" href="../../assets/css/style.css" />
-    <link rel="shortcut icon" href="../../assets/images/favicon.png" />
+    <link rel="shortcut icon" href="../../../../assets/img/graph.png" />
   </head>
   <body>
     <div class="container-scroller">
@@ -35,7 +35,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../../index.html">
-              <i class="mdi mdi-home menu-icon"></i>
+              <i class="mdi mdi-trending-up menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
@@ -129,7 +129,7 @@
         </div>
         <nav class="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
           <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-between">
-            <a class="navbar-brand brand-logo-mini align-self-center d-lg-none" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo-mini align-self-center d-lg-none" href="../../index.html"><img src="../../../../assets/img/graph-icon.png" alt="logo" /></a>
             <button class="navbar-toggler navbar-toggler align-self-center mr-2" type="button" data-toggle="minimize">
               <i class="mdi mdi-menu"></i>
             </button>
@@ -198,7 +198,8 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title">Chart-js</h3>
+              <div class="col-sm-7" id="current_date"></div>
+              <!-- <h4>Placa do veículo - </h4> -->
             </div>
             <div class="row">
               <div class="col-lg-6 grid-margin stretch-card">
@@ -263,6 +264,13 @@
     
         window.location = "../../../../login.html";
       }
+    </script>
+    <script>
+      date = new Date();
+      year = date.getFullYear();
+      month = date.getMonth() + 1;
+      day = date.getDate();
+      document.getElementById("current_date").innerHTML = "<h3>Porcentagem de uso dos componentes - " + day + "/" + month + "/" + year + "</h3>";
     </script>
   </body>
 </html>

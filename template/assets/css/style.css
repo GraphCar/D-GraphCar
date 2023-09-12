@@ -2213,6 +2213,10 @@ mark,
   font-size: 90%;
   color: #6c757d; }
 
+.navbar-brand img {
+  width: 200px;
+}
+
 code {
   font-size: 87.5%;
   color: #e83e8c;

@@ -4,100 +4,19 @@ $(function() {
    * Data and config for chartjs
    */
   'use strict';
-  var data = {
-    labels: ["2017", "2018", "2019", "2020", "2021", "2022"],
+  var data = { // CPU e RAM
+    labels: ["09:00", "10:00", "11:00"],
     datasets: [{
-      label: '# of Votes',
-      data: [10, 19, 3, 5, 2, 3],
+      data: [30, 20, 50, 30, 15, 100],
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
+        'rgba(246,220,220, 0.8)'
       ],
       borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
+        'rgba(204,22,22, 0.8)'
       ],
       borderWidth: 1,
       fill: true
     }]
-  };
-  var multiLineData = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-    datasets: [{
-        label: 'Dataset 1',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1,
-        fill: true
-      },
-      {
-        label: 'Dataset 2',
-        data: [5, 23, 7, 12, 42, 23],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1,
-        fill: true
-      },
-      {
-        label: 'Dataset 3',
-        data: [15, 10, 21, 32, 12, 33],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1,
-        fill: true
-      }
-    ]
   };
   var options = {
     scales: {
@@ -117,24 +36,14 @@ $(function() {
     }
 
   };
-  var doughnutPieData = {
+  var doughnutPieData = { // gráfico GPU
     datasets: [{
-      data: [30, 40, 30],
+      data: [40, 89, 50, 100],
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
+        'rgba(246,220,220, 0.8)'
       ],
       borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
+        'rgba(204,22,22, 0.8)'
       ],
       borderWidth: 1,
       fill: true
@@ -142,37 +51,38 @@ $(function() {
 
     // These labels appear in the legend and in the tooltips when hovering different arcs
     labels: [
-      'Pink',
-      'Blue',
-      'Yellow',
+      '09:00',
+      '10:00',
+      '11:00',
     ]
   };
   var doughnutPieOptions = {
-    responsive: true,
-    animation: {
-      animateScale: true,
-      animateRotate: true
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    },
+    legend: {
+      display: false
+    },
+    elements: {
+      point: {
+        radius: 0
+      }
     }
+
   };
-  var areaData = {
-    labels: ["2018", "2019", "2020", "2021", "2022"],
+  var areaData = { // Disco
+    labels: ['09:00', '10:00', '11:00'],
     datasets: [{
-      data: [12, 19, 3, 5, 2, 3],
+      data: [36, 40, 45, 60],
       backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
+        'rgba(246,220,220, 0.8)'
       ],
       borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
+        'rgba(204,22,22, 0.8)'
       ],
       borderWidth: 1,
       fill: true, // 3: no fill
@@ -180,12 +90,23 @@ $(function() {
   };
 
   var areaOptions = {
-    plugins: {
-      filler: {
-        propagate: true
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    },
+    legend: {
+      display: false
+    },
+    elements: {
+      point: {
+        radius: 0
       }
     }
-  }
+
+  };
 
   // Get context with jQuery - using jQuery's .get() method.
   if ($("#barChart").length) {
@@ -207,36 +128,9 @@ $(function() {
     });
   }
 
-  if ($("#linechart-multi").length) {
-    var multiLineCanvas = $("#linechart-multi").get(0).getContext("2d");
-    var lineChart = new Chart(multiLineCanvas, {
-      type: 'line',
-      data: multiLineData,
-      options: options
-    });
-  }
-
-  if ($("#areachart-multi").length) {
-    var multiAreaCanvas = $("#areachart-multi").get(0).getContext("2d");
-    var multiAreaChart = new Chart(multiAreaCanvas, {
-      type: 'line',
-      data: data,
-      options: options
-    });
-  }
-
   if ($("#doughnutChart").length) {
     var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
     var doughnutChart = new Chart(doughnutChartCanvas, {
-      type: 'line',
-      data: doughnutPieData,
-      options: doughnutPieOptions
-    });
-  }
-
-  if ($("#area").length) {
-    var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
-    var pieChart = new Chart(pieChartCanvas, {
       type: 'line',
       data: doughnutPieData,
       options: doughnutPieOptions
@@ -251,5 +145,4 @@ $(function() {
       options: areaOptions
     });
   }
-
 });
