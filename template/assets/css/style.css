@@ -15239,7 +15239,9 @@ dl {
       .sidebar-icon-only .sidebar .sidebar-brand-wrapper .brand-logo {
         display: none; }
       .sidebar-icon-only .sidebar .sidebar-brand-wrapper .brand-logo-mini {
-        display: inline-block; }
+        display: inline-block; 
+        width: 500px;
+        height: 100px;}
     .sidebar-icon-only .sidebar .nav {
       overflow: visible; }
       .sidebar-icon-only .sidebar .nav .nav-item {

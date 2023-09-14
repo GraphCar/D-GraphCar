@@ -4,8 +4,11 @@ $(function() {
    * Data and config for chartjs
    */
   'use strict';
-  var data = { // CPU e RAM
-    labels: ["09:00", "10:00", "11:00"],
+
+  // CPU
+
+  var dataCPU = {
+    labels: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00"],
     datasets: [{
       data: [30, 20, 50, 30, 15, 100],
       backgroundColor: [
@@ -36,9 +39,13 @@ $(function() {
     }
 
   };
-  var doughnutPieData = { // gráfico GPU
+
+// RAM
+
+  var dataRAM = {
+    labels: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00"],
     datasets: [{
-      data: [40, 89, 50, 100],
+      data: [10, 53, 22, 65, 15, 96],
       backgroundColor: [
         'rgba(246,220,220, 0.8)'
       ],
@@ -47,37 +54,15 @@ $(function() {
       ],
       borderWidth: 1,
       fill: true
-    }],
-
-    // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: [
-      '09:00',
-      '10:00',
-      '11:00',
-    ]
+    }]
   };
-  var doughnutPieOptions = {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    },
-    legend: {
-      display: false
-    },
-    elements: {
-      point: {
-        radius: 0
-      }
-    }
+  
+// DISCO
 
-  };
-  var areaData = { // Disco
-    labels: ['09:00', '10:00', '11:00'],
+  var dataDisco = {
+    labels: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00"],
     datasets: [{
-      data: [36, 40, 45, 60],
+      data: [75, 34, 80, 12, 39, 56],
       backgroundColor: [
         'rgba(246,220,220, 0.8)'
       ],
@@ -85,64 +70,62 @@ $(function() {
         'rgba(204,22,22, 0.8)'
       ],
       borderWidth: 1,
-      fill: true, // 3: no fill
+      fill: true
     }]
   };
 
-  var areaOptions = {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    },
-    legend: {
-      display: false
-    },
-    elements: {
-      point: {
-        radius: 0
-      }
-    }
+// GPU
 
+  var dataGPU = {
+    labels: ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00"],
+    datasets: [{
+      data: [50, 20, 70, 54, 23, 37],
+      backgroundColor: [
+        'rgba(246,220,220, 0.8)'
+      ],
+      borderColor: [
+        'rgba(204,22,22, 0.8)'
+      ],
+      borderWidth: 1,
+      fill: true
+    }]
   };
-
+  
   // Get context with jQuery - using jQuery's .get() method.
-  if ($("#barChart").length) {
-    var barChartCanvas = $("#barChart").get(0).getContext("2d");
+  if ($("#cpuChart").length) {
+    var cpuChartCanvas = $("#cpuChart").get(0).getContext("2d");
     // This will get the first returned node in the jQuery collection.
-    var barChart = new Chart(barChartCanvas, {
+    var cpuChart = new Chart(cpuChartCanvas, {
       type: 'line',
-      data: data,
+      data: dataCPU,
       options: options
     });
   }
 
-  if ($("#lineChart").length) {
-    var lineChartCanvas = $("#lineChart").get(0).getContext("2d");
-    var lineChart = new Chart(lineChartCanvas, {
+  if ($("#ramChart").length) {
+    var ramChartCanvas = $("#ramChart").get(0).getContext("2d");
+    var ramChart = new Chart(ramChartCanvas, {
       type: 'line',
-      data: data,
+      data: dataRAM,
       options: options
     });
   }
 
-  if ($("#doughnutChart").length) {
-    var doughnutChartCanvas = $("#doughnutChart").get(0).getContext("2d");
-    var doughnutChart = new Chart(doughnutChartCanvas, {
+  if ($("#discoChart").length) {
+    var discoChartCanvas = $("#discoChart").get(0).getContext("2d");
+    var discoChart = new Chart(discoChartCanvas, {
       type: 'line',
-      data: doughnutPieData,
-      options: doughnutPieOptions
+      data: dataDisco,
+      options: options
     });
   }
 
-  if ($("#areaChart").length) {
-    var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
-    var areaChart = new Chart(areaChartCanvas, {
+  if ($("#gpuChart").length) {
+    var gpuChartCanvas = $("#gpuChart").get(0).getContext("2d");
+    var gpuChart = new Chart(gpuChartCanvas, {
       type: 'line',
-      data: areaData,
-      options: areaOptions
+      data: dataGPU,
+      options: options
     });
   }
 });
