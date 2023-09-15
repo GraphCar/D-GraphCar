@@ -423,21 +423,34 @@
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
-    <script>
-    function sair() {
-      delete localStorage.ID_USUARIO;
-      delete localStorage.ID_MODELO;
-      delete localStorage.REDIRECIONAMENTO;
-  
-      window.location = "../../login.html";
-    }
-    </script>
-    <script>
-      date = new Date();
-      year = date.getFullYear();
-      month = date.getMonth() + 1;
-      day = date.getDate();
-      document.getElementById("current_date").innerHTML = "<h3>" + day + "/" + month + "/" + year + "</h3>";
-    </script>
   </body>
 </html>
+
+<script>
+  var idUsuario = localStorage.ID_USUARIO;
+  var idModelo = localStorage.ID_MODELO;
+
+
+  if (idUsuario == undefined || idModelo == undefined) {
+
+      window.location = "../../login.html";
+
+  } else {
+
+  date = new Date();
+  year = date.getFullYear();
+  month = date.getMonth() + 1;
+  day = date.getDate();
+  document.getElementById("current_date").innerHTML = "<h3>" + day + "/" + month + "/" + year + "</h3>";
+
+  function sair() {
+
+    delete localStorage.ID_USUARIO;
+    delete localStorage.ID_MODELO;
+    delete localStorage.REDIRECIONAMENTO;
+
+    window.location = "index.html";
+  }
+}
+
+</script>
