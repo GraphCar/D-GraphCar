@@ -1031,6 +1031,8 @@
     $(function () {
       "use strict";
 
+      
+
       var dashData2 = [
         [0, 69],
         [1, 68],

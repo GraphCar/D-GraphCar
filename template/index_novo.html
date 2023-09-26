@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>GraphCar Admin</title>
+    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css" />
+    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="shortcut icon" href="../../assets/img/graph.png" />
+  </head> 
+  <body>
+    <div class="container-scroller">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
+          <a class="sidebar-brand brand-logo" href="index.html"><img src="../../assets/img/logo-preto2.png" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img src="../../assets/img/logo-preto.png" alt="logo" /></a>
+        </div>
+        <ul class="nav">
+          <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+              <div class="nav-profile-image">
+                <img src="../../assets/img/fotosUsuarios/user.png" alt="profile" />
+                <span class="login-status online"></span>
+                <!--change to offline or busy as needed-->
+              </div>
+              <div class="nav-profile-text d-flex flex-column pr-3">
+                <span class="font-weight-medium mb-2">Fernando Brandão</span>
+                <span class="font-weight-normal">Analista de dados</span>
+              </div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">
+              <i class="mdi mdi-trending-up menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+              <span class="menu-title">Basic UI Elements</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                </li>
+              </ul>
+            </div>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="#cpuChart">
+              <i class="mdi mdi-chip menu-icon"></i>
+              <span class="menu-title">CPU</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#gpuChart">
+              <i class="mdi mdi-flash menu-icon"></i>
+              <span class="menu-title">GPU</span>
+            </a>
+          </li> 
+          <li class="nav-item">
+            <a class="nav-link" href="#ramChart">
+              <i class="mdi mdi-memory menu-icon"></i>
+              <span class="menu-title">RAM</span>
+            </a>
+          </li> 
+          <li class="nav-item">
+            <a class="nav-link" href="pages/charts/chartjs.html">
+              <i class="mdi mdi-chart-bar menu-icon"></i>
+              <span class="menu-title">Gráficos</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <span class="nav-link" href="#">
+              <span class="menu-title">Cadastros</span>
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../cadastroCarro.html">
+              <i class="mdi mdi-car menu-icon"></i>
+              <span class="menu-title">Cadastro de Carro</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../cadastroADM.html">
+              <i class="mdi mdi-face menu-icon"></i>
+              <span class="menu-title">Cadastro de Admin.</span>
+            </a>
+          </li>
+          <li class="nav-item sidebar-actions">
+            <div class="nav-link">
+              <div class="mt-4">
+                <ul class="mt-4 pl-0">
+                  <a href=""><li onclick="sair()">Sair</li></a>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="container-fluid page-body-wrapper">
+        <nav class="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
+          <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-between">
+            <a class="navbar-brand brand-logo-mini align-self-center d-lg-none" href="index.html"><img src="../../assets/img/graph-icon.png"alt="logo" /></a>
+            <button class="navbar-toggler navbar-toggler align-self-center mr-2" type="button" data-toggle="minimize">
+              <i class="mdi mdi-menu"></i>
+            </button>
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown d-none d-sm-flex">
+                <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown">
+                  <i class="mdi mdi-email-outline"></i>
+                  <span class="count count-varient2">3</span>
+                </a>
+                <div class="dropdown-menu navbar-dropdown navbar-dropdown-large preview-list" aria-labelledby="messageDropdown">
+                  <h6 class="p-3 mb-0">Mensagens</h6>
+                  <a class="dropdown-item preview-item">
+                    <div class="preview-item-content flex-grow">
+                      <span class="badge badge-pill badge-success"> Requisição </span>
+                      <p class="text-small text-muted ellipsis mb-0"> Usuário Fernando Brandão solicita mais gráficos. </p>
+                    </div>
+                    <p class="text-small text-muted align-self-start"> 12:32 </p>
+                  </a>
+                  <a class="dropdown-item preview-item">
+                    <div class="preview-item-content flex-grow">
+                      <span class="badge badge-pill badge-warning"> Falha </span>
+                      <p class="text-small text-muted ellipsis mb-0"> Falha no componente CPU.</p>
+                    </div>
+                    <p class="text-small text-muted align-self-start"> 18:09 </p>
+                  </a>
+                  <a class="dropdown-item preview-item">
+                    <div class="preview-item-content flex-grow">
+                      <span class="badge badge-pill badge-danger"> Ocorrência </span>
+                      <p class="text-small text-muted ellipsis mb-0"> GPU esquentandi </p>
+                    </div>
+                    <p class="text-small text-muted align-self-start"> 14:29 </p>
+                  </a>
+                  <h6 class="p-3 mb-0">See all activity</h6>
+                </div>
+              </li>
+              <li class="nav-item nav-search border-0 ml-1 ml-md-3 ml-lg-5 d-none d-md-flex">
+                
+              </li>
+            </ul>
+            <ul class="navbar-nav navbar-nav-right ml-lg-auto">
+              <li class="nav-item nav-profile dropdown border-0">
+                <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown">
+                  <img class="nav-profile-img mr-2" alt="" src="../../assets/img/fotosUsuarios/user-branco.png" />
+                  <span class="profile-name">Fernando Brandão</span>
+                </a>
+                <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
+
+                  <a onclick="sair()" class="dropdown-item">
+                    <i class="mdi mdi-logout mr-2 text-primary"></i>Sair</a>
+                </div>
+              </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+              <span class="mdi mdi-menu"></span>
+            </button>
+          </div>
+        </nav>
+        <div class="main-panel">
+          <div class="content-wrapper pb-0">
+            <div class="page-header flex-wrap">
+              <h3 class="mb-0"> Olá Sr. Fernando, Bem vindo!
+              </h3>
+              <div class="d-flex">
+                <!-- <button type="button" class="btn btn-sm bg-white btn-icon-text border">
+                  <i class="mdi mdi-email btn-icon-prepend"></i> Email </button>
+                  <a href="mailto:GraphCar2023@provedor.com.br?subject=Assunto do email&cc=copia@provedor.com.br&bcc=copiaoculta@provedor.com.br&body=Conteúdo do email que será preenchido automaticamente"></a>
+                <button type="button" class="btn btn-sm bg-white btn-icon-text border ml-3">
+                  <i class="mdi mdi-printer btn-icon-prepend"></i> Print </button> -->
+                <button type="button" class="btn btn-sm ml-3 btn-success"><a href="https://graphcar.atlassian.net/servicedesk/customer/portals">Abrir chamado</a></button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-3 col-lg-12 stretch-card grid-margin">
+                <div class="row">
+                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+                    <div class="card bg-danger">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head">Falhas</p>
+                            <h2 class="text-white"><span id="span_falhas">0</span>
+                            </h2>
+                          </div>
+                          <i class="card-icon-indicator mdi mdi-car-connected bg-inverse-icon-danger"></i>
+                        </div>
+                        <h6 class="text-white">Nos últimos 30 dias</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3 pb-lg-0 pb-xl-3">
+                    <div class="card bg-primary">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head">Alertas</p>
+                            <h2 class="text-white"><span id="span_alertas">0</span>
+                            </h2>
+                          </div>
+                          <i class="card-icon-indicator mdi mdi-led-on bg-inverse-icon-primary"></i>
+                        </div>
+                        <h6 class="text-white">Nos últimos 30 dias</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-md-6 stretch-card pb-sm-3 pb-lg-0">
+                    <div class="card bg-success">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head">Ocorrências</p>
+                            <h2 class="text-white"><span id="span_ocorrencias">0</span></h2>
+                          </div>
+                          <i class="card-icon-indicator mdi mdi-receipt bg-inverse-icon-success"></i>
+                        </div>
+                        <h6 class="text-white">Nos últimos 30 dias</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-9 stretch-card grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-sm-7" id="current_date"></div>
+                      <!-- <div class="col-sm-5 text-md-right">
+                        <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
+                          <i class="mdi mdi-email btn-icon-prepend"></i>Download Report </button>
+                      </div> -->
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="card mb-3 mb-sm-0">
+                          <div class="card-body py-3 px-4">
+                            <p class="m-0 survey-head">Incidentes com:</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value">CPU</h3>
+                                <!-- <p class="text-success m-0">2</p> -->
+                              </div>
+                              <div id="earningChart" class="flot-chart"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="card mb-3 mb-sm-0" onclick="" style="cursor: pointer;">
+                          <div class="card-body py-3 px-4">
+                            <p class="m-0 survey-head">Incidentes com</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value">GPU</h3>
+                                <!-- <p class="text-danger m-0">12</p> -->
+                              </div>
+                              <div id="productChart" class="flot-chart"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="card">
+                          <div class="card-body py-3 px-4">
+                            <p class="m-0 survey-head">Incidentes com:</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value">RAM</h3>
+                                <!-- <p class="text-success m-0">5</p> -->
+                              </div>
+                              <div id="orderChart" class="flot-chart"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row my-3">
+                      <div class="col-sm-12">
+                        <div class="flot-chart-wrapper">
+                          <div id="flotChart" class="flot-chart">
+                            <canvas class="flot-base"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-8">
+                      </div>
+                      <!-- <div class="col-sm-4">
+                        <p class="mb-0 text-muted">Sales Revenue</p>
+                        <h5 class="d-inline-block survey-value mb-0"> $2,45,500 </h5>
+                        <p class="d-inline-block text-danger mb-0"> last 8 months </p>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">CPU</h4>
+                  <canvas id="cpuChart" style="height: 250px;"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Memória RAM</h4>
+                  <canvas id="ramChart" style="height: 230px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Disco</h4>
+                  <canvas id="discoChart" style="height: 250px;"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card" style="justify-self: center; display: flex;">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">GPU</h4>
+                  <canvas id="gpuChart" style="height: 250px;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="assets/vendors/chart.js/Chart.min.js"></script>
+    <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="assets/vendors/flot/jquery.flot.js"></script>
+    <script src="assets/vendors/flot/jquery.flot.resize.js"></script>
+    <script src="assets/vendors/flot/jquery.flot.categories.js"></script>
+    <script src="assets/vendors/flot/jquery.flot.fillbetween.js"></script>
+    <script src="assets/vendors/flot/jquery.flot.stack.js"></script>
+    <script src="assets/vendors/flot/jquery.flot.pie.js"></script>
+    <script src="assets/js/chart.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="assets/js/off-canvas.js"></script>
+    <script src="assets/js/hoverable-collapse.js"></script>
+    <script src="assets/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page -->
+    <script src="assets/js/dashboard.js"></script>
+    <!-- End custom js for this page -->
+  </body>
+</html>
+
+<script>
+  var idUsuario = localStorage.ID_USUARIO;
+  var idModelo = localStorage.ID_MODELO;
+
+
+  if (idUsuario == undefined || idModelo == undefined) {
+
+      window.location = "../../login.html";
+
+  } else {
+
+  date = new Date();
+  year = date.getFullYear();
+  month = date.getMonth() + 1;
+  day = date.getDate();
+  document.getElementById("current_date").innerHTML = "<h3>" + day + "/" + month + "/" + year + "</h3>";
+
+  function sair() {
+
+    delete localStorage.ID_USUARIO;
+    delete localStorage.ID_MODELO;
+    delete localStorage.REDIRECIONAMENTO;
+
+    window.location = "index.html";
+  }
+}
+
+</script>
