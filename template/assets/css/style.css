@@ -4124,11 +4124,11 @@ fieldset:disabled .ajax-upload-dragdrop a.ajax-file-upload,
 
 .btn-success {
   color: #fff;
-  background-color: #cc1616;
+  /* background-color: #cc1616; */
   border-color: #cc1616; }
   .btn-success:hover {
     color: #fff;
-    background-color: #871111;
+    background-color: #cc1616;
     border-color: #9a0000; }
   .btn-success:focus, .btn-success.focus {
     color: #fff;
@@ -10613,6 +10613,15 @@ input:focus {
         color: #3f50f6; }
       .bg-inverse-icon-primary.bg-custom .bg-item:last-child {
         background: transparent; }
+
+.btn-success a {
+  color: black;
+}
+
+.btn-success a:hover{
+  color: white;
+  text-emphasis: none;
+}
 
 .bg-inverse-icon-secondary {
   background: #9b9b9b;
