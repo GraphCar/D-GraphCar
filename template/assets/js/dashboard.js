@@ -78,6 +78,7 @@ function mudarDadosGrafico(parametro) {
   if (parametro == "cpu") {
     flotPlot.setData([
       {
+        label: "Estado de Alerta",
         data: dashDataAlerta.cpu,
         color: "rgba(253, 127, 99, 0.5)",
         lines: {
@@ -85,6 +86,7 @@ function mudarDadosGrafico(parametro) {
         },
       },
       {
+        label: "Estado Crítico",
         data: dashDataCrit.cpu,
         color: "rgba(204, 22, 22, 0.6)",
         lines: {
@@ -95,6 +97,7 @@ function mudarDadosGrafico(parametro) {
   } else if (parametro == "ram") {
     flotPlot.setData([
       {
+        label: "Estado de Alerta",
         data: dashDataAlerta.ram,
         color: "rgba(253, 127, 99, 0.5)",
         lines: {
@@ -102,6 +105,7 @@ function mudarDadosGrafico(parametro) {
         },
       },
       {
+        label: "Estado Crítico",
         data: dashDataCrit.ram,
         color: "rgba(204, 22, 22, 0.6)",
         lines: {
@@ -112,6 +116,7 @@ function mudarDadosGrafico(parametro) {
   } else if (parametro == "bat") {
     flotPlot.setData([
       {
+        label: "Estado de Alerta",
         data: dashDataAlerta.bat,
         color: "rgba(253, 127, 99, 0.5)",
         lines: {
@@ -119,6 +124,7 @@ function mudarDadosGrafico(parametro) {
         },
       },
       {
+        label: "Estado Crítico",
         data: dashDataCrit.bat,
         color: "rgba(204, 22, 22, 0.6)",
         lines: {
@@ -129,6 +135,7 @@ function mudarDadosGrafico(parametro) {
   } else if (parametro == "todos") {
     flotPlot.setData([
       {
+        label: "Estado de Alerta",
         data: dashDataAlerta.total,
         color: "rgba(253, 127, 99, 0.5)",
         lines: {
@@ -136,6 +143,7 @@ function mudarDadosGrafico(parametro) {
         },
       },
       {
+        label: "Estado Crítico",
         data: dashDataCrit.total,
         color: "rgba(204, 22, 22, 0.6)",
         lines: {
@@ -144,6 +152,7 @@ function mudarDadosGrafico(parametro) {
       }
     ]);
   }
+  flotPlot.setupGrid(false);
   flotPlot.draw();
 }
 
@@ -1203,6 +1212,16 @@ function abc() {
           dashDataCrit.bat.push([i, Number(dado.bateriaCritico)]);
           dashDataCrit.total.push([i, Number(dado.cpuCritico) + Number(dado.ramCritico) + Number(dado.bateriaCritico)]);
           cont++;
+        } else {
+          dashDataAlerta.cpu.push([i, 0]);
+          dashDataAlerta.ram.push([i, 0]);
+          dashDataAlerta.bat.push([i, 0]);
+          dashDataAlerta.total.push([i, 0]);
+
+          dashDataCrit.cpu.push([i, 0]);
+          dashDataCrit.ram.push([i, 0]);
+          dashDataCrit.bat.push([i, 0]);
+          dashDataCrit.total.push([i, 0]);
         }
       }
       console.log(tickData)
@@ -1477,6 +1496,7 @@ function abc() {
         "#flotChart",
         [
           {
+            label: "Estado de Alerta",
             data: dashDataAlerta.total,
             color: "rgba(253, 127, 99, 0.5)",
             lines: {
@@ -1484,6 +1504,7 @@ function abc() {
             },
           },
           {
+            label: "Estado Crítico",
             data: dashDataCrit.total,
             color: "rgba(204, 22, 22, 0.6)",
             lines: {
@@ -1500,6 +1521,11 @@ function abc() {
               fill: true,
             },
           },
+          legend: {
+            show: true,
+            position: "nw",
+            noColumns: 1,
+          },
           grid: {
             borderWidth: 0,
             labelMargin: 8,
@@ -1508,9 +1534,10 @@ function abc() {
             show: true,
             color: "#fff",
             tickColor: "#eee",
-            min: 0,
-            max: 200,
-            ticks: [0,50,100, 150,200],
+            // min: 0,
+            // max: 200,
+            autoScale: "loose",
+            // ticks: [0,50,100, 150,200],
           },
           xaxis: {
             show: true,

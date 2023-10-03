@@ -15511,3 +15511,9 @@ dl {
   flex-grow: 1; }
 
 /*# sourceMappingURL=style.css.map */
+
+.legendLayer .background {
+  fill: rgba(255, 255, 255, 0.6);
+  stroke: rgba(0, 0, 0, 0.85);
+  stroke-width: 1;
+  }
