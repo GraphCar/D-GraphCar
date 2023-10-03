@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>GraphCar Admin</title>
+    <title>GraphCar Painel</title>
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css" />
     <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css" />
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css" />
@@ -61,27 +61,27 @@
             </div>
           </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="#cpuChart">
+            <a class="nav-link" href="pages/charts/chartjs.html">
               <i class="mdi mdi-chip menu-icon"></i>
-              <span class="menu-title">CPU</span>
+              <span class="menu-title">Veiculos</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#gpuChart">
+            <a class="nav-link" href="x">
               <i class="mdi mdi-flash menu-icon"></i>
-              <span class="menu-title">GPU</span>
+              <span class="menu-title">Carregamento</span>
             </a>
           </li> 
           <li class="nav-item">
             <a class="nav-link" href="#ramChart">
               <i class="mdi mdi-memory menu-icon"></i>
-              <span class="menu-title">RAM</span>
+              <span class="menu-title">Manutenção</span>
             </a>
           </li> 
           <li class="nav-item">
-            <a class="nav-link" href="pages/charts/chartjs.html">
+            <a class="nav-link" href="pages/Tesla-teste/index.html">
               <i class="mdi mdi-chart-bar menu-icon"></i>
-              <span class="menu-title">Gráficos</span>
+              <span class="menu-title">Painel motorista</span>
             </a>
           </li>
           <li class="nav-item">
@@ -192,12 +192,27 @@
               <div class="col-xl-3 col-lg-12 stretch-card grid-margin">
                 <div class="row">
                   <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
+                    <div class="card bg-warning">
+                      <div class="card-body px-3 py-4">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div class="color-card">
+                            <p class="mb-0 color-card-head">Alertas CPU</p>
+                            <h2 class="text-white"><span id="span_alerta_cpu">0</span>
+                            </h2>
+                          </div>
+                          <i class="card-icon-indicator mdi mdi-alert-outline bg-inverse-icon-warning"></i>
+                        </div>
+                        <h6 class="text-white">Nos últimos 30 dias</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
                     <div class="card bg-danger">
                       <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
                           <div class="color-card">
-                            <p class="mb-0 color-card-head">Falhas</p>
-                            <h2 class="text-white"><span id="span_falhas">0</span>
+                            <p class="mb-0 color-card-head">Alertas GPU</p>
+                            <h2 class="text-white"><span id="span_alerta_gpu">0</span>
                             </h2>
                           </div>
                           <i class="card-icon-indicator mdi mdi-car-connected bg-inverse-icon-danger"></i>
@@ -211,8 +226,8 @@
                       <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
                           <div class="color-card">
-                            <p class="mb-0 color-card-head">Alertas</p>
-                            <h2 class="text-white"><span id="span_alertas">0</span>
+                            <p class="mb-0 color-card-head">Alertas bateria</p>
+                            <h2 class="text-white"><span id="span_alerta_bat">0</span>
                             </h2>
                           </div>
                           <i class="card-icon-indicator mdi mdi-led-on bg-inverse-icon-primary"></i>
@@ -221,20 +236,20 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-xl-12 col-md-6 stretch-card pb-sm-3 pb-lg-0">
+                  <!-- <div class="col-xl-12 col-md-6 stretch-card pb-sm-3 pb-lg-0">
                     <div class="card bg-success">
                       <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
                           <div class="color-card">
                             <p class="mb-0 color-card-head">Ocorrências</p>
-                            <h2 class="text-white"><span id="span_ocorrencias">0</span></h2>
+                            <h2 class="text-white">35</h2>
                           </div>
                           <i class="card-icon-indicator mdi mdi-receipt bg-inverse-icon-success"></i>
                         </div>
                         <h6 class="text-white">Nos últimos 30 dias</h6>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="col-xl-9 stretch-card grid-margin">
@@ -248,13 +263,13 @@
                       </div> -->
                     </div>
                     <div class="row">
-                      <div class="col-sm-4">
+                      <div class="col-sm-4" style="cursor:pointer" onclick="mudarDadosGrafico('cpu')">
                         <div class="card mb-3 mb-sm-0">
                           <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Incidentes com:</p>
+                            <p class="m-0 survey-head">Ocorrências com:</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">CPU</h3>
+                                <h3 class="m-0 survey-value">CPU: <span id="span_ocorrencia_cpu">0</span></h3>
                                 <!-- <p class="text-success m-0">2</p> -->
                               </div>
                               <div id="earningChart" class="flot-chart"></div>
@@ -263,12 +278,12 @@
                         </div>
                       </div>
                       <div class="col-sm-4">
-                        <div class="card mb-3 mb-sm-0" onclick="" style="cursor: pointer;">
+                        <div class="card mb-3 mb-sm-0" onclick="mudarDadosGrafico('ram')" style="cursor: pointer;">
                           <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Incidentes com</p>
+                            <p class="m-0 survey-head">Ocorrências com</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">GPU</h3>
+                                <h3 class="m-0 survey-value">GPU: <span id="span_ocorrencia_gpu">0</span></h3>
                                 <!-- <p class="text-danger m-0">12</p> -->
                               </div>
                               <div id="productChart" class="flot-chart"></div>
@@ -277,12 +292,12 @@
                         </div>
                       </div>
                       <div class="col-sm-4">
-                        <div class="card">
+                        <div class="card" style="cursor: pointer;" onclick="mudarDadosGrafico('bat')">
                           <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Incidentes com:</p>
+                            <p class="m-0 survey-head">Ocorrências com:</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">RAM</h3>
+                                <h3 class="m-0 survey-value">Bateria: <span id="span_ocorrencia_bat">0</span></h3>
                                 <!-- <p class="text-success m-0">5</p> -->
                               </div>
                               <div id="orderChart" class="flot-chart"></div>
@@ -326,26 +341,8 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Memória RAM</h4>
-                  <canvas id="ramChart" style="height: 230px;"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Disco</h4>
-                  <canvas id="discoChart" style="height: 250px;"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 grid-margin stretch-card" style="justify-self: center; display: flex;">
-              <div class="card">
-                <div class="card-body">
                   <h4 class="card-title">GPU</h4>
-                  <canvas id="gpuChart" style="height: 250px;"></canvas>
+                  <canvas id="discoChart" style="height: 250px;"></canvas>
                 </div>
               </div>
             </div>

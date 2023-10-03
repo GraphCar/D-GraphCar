@@ -1,3 +1,155 @@
+function carregarDados() {
+  fetch("/Dados/alertasUltimoMes", {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function(resposta) {
+    if (resposta.ok) {
+      resposta.json().then((response) => {
+        dados_graph = response;
+
+        day = new Date();
+        cont = dados_graph.length - 1;
+        console.log(cont)
+
+        for (i = 0; i < 30; i++) {
+          labels_graph.push(day.getDate() + "/" + (day.getMonth() + 1));
+          day.setDate(day.getDate()-1)
+          console.log(cont + " " + i)
+          if (cont >= 0 && dados_graph[cont].dia == labels_graph[i]) {
+            console.log(cont + " " + i)
+            dados_graph[cont].tick = 29 - i;
+            cont--;
+          }
+        }
+        labels_graph = labels_graph.reverse();
+        abc();
+
+      });
+    } else {
+      console.log(resposta)
+      console.log("Houve um erro ao tentar recuperar os dados!");
+  
+      resposta.text().then(texto => {
+          console.error(texto);
+          alert("Houve um erro ao tentar recuperar os dados!");
+      });
+  }
+  });
+
+  fetch("/Dados/alertasGerais", {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function(resposta) {
+    if (resposta.ok) {
+      resposta.json().then((response) => {
+        span_alerta_cpu.innerHTML = response[0].cpuCritico;
+        span_alerta_gpu.innerHTML = response[0].ramCritico;
+        span_alerta_bat.innerHTML = response[0].bateriaCritico;
+        span_ocorrencia_cpu.innerHTML = Number(response[0].cpuAlerta) + Number(response[0].cpuCritico);
+        span_ocorrencia_gpu.innerHTML = Number(response[0].ramAlerta) + Number(response[0].ramCritico);
+        span_ocorrencia_bat.innerHTML = Number(response[0].bateriaAlerta) + Number(response[0].bateriaCritico);
+      });
+    } else {
+      console.log(resposta)
+      console.log("Houve um erro ao tentar recuperar os dados!");
+  
+      resposta.text().then(texto => {
+          console.error(texto);
+          alert("Houve um erro ao tentar recuperar os dados!");
+      });
+    }
+  });
+}
+
+var flotPlot;
+var dashDataCrit;
+var dashDataAlerta
+var dados_graph = [];
+var labels_graph = [];
+carregarDados();
+
+function mudarDadosGrafico(parametro) {
+  if (parametro == "cpu") {
+    flotPlot.setData([
+      {
+        data: dashDataAlerta.cpu,
+        color: "rgba(253, 127, 99, 0.5)",
+        lines: {
+          fillColor: "rgba(253, 127, 99, 0.5)",
+        },
+      },
+      {
+        data: dashDataCrit.cpu,
+        color: "rgba(204, 22, 22, 0.6)",
+        lines: {
+          fillColor: "rgba(204, 22, 22, 0.6)",
+        },
+      }
+    ]);
+  } else if (parametro == "ram") {
+    flotPlot.setData([
+      {
+        data: dashDataAlerta.ram,
+        color: "rgba(253, 127, 99, 0.5)",
+        lines: {
+          fillColor: "rgba(253, 127, 99, 0.5)",
+        },
+      },
+      {
+        data: dashDataCrit.ram,
+        color: "rgba(204, 22, 22, 0.6)",
+        lines: {
+          fillColor: "rgba(204, 22, 22, 0.6)",
+        },
+      }
+    ]);
+  } else if (parametro == "bat") {
+    flotPlot.setData([
+      {
+        data: dashDataAlerta.bat,
+        color: "rgba(253, 127, 99, 0.5)",
+        lines: {
+          fillColor: "rgba(253, 127, 99, 0.5)",
+        },
+      },
+      {
+        data: dashDataCrit.bat,
+        color: "rgba(204, 22, 22, 0.6)",
+        lines: {
+          fillColor: "rgba(204, 22, 22, 0.6)",
+        },
+      }
+    ]);
+  } else if (parametro == "todos") {
+    flotPlot.setData([
+      {
+        data: dashDataAlerta.total,
+        color: "rgba(253, 127, 99, 0.5)",
+        lines: {
+          fillColor: "rgba(253, 127, 99, 0.5)",
+        },
+      },
+      {
+        data: dashDataCrit.total,
+        color: "rgba(204, 22, 22, 0.6)",
+        lines: {
+          fillColor: "rgba(204, 22, 22, 0.6)",
+        },
+      }
+    ]);
+  }
+  flotPlot.draw();
+}
+
+
+function abc() {
+
 (function ($) {
   "use strict";
   $(function () {
@@ -1031,9 +1183,32 @@
     $(function () {
       "use strict";
 
-      
+      var dashData2 = [];
+      dashDataCrit = {"cpu": [], "ram": [], "bat": [], "total": []};
+      dashDataAlerta = {"cpu": [], "ram": [], "bat": [], "total": []};
+      var tickData = [];
 
-      var dashData2 = [
+      let cont = 0;
+      for (let i = 0; i < 30; i++) {
+        tickData.push([i, labels_graph[i]]);
+        if (cont < dados_graph.length && dados_graph[cont].tick == i) {
+          let dado = dados_graph[cont];
+          dashDataAlerta.cpu.push([i, Number(dado.cpuAlerta)]);
+          dashDataAlerta.ram.push([i, Number(dado.ramAlerta)]);
+          dashDataAlerta.bat.push([i, Number(dado.bateriaAlerta)]);
+          dashDataAlerta.total.push([i, Number(dado.cpuAlerta) + Number(dado.ramAlerta) + Number(dado.bateriaAlerta)]);
+
+          dashDataCrit.cpu.push([i, Number(dado.cpuCritico)]);
+          dashDataCrit.ram.push([i, Number(dado.ramCritico)]);
+          dashDataCrit.bat.push([i, Number(dado.bateriaCritico)]);
+          dashDataCrit.total.push([i, Number(dado.cpuCritico) + Number(dado.ramCritico) + Number(dado.bateriaCritico)]);
+          cont++;
+        }
+      }
+      console.log(tickData)
+      console.log(dashDataAlerta)
+
+      /* var dashData2 = [
         [0, 69],
         [1, 68],
         [2, 63],
@@ -1116,7 +1291,7 @@
         [79, 65],
       ];
 
-      var dashData3 = [
+      var dashDataCrit = [
         [0, 15],
         [1, 15],
         [2, 13],
@@ -1199,7 +1374,7 @@
         [79, 15],
       ];
 
-      var dashData4 = [
+      var dashDataAlerta = [
         [0, 25],
         [1, 25],
         [2, 23],
@@ -1280,7 +1455,7 @@
         [77, 20],
         [78, 20],
         [79, 25],
-      ];
+      ]; */
 
       function bgFlotData(num, val) {
         var data = [];
@@ -1298,28 +1473,21 @@
         return data;
       }
 
-      var plot = $.plot(
+      flotPlot = $.plot(
         "#flotChart",
         [
           {
-            data: dashData4,
-            color: "#fd7f63",
+            data: dashDataAlerta.total,
+            color: "rgba(253, 127, 99, 0.5)",
             lines: {
-              fillColor: "#fd7f63",
+              fillColor: "rgba(253, 127, 99, 0.5)",
             },
           },
           {
-            data: dashData3,
-            color: "#cc1616",
+            data: dashDataCrit.total,
+            color: "rgba(204, 22, 22, 0.6)",
             lines: {
-              fillColor: "#cc1616",
-            },
-          },
-          {
-            data: dashData2,
-            color: "#cc1616",
-            lines: {
-              fillColor: { colors: [{ opacity: 0 }, { opacity: 0 }] },
+              fillColor: "rgba(204, 22, 22, 0.6)",
             },
           },
         ],
@@ -1338,15 +1506,17 @@
           },
           yaxis: {
             show: true,
+            color: "#fff",
+            tickColor: "#eee",
             min: 0,
-            max: 100,
-            ticks: true,
+            max: 200,
+            ticks: [0,50,100, 150,200],
           },
           xaxis: {
             show: true,
             color: "#fff",
             tickColor: "#eee",
-            ticks: [
+            ticks: tickData, /*[
               [0, "2000"],
               [10, "2500"],
               [20, "3000"],
@@ -1355,10 +1525,11 @@
               [50, "4500"],
               [60, "5000"],
               [70, "5500"],
-            ],
+            ],*/
           },
         }
       );
     });
   });
 })(jQuery);
+}
