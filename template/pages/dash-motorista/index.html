@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel motorista</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body onload="goTo(),goTo1(),goTo2(),goTo3(),checkTime()">
+    <div class="ipadBox">
+      <button class="powerButton" onclick="powerMe();">I</button>
+      <div class="ipadScreen">
+        <div class="table">
+            <div class="table-cell">
+              <div class="area">
+                <!--This is the Structure of your chart-->
+                <div class="chart">
+                  <div class="radio_chart" id="radioChartContent1">
+                  </div>
+                  <div class="cap">
+                    <h1>Temperatura CPU</h1>
+                  </div>
+                  <div class="value" id="percentValue1">
+                    0%
+                  </div>
+                </div>
+              </div>
+              <div class="table-cell2">
+                <div id="main2">
+                  <h1>CPU : </h1>
+                  <h1>GPU : </h1>
+                </div>
+                <div class="alertas">
+                  <h1>Alertas</h1>
+                  <div class="alertas-mensage">
+                    Assuma o controle do volante 🚨
+                  </div>
+                </div>
+              </div>
+              <div class="area">
+                <!--This is the Structure of your chart-->
+                <div class="chart">
+                  <div class="radio_chart" id="radioChartContent">
+                  </div>
+                  <div class="cap">
+                    <h1>Nível da bateria</h1>
+                  </div>
+                  <div class="value" id="percentValue">
+                    0%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table-cell">
+              <div class="area">
+                <!--This is the Structure of your chart-->
+                <div class="chart">
+                  <div class="radio_chart" id="radioChartContent2">
+                  </div>
+                  <div class="cap">
+                    <h1>Temperatura GPU</h1>
+                  </div>
+                  <div class="value" id="percentValue2">
+                    0%
+                  </div>
+                </div>
+              </div>
+              <div class="area">
+                <!--This is the Structure of your chart-->
+                <div class="chart">
+                  <div class="radio_chart" id="radioChartContent3">
+                  </div>
+                  <div class="cap">
+                    <h1>Temperatura bateria</h1>
+                  </div>
+                  <div class="value" id="percentValue3">
+                    0%
+                  </div>
+                </div>
+              </div>
+            </div>
+            <img src="tesla_roadster_2.0.glb" alt="">
+          </div>
+        <div class="lockScreen" onclick="lockClick();">
+          <div class="lockContent">
+        
+            <div class="img-logo"><img src="image1.jpg" alt="" width="480px"></div>
+          </div>
+          <div class="interactionBar"></div>
+        </div>
+        <div class="interactionBar" id="inAppBar" onclick="goHome();"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+    function powerMe() {
+    document.getElementById("inAppBar").style.bottom = "-8%";
+    document.getElementById("inAppBar").style.pointerEvents = "none";
+    document.getElementsByClassName("wallpaper")[0].style.backgroundImage =
+      "url('https://assets.codepen.io/2722301/bg.jpg')";
+    if (powerVar == 1) {
+      document.getElementsByClassName("ipadScreen")[0].style.opacity = 1;
+      document.getElementsByClassName("ipadScreen")[0].style.pointerEvents =
+        "all";
+      powerVar = 0;
+      document.getElementsByClassName("lockScreen")[0].style.transition =
+        "top 800ms ease-in 0s, backdrop-filter 200ms ease-in 0s";
+      document.getElementsByClassName("dockWrapper")[0].style.transition =
+        "bottom 400ms ease-in-out 0s";
+    } else {
+      document.getElementsByClassName("ipadScreen")[0].style.opacity = 0;
+      document.getElementsByClassName("ipadScreen")[0].style.pointerEvents =
+        "none";
+      powerVar = 1;
+      setTimeout(function () {
+        document.getElementsByClassName("lockScreen")[0].style.transition =
+          "none";
+        document.getElementsByClassName("dockWrapper")[0].style.transition =
+          "none";
+        document.getElementsByClassName("lockScreen")[0].style.backdropFilter =
+          "blur(0)";
+        document.getElementsByClassName("lockScreen")[0].style.top = "0";
+        document.getElementsByClassName("dockWrapper")[0].style.bottom = "-20%";
+      }, 300);
+    }
+    resetIcons();
+  }
+  function lockClick() {
+    document.getElementsByClassName("lockScreen")[0].style.backdropFilter =
+      "blur(2vh) brightness(1.2)";
+    document.getElementsByClassName("lockScreen")[0].style.top = "-110%";
+    document.getElementsByClassName("dockWrapper")[0].style.bottom = "3%";
+  }
+  function checkTime() {
+    var day = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+    var month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+    d = new Date();
+    if (d.getMinutes() < 10) {
+      minTime = "0" + d.getMinutes();
+    } else {
+      minTime = d.getMinutes();
+    }
+    document.getElementsByClassName("lockTime")[0].innerHTML =
+      d.getHours() +
+      ":" +
+      minTime +
+      "<br/>" +
+      day[d.getDay()] +
+      ", " +
+      month[d.getMonth()] +
+      " " +
+      d.getDate();
+    setTimeout(function () {
+      checkTime();
+    }, 500);
+  }
+  function goHome() {
+    document.getElementById("inAppBar").style.bottom = "-8%";
+    document.getElementById("inAppBar").style.pointerEvents = "none";
+    document.getElementsByClassName("wallpaper")[0].style.backgroundImage =
+      "url('https://assets.codepen.io/2722301/bg.jpg')";
+    document.getElementsByClassName("dockWrapper")[0].style.bottom = "3%";
+    resetIcons();
+  }
+  function resetIcons() {
+    window.lastIcon = false;
+    var x = document.getElementsByClassName("iconDiv");
+    var i;
+    for (i = 0; i < x.length; i++) {
+      x[i].style.width = "calc(var(--sizeVar) / 20)";
+      x[i].style.height = "calc(var(--sizeVar) / 20)";
+      x[i].style.margin = "calc(var(--sizeVar) / 60) calc(var(--sizeVar) / 120)";
+      x[i].style.pointerEvents = "all";
+      x[i].getElementsByClassName("imgDiv")[0].style.opacity = 0;
+      if (powerVar == 1) {
+        x[i].style.transition =
+          "all 0s ease-in-out 350ms, transform 100ms ease-in-out 0s";
+        x[i].getElementsByClassName("imgDiv")[0].style.transition =
+          "opacity 0s linear 350ms";
+      } else {
+        x[i].style.transition =
+          "all 500ms ease-in-out 0s, transform 100ms ease-in-out 0s";
+        x[i].getElementsByClassName("imgDiv")[0].style.transition =
+          "opacity 300ms linear 0s";
+      }
+    }
+  }
+  function iconClick(e) {
+    var x = document.getElementsByClassName("iconDiv");
+    var i;
+    for (i = 0; i < x.length; i++) {
+      x[i].style.width = 0;
+      x[i].style.height = 0;
+      x[i].style.margin = 0;
+      x[i].style.pointerEvents = "none";
+      x[i].getElementsByClassName("imgDiv")[0].style.opacity = 0;
+    }
+    if (window.lastIcon) {
+      e.target.style.width = "calc(var(--sizeVar) * 1)";
+    } else {
+      e.target.style.width = "calc(var(--sizeVar) * .96)";
+    }
+    e.target.style.height = "calc(var(--sizeVar) * .74)";
+    e.target.style.marginLeft = "calc(var(--sizeVar) / 35)";
+    document.getElementsByClassName("dockWrapper")[0].style.bottom = 0;
+    e.target.getElementsByClassName("imgDiv")[0].style.opacity = 1;
+    document
+      .getElementById("inAppBar")
+      .style.setProperty("--colorMe", window.barColor);
+    document.getElementById("inAppBar").style.bottom = "0";
+    document.getElementById("inAppBar").style.pointerEvents = "all";
+    setTimeout(function () {
+      document.getElementsByClassName("wallpaper")[0].style.backgroundImage =
+        "none";
+    }, 500);
+  }
+  function iconFClick(e) {
+    window.lastIcon = true;
+    iconClick(event);
+  }
+  powerVar = 0;
+  setTimeout(function () {
+    document.getElementsByClassName("ipadScreen")[0].style.opacity = 1;
+  }, 1000);
+  
+</script>
+
+<script>
+
+    /**
+    * This function allows you to go to an specific frame of the animation
+    * Remember the frames are a percentage number, so it goes from 0 to 100
+    **/
+  
+    function goTo1(frame1){
+  
+  reset(); // Just reset
+  
+  //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
+  setTimeout(function(){
+    //Get components
+    var chart = document.getElementById("radioChartContent1"), pVal = document.getElementById("percentValue1");
+  
+    //Add animate
+    chart.classList.add("animate");
+  
+    var currentPercent = 0; //Initial percentage
+  
+    frame1 = 3;
+  
+    //Get percentage one by one
+    var currTimeout = setInterval(function(){
+      //Check is reach the limit
+      if(currentPercent == frame1 || currentPercent > 100){
+          
+          //Clear interval
+          clearInterval(currTimeout);
+          //Pause animation
+          chart.style.animationPlayState = "paused";
+          chart.style.webkitAnimationPlayState = "paused"; //if webkit
+          
+          return false;
+        }else{
+          //Sum percentage
+          currentPercent++;
+          //show new percentage
+          pVal.innerHTML = currentPercent+"%";
+        }
+    }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+  },100);
+  }
+  
+  //Reset to initial position
+  function reset(){
+  var chart = document.getElementById("radioChartContent1"), pVal = document.getElementById("percentValue1");
+  
+  chart.classList.remove("animate");
+  pVal.innerHTML = "0%";
+  chart.style.animationPlayState = "initial";
+  chart.style.webkitAnimationPlayState = "initial"; //if webkit
+  }
+  
+    function goTo(frame){
+  
+      reset(); // Just reset
+      
+      //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
+      setTimeout(function(){
+        //Get components
+        var chart = document.getElementById("radioChartContent"), pVal = document.getElementById("percentValue");
+    
+        //Add animate
+        chart.classList.add("animate");
+    
+        var currentPercent = 0; //Initial percentage
+  
+        frame = 20;
+    
+        //Get percentage one by one
+        var currTimeout = setInterval(function(){
+          //Check is reach the limit
+          if(currentPercent == frame || currentPercent > 100){
+              
+              //Clear interval
+              clearInterval(currTimeout);
+              //Pause animation
+              chart.style.animationPlayState = "paused";
+              chart.style.webkitAnimationPlayState = "paused"; //if webkit
+              
+              return false;
+            }else{
+              //Sum percentage
+              currentPercent++;
+              //show new percentage
+              pVal.innerHTML = currentPercent+"%";
+            }
+        }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+      },100);
+    }
+    
+    //Reset to initial position
+    function reset(){
+      var chart = document.getElementById("radioChartContent"), pVal = document.getElementById("percentValue");
+      
+      chart.classList.remove("animate");
+      pVal.innerHTML = "0%";
+      chart.style.animationPlayState = "initial";
+      chart.style.webkitAnimationPlayState = "initial"; //if webkit
+    }
+  
+    function goTo2(frame2){
+  
+  reset(); // Just reset
+  
+  //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
+  setTimeout(function(){
+    //Get components
+    var chart = document.getElementById("radioChartContent2"), pVal = document.getElementById("percentValue2");
+  
+    //Add animate
+    chart.classList.add("animate");
+  
+    var currentPercent = 0; //Initial percentage
+  
+    frame2 = 30;
+  
+    //Get percentage one by one
+    var currTimeout = setInterval(function(){
+      //Check is reach the limit
+      if(currentPercent == frame2 || currentPercent > 100){
+          
+          //Clear interval
+          clearInterval(currTimeout);
+          //Pause animation
+          chart.style.animationPlayState = "paused";
+          chart.style.webkitAnimationPlayState = "paused"; //if webkit
+          
+          return false;
+        }else{
+          //Sum percentage
+          currentPercent++;
+          //show new percentage
+          pVal.innerHTML = currentPercent+"%";
+        }
+    }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+  },100);
+  }
+  
+  //Reset to initial position
+  function reset(){
+  var chart = document.getElementById("radioChartContent2"), pVal = document.getElementById("percentValue2");
+  
+  chart.classList.remove("animate");
+  pVal.innerHTML = "0%";
+  chart.style.animationPlayState = "initial";
+  chart.style.webkitAnimationPlayState = "initial"; //if webkit
+  }
+  
+  function goTo3(frame3){
+  
+  reset(); // Just reset
+  
+  //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
+  setTimeout(function(){
+    //Get components
+    var chart = document.getElementById("radioChartContent3"), pVal = document.getElementById("percentValue3");
+  
+    //Add animate
+    chart.classList.add("animate");
+  
+    var currentPercent = 0; //Initial percentage
+  
+    frame3 = 80;
+  
+    //Get percentage one by one
+    var currTimeout = setInterval(function(){
+      //Check is reach the limit
+      if(currentPercent == frame3 || currentPercent > 100){
+          
+          //Clear interval
+          clearInterval(currTimeout);
+          //Pause animation
+          chart.style.animationPlayState = "paused";
+          chart.style.webkitAnimationPlayState = "paused"; //if webkit
+          
+          return false;
+        }else{
+          //Sum percentage
+          currentPercent++;
+          //show new percentage
+          pVal.innerHTML = currentPercent+"%";
+        }
+    }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+  },100);
+  }
+  
+  //Reset to initial position
+  function reset(){
+  var chart = document.getElementById("radioChartContent3"), pVal = document.getElementById("percentValue2");
+  
+  chart.classList.remove("animate");
+  pVal.innerHTML = "0%";
+  chart.style.animationPlayState = "initial";
+  chart.style.webkitAnimationPlayState = "initial"; //if webkit
+  }
+  </script>
