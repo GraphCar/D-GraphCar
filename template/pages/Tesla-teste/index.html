@@ -2,134 +2,79 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Interactive electric car dashboard</title>
+  <title>Dashboard motorista</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'><link rel="stylesheet" href="./style.css">
 <link rel="stylesheet" href="css.css">
+<link rel="stylesheet" href="/teste-grafico/css.css">
 
 </head>
-<body>
+<body onload="goTo(),goTo1(),goTo2(),goTo3()">
 <!-- partial:index.partial.html -->
 <div class="table">
   <div class="table-cell">
-    <div id="main">
-      <div id="screen">
-        <div id="home">
-          <div id="radial">
-            <div id="empty"></div>
-          </div>
-          <div id="icon">
-            <!-- <i class="fa fa-battery-quarter fa-3x"></i> -->
-            <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/battery_icon_zpst5bk33aq.png"/>
-          </div>
-          <div id="status">15%</div>
-          <h1 id="countdown">0</h1>
-          <div id="mph">mph</div>
+    <div class="area">
+      <!--This is the Structure of your chart-->
+      <div class="chart">
+        <div class="radio_chart" id="radioChartContent1">
         </div>
-        <div id="car">
-          <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/engine_icon_zpsnvg1y3qj.png" />
-          <h2>ENGINE<br>DIAGNOSTICS</h2>
-          <h3>DC/DC Converter<br>Failure <span class="small">not solved</span></h3>
+        <div class="cap">
+          <h1>Temperatura CPU</h1>
         </div>
-<img src="tesla-3d/textures/" alt="">
-        <div id="cardva">
-          <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/temperature_icon_zpssyam3lm5.png" />
-
-          <h2>ENGINE<br>TEMPERATURE</h2>
-          <h3>46<span class="small">	℃</span></h3>
+        <div class="value" id="percentValue1">
+          0%
         </div>
       </div>
     </div>
-    <div class="table-cell">
+    <div class="table-cell2">
       <div id="main2">
-  
+        <h1>CPU : </h1>
+        <h1>GPU : </h1>
+      </div>
+      <div class="alertas">
+        <h2>Alertas</h2>
       </div>
     </div>
-    <div id="main">
-        <div id="screen">
-          <div id="home">
-            <div id="radial">
-              <div id="empty"></div>
-            </div>
-            <div id="icon">
-              <!-- <i class="fa fa-battery-quarter fa-3x"></i> -->
-              <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/battery_icon_zpst5bk33aq.png"/>
-            </div>
-            <div id="status">15%</div>
-            <h1 id="countdown">0</h1>
-            <div id="mph">mph</div>
-          </div>
-          <div id="car">
-            <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/engine_icon_zpsnvg1y3qj.png" />
-            <h2>ENGINE<br>DIAGNOSTICS</h2>
-            <h3>DC/DC Converter<br>Failure <span class="small">not solved</span></h3>
-          </div>
-  
-          <div id="cardva">
-            <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/temperature_icon_zpssyam3lm5.png" />
-  
-            <h2>ENGINE<br>TEMPERATURE</h2>
-            <h3>46<span class="small">	℃</span></h3>
-          </div>
+    <div class="area">
+      <!--This is the Structure of your chart-->
+      <div class="chart">
+        <div class="radio_chart" id="radioChartContent">
+        </div>
+        <div class="cap">
+          <h1>Temperatura CPU</h1>
+        </div>
+        <div class="value" id="percentValue">
+          0%
         </div>
       </div>
+    </div>
   </div>
   <div class="table-cell">
-    <div id="main">
-      <div id="screen">
-        <div id="home">
-          <div id="radial">
-            <div id="empty"></div>
-          </div>
-          <div id="icon">
-            <!-- <i class="fa fa-battery-quarter fa-3x"></i> -->
-            <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/battery_icon_zpst5bk33aq.png"/>
-          </div>
-          <div id="status">15%</div>
-          <h1 id="countdown">0</h1>
-          <div id="mph">mph</div>
+    <div class="area">
+      <!--This is the Structure of your chart-->
+      <div class="chart">
+        <div class="radio_chart" id="radioChartContent2">
         </div>
-        <div id="car">
-          <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/engine_icon_zpsnvg1y3qj.png" />
-          <h2>ENGINE<br>DIAGNOSTICS</h2>
-          <h3>DC/DC Converter<br>Failure <span class="small">not solved</span></h3>
+        <div class="cap">
+          <h1>Temperatura GPU</h1>
         </div>
-
-        <div id="cardva">
-          <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/temperature_icon_zpssyam3lm5.png" />
-
-          <h2>ENGINE<br>TEMPERATURE</h2>
-          <h3>46<span class="small">	℃</span></h3>
+        <div class="value" id="percentValue2">
+          0%
         </div>
       </div>
     </div>
-    <div id="main">
-        <div id="screen">
-          <div id="home">
-            <div id="radial">
-              <div id="empty2"></div>
-            </div>
-            <div id="icon">
-              <!-- <i class="fa fa-battery-quarter fa-3x"></i> -->
-              <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/battery_icon_zpst5bk33aq.png"/>
-            </div>
-            <div id="status">15%</div>
-            <h1 id="countdown">0</h1>
-            <div id="mph">mph</div>
-          </div>
-          <div id="car">
-            <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/engine_icon_zpsnvg1y3qj.png" />
-            <h2>ENGINE<br>DIAGNOSTICS</h2>
-            <h3>DC/DC Converter<br>Failure <span class="small">not solved</span></h3>
-          </div>
-  
-          <div id="cardva">
-            <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/temperature_icon_zpssyam3lm5.png" />
-  
-            <h2>ENGINE<br>TEMPERATURE</h2>
-            <h3>46<span class="small">	℃</span></h3>
-          </div>
+    <div class="area">
+      <!--This is the Structure of your chart-->
+      <div class="chart">
+        <div class="radio_chart" id="radioChartContent3">
+        </div>
+        <div class="cap">
+          <h1>Temperatura bateria</h1>
+        </div>
+        <div class="value" id="percentValue3">
+          0%
         </div>
       </div>
+    </div>
   </div>
   <img src="tesla_roadster_2.0.glb" alt="">
 </div>
@@ -141,3 +86,203 @@
 
 </body>
 </html>
+<script>
+
+  /**
+  * This function allows you to go to an specific frame of the animation
+  * Remember the frames are a percentage number, so it goes from 0 to 100
+  **/
+
+  function goTo1(frame1){
+
+reset(); // Just reset
+
+//For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
+setTimeout(function(){
+  //Get components
+  var chart = document.getElementById("radioChartContent1"), pVal = document.getElementById("percentValue1");
+
+  //Add animate
+  chart.classList.add("animate");
+
+  var currentPercent = 0; //Initial percentage
+
+  frame1 = 3;
+
+  //Get percentage one by one
+  var currTimeout = setInterval(function(){
+    //Check is reach the limit
+    if(currentPercent == frame1 || currentPercent > 100){
+        
+        //Clear interval
+        clearInterval(currTimeout);
+        //Pause animation
+        chart.style.animationPlayState = "paused";
+        chart.style.webkitAnimationPlayState = "paused"; //if webkit
+        
+        return false;
+      }else{
+        //Sum percentage
+        currentPercent++;
+        //show new percentage
+        pVal.innerHTML = currentPercent+"%";
+      }
+  }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+},100);
+}
+
+//Reset to initial position
+function reset(){
+var chart = document.getElementById("radioChartContent1"), pVal = document.getElementById("percentValue1");
+
+chart.classList.remove("animate");
+pVal.innerHTML = "0%";
+chart.style.animationPlayState = "initial";
+chart.style.webkitAnimationPlayState = "initial"; //if webkit
+}
+
+  function goTo(frame){
+
+    reset(); // Just reset
+    
+    //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
+    setTimeout(function(){
+      //Get components
+      var chart = document.getElementById("radioChartContent"), pVal = document.getElementById("percentValue");
+  
+      //Add animate
+      chart.classList.add("animate");
+  
+      var currentPercent = 0; //Initial percentage
+
+      frame = 20;
+  
+      //Get percentage one by one
+      var currTimeout = setInterval(function(){
+        //Check is reach the limit
+        if(currentPercent == frame || currentPercent > 100){
+            
+            //Clear interval
+            clearInterval(currTimeout);
+            //Pause animation
+            chart.style.animationPlayState = "paused";
+            chart.style.webkitAnimationPlayState = "paused"; //if webkit
+            
+            return false;
+          }else{
+            //Sum percentage
+            currentPercent++;
+            //show new percentage
+            pVal.innerHTML = currentPercent+"%";
+          }
+      }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+    },100);
+  }
+  
+  //Reset to initial position
+  function reset(){
+    var chart = document.getElementById("radioChartContent"), pVal = document.getElementById("percentValue");
+    
+    chart.classList.remove("animate");
+    pVal.innerHTML = "0%";
+    chart.style.animationPlayState = "initial";
+    chart.style.webkitAnimationPlayState = "initial"; //if webkit
+  }
+
+  function goTo2(frame2){
+
+reset(); // Just reset
+
+//For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
+setTimeout(function(){
+  //Get components
+  var chart = document.getElementById("radioChartContent2"), pVal = document.getElementById("percentValue2");
+
+  //Add animate
+  chart.classList.add("animate");
+
+  var currentPercent = 0; //Initial percentage
+
+  frame2 = 30;
+
+  //Get percentage one by one
+  var currTimeout = setInterval(function(){
+    //Check is reach the limit
+    if(currentPercent == frame2 || currentPercent > 100){
+        
+        //Clear interval
+        clearInterval(currTimeout);
+        //Pause animation
+        chart.style.animationPlayState = "paused";
+        chart.style.webkitAnimationPlayState = "paused"; //if webkit
+        
+        return false;
+      }else{
+        //Sum percentage
+        currentPercent++;
+        //show new percentage
+        pVal.innerHTML = currentPercent+"%";
+      }
+  }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+},100);
+}
+
+//Reset to initial position
+function reset(){
+var chart = document.getElementById("radioChartContent2"), pVal = document.getElementById("percentValue2");
+
+chart.classList.remove("animate");
+pVal.innerHTML = "0%";
+chart.style.animationPlayState = "initial";
+chart.style.webkitAnimationPlayState = "initial"; //if webkit
+}
+
+function goTo3(frame3){
+
+reset(); // Just reset
+
+//For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
+setTimeout(function(){
+  //Get components
+  var chart = document.getElementById("radioChartContent3"), pVal = document.getElementById("percentValue3");
+
+  //Add animate
+  chart.classList.add("animate");
+
+  var currentPercent = 0; //Initial percentage
+
+  frame3 = 80;
+
+  //Get percentage one by one
+  var currTimeout = setInterval(function(){
+    //Check is reach the limit
+    if(currentPercent == frame3 || currentPercent > 100){
+        
+        //Clear interval
+        clearInterval(currTimeout);
+        //Pause animation
+        chart.style.animationPlayState = "paused";
+        chart.style.webkitAnimationPlayState = "paused"; //if webkit
+        
+        return false;
+      }else{
+        //Sum percentage
+        currentPercent++;
+        //show new percentage
+        pVal.innerHTML = currentPercent+"%";
+      }
+  }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+},100);
+}
+
+//Reset to initial position
+function reset(){
+var chart = document.getElementById("radioChartContent3"), pVal = document.getElementById("percentValue2");
+
+chart.classList.remove("animate");
+pVal.innerHTML = "0%";
+chart.style.animationPlayState = "initial";
+chart.style.webkitAnimationPlayState = "initial"; //if webkit
+}
+</script>
+

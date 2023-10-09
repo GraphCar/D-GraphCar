@@ -1,20 +1,20 @@
 // -------COUNTER------- //
 
 function GetADC() {
-    var xhttp = new XMLHttpRequest();
-        var adc=0;
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-      adc = Number(this.responseText);
-            gauges.forEach(function (gauge) {			
-          console.log(adc)
-              gauge.write(adc);
-            });
-      }
-    };
-    xhttp.open("GET", "/getADC", false);
-    xhttp.send();
-  }
+  var xhttp = new XMLHttpRequest();
+      var adc=0;
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    adc = Number(this.responseText);
+          gauges.forEach(function (gauge) {			
+        console.log(adc)
+            gauge.write(adc);
+          });
+    }
+  };
+  xhttp.open("GET", "/getADC", false);
+  xhttp.send();
+}
 
 // -------ANIMATIONS------- //
 
@@ -49,7 +49,7 @@ function GetADC() {
 //     autoAlpha: 1
 //   }, {
 //     y: 0
-    
+  
 
 //   })
 //   mode = "cardva";
@@ -64,7 +64,7 @@ function GetADC() {
 //     y: 360
 //   })
 //   mode = "home";
- 
+
 // }
 // })
 
@@ -72,30 +72,30 @@ function GetADC() {
 $(function() {
 
 makeRadial({
-  el: $('#radial'),
-  radials: 100
+el: $('#radial'),
+radials: 100
 })
 });
 
 function makeRadial(options) {
 if (options && options.el) {
-  var el = options.el;
-  var radials = 60;
-  if (options.radials) {
-    radials = options.radials;
-  }
-  var degrees = 360 / radials;
-  var i = 0;
-  for (i = 0; i < (radials / 2); i++) {
-    var newTick = $('<div class="tick"></div>').css({
-      '-moz-transform': 'rotate(' + (i * degrees) + 'deg)'
-    }).css({
-      '-webkit-transform': 'rotate(' + (i * degrees) + 'deg)'
-    }).css({
-      'transform': 'rotate(' + (i * degrees) + 'deg)'
-    })
-    el.prepend(newTick);
-  }
+var el = options.el;
+var radials = 60;
+if (options.radials) {
+  radials = options.radials;
+}
+var degrees = 360 / radials;
+var i = 0;
+for (i = 0; i < (radials / 2); i++) {
+  var newTick = $('<div class="tick"></div>').css({
+    '-moz-transform': 'rotate(' + (i * degrees) + 'deg)'
+  }).css({
+    '-webkit-transform': 'rotate(' + (i * degrees) + 'deg)'
+  }).css({
+    'transform': 'rotate(' + (i * degrees) + 'deg)'
+  })
+  el.prepend(newTick);
+}
 }
 }
 
