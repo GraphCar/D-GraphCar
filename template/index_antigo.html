@@ -197,7 +197,7 @@
                         <div class="d-flex justify-content-between align-items-start">
                           <div class="color-card">
                             <p class="mb-0 color-card-head">Alertas CPU</p>
-                            <h2 class="text-white"><span id="span_alerta_cpu">0</span>
+                            <h2 class="text-white">14<span class="h5"></span>
                             </h2>
                           </div>
                           <i class="card-icon-indicator mdi mdi-alert-outline bg-inverse-icon-warning"></i>
@@ -212,7 +212,7 @@
                         <div class="d-flex justify-content-between align-items-start">
                           <div class="color-card">
                             <p class="mb-0 color-card-head">Alertas GPU</p>
-                            <h2 class="text-white"><span id="span_alerta_gpu">0</span>
+                            <h2 class="text-white">2<span class="h5"></span>
                             </h2>
                           </div>
                           <i class="card-icon-indicator mdi mdi-car-connected bg-inverse-icon-danger"></i>
@@ -227,7 +227,7 @@
                         <div class="d-flex justify-content-between align-items-start">
                           <div class="color-card">
                             <p class="mb-0 color-card-head">Alertas bateria</p>
-                            <h2 class="text-white"><span id="span_alerta_bat">0</span>
+                            <h2 class="text-white">117<span class="h5"></span>
                             </h2>
                           </div>
                           <i class="card-icon-indicator mdi mdi-led-on bg-inverse-icon-primary"></i>
@@ -263,13 +263,13 @@
                       </div> -->
                     </div>
                     <div class="row">
-                      <div class="col-sm-4" style="cursor:pointer" onclick="mudarDadosGrafico('cpu')">
+                      <div class="col-sm-4">
                         <div class="card mb-3 mb-sm-0">
                           <div class="card-body py-3 px-4">
                             <p class="m-0 survey-head">Ocorrências com:</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">CPU: <span id="span_ocorrencia_cpu">0</span></h3>
+                                <h3 class="m-0 survey-value">CPU</h3>
                                 <!-- <p class="text-success m-0">2</p> -->
                               </div>
                               <div id="earningChart" class="flot-chart"></div>
@@ -278,12 +278,12 @@
                         </div>
                       </div>
                       <div class="col-sm-4">
-                        <div class="card mb-3 mb-sm-0" onclick="mudarDadosGrafico('ram')" style="cursor: pointer;">
+                        <div class="card mb-3 mb-sm-0" onclick="" style="cursor: pointer;">
                           <div class="card-body py-3 px-4">
                             <p class="m-0 survey-head">Ocorrências com</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">GPU: <span id="span_ocorrencia_gpu">0</span></h3>
+                                <h3 class="m-0 survey-value">GPU</h3>
                                 <!-- <p class="text-danger m-0">12</p> -->
                               </div>
                               <div id="productChart" class="flot-chart"></div>
@@ -292,12 +292,12 @@
                         </div>
                       </div>
                       <div class="col-sm-4">
-                        <div class="card" style="cursor: pointer;" onclick="mudarDadosGrafico('bat')">
+                        <div class="card">
                           <div class="card-body py-3 px-4">
                             <p class="m-0 survey-head">Ocorrências com:</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">Bateria: <span id="span_ocorrencia_bat">0</span></h3>
+                                <h3 class="m-0 survey-value">Bateria</h3>
                                 <!-- <p class="text-success m-0">5</p> -->
                               </div>
                               <div id="orderChart" class="flot-chart"></div>
