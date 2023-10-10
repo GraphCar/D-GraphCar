@@ -19,16 +19,17 @@
                   </div>
                   <div class="cap">
                     <h1>Temperatura CPU</h1>
+                    <h3>/ 100ºC</h3>
                   </div>
                   <div class="value" id="percentValue1">
-                    0%
+                    0ºC
                   </div>
                 </div>
               </div>
               <div class="table-cell2">
                 <div id="main2">
-                  <h1>CPU : </h1>
-                  <h1>GPU : </h1>
+                  <h1>CPU : 50.00</h1>
+                  <h1>GPU : 40.00 </h1>
                 </div>
                 <div class="alertas">
                   <h1>Alertas</h1>
@@ -44,6 +45,7 @@
                   </div>
                   <div class="cap">
                     <h1>Nível da bateria</h1>
+                    <h3>/ 100%</h3>
                   </div>
                   <div class="value" id="percentValue">
                     0%
@@ -59,9 +61,10 @@
                   </div>
                   <div class="cap">
                     <h1>Temperatura GPU</h1>
+                    <h3>/ 100ºC</h3>
                   </div>
                   <div class="value" id="percentValue2">
-                    0%
+                    0ºC
                   </div>
                 </div>
               </div>
@@ -72,6 +75,7 @@
                   </div>
                   <div class="cap">
                     <h1>Temperatura bateria</h1>
+                    <h3>/ 100ºC</h3>
                   </div>
                   <div class="value" id="percentValue3">
                     0%
@@ -79,7 +83,6 @@
                 </div>
               </div>
             </div>
-            <img src="tesla_roadster_2.0.glb" alt="">
           </div>
         <div class="lockScreen" onclick="lockClick();">
           <div class="lockContent">
@@ -269,7 +272,7 @@
   
     var currentPercent = 0; //Initial percentage
   
-    frame1 = 3;
+    frame1 = 65;
   
     //Get percentage one by one
     var currTimeout = setInterval(function(){
@@ -287,20 +290,10 @@
           //Sum percentage
           currentPercent++;
           //show new percentage
-          pVal.innerHTML = currentPercent+"%";
+          pVal.innerHTML = currentPercent+"ºC";
         }
     }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
   },100);
-  }
-  
-  //Reset to initial position
-  function reset(){
-  var chart = document.getElementById("radioChartContent1"), pVal = document.getElementById("percentValue1");
-  
-  chart.classList.remove("animate");
-  pVal.innerHTML = "0%";
-  chart.style.animationPlayState = "initial";
-  chart.style.webkitAnimationPlayState = "initial"; //if webkit
   }
   
     function goTo(frame){
@@ -340,16 +333,6 @@
         }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
       },100);
     }
-    
-    //Reset to initial position
-    function reset(){
-      var chart = document.getElementById("radioChartContent"), pVal = document.getElementById("percentValue");
-      
-      chart.classList.remove("animate");
-      pVal.innerHTML = "0%";
-      chart.style.animationPlayState = "initial";
-      chart.style.webkitAnimationPlayState = "initial"; //if webkit
-    }
   
     function goTo2(frame2){
   
@@ -383,20 +366,10 @@
           //Sum percentage
           currentPercent++;
           //show new percentage
-          pVal.innerHTML = currentPercent+"%";
+          pVal.innerHTML = currentPercent+"ºC";
         }
     }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
   },100);
-  }
-  
-  //Reset to initial position
-  function reset(){
-  var chart = document.getElementById("radioChartContent2"), pVal = document.getElementById("percentValue2");
-  
-  chart.classList.remove("animate");
-  pVal.innerHTML = "0%";
-  chart.style.animationPlayState = "initial";
-  chart.style.webkitAnimationPlayState = "initial"; //if webkit
   }
   
   function goTo3(frame3){
@@ -431,7 +404,7 @@
           //Sum percentage
           currentPercent++;
           //show new percentage
-          pVal.innerHTML = currentPercent+"%";
+          pVal.innerHTML = currentPercent+"ºC";
         }
     }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
   },100);
@@ -442,8 +415,8 @@
   var chart = document.getElementById("radioChartContent3"), pVal = document.getElementById("percentValue2");
   
   chart.classList.remove("animate");
-  pVal.innerHTML = "0%";
-  chart.style.animationPlayState = "initial";
-  chart.style.webkitAnimationPlayState = "initial"; //if webkit
+  pVal.innerHTML = "0ºC";
+  // chart.style.animationPlayState = "initial";
+  // chart.style.webkitAnimationPlayState = "initial"; //if webkit
   }
   </script>
