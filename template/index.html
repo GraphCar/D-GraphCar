@@ -29,8 +29,8 @@
                 <!--change to offline or busy as needed-->
               </div>
               <div class="nav-profile-text d-flex flex-column pr-3">
-                <span class="font-weight-medium mb-2">Fernando Brandão</span>
-                <span class="font-weight-normal">Analista de dados</span>
+                <span class="font-weight-medium mb-2" id="span_nome_usuario">Fernando Brandão</span>
+                <!-- <span class="font-weight-normal" id="span_cargo_usuario">Analista de dados</span> -->
               </div>
             </a>
           </li>
@@ -145,7 +145,7 @@
                   <a class="dropdown-item preview-item">
                     <div class="preview-item-content flex-grow">
                       <span class="badge badge-pill badge-danger"> Ocorrência </span>
-                      <p class="text-small text-muted ellipsis mb-0"> GPU esquentandi </p>
+                      <p class="text-small text-muted ellipsis mb-0"> GPU esquentando </p>
                     </div>
                     <p class="text-small text-muted align-self-start"> 14:29 </p>
                   </a>
@@ -157,7 +157,7 @@
               </li>
             </ul>
             <ul class="navbar-nav navbar-nav-right ml-lg-auto">
-              <li class="nav-item nav-profile dropdown border-0">
+              <!-- <li class="nav-item nav-profile dropdown border-0">
                 <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown">
                   <img class="nav-profile-img mr-2" alt="" src="../../assets/img/fotosUsuarios/user-branco.png" />
                   <span class="profile-name">Fernando Brandão</span>
@@ -167,7 +167,7 @@
                   <a onclick="sair()" class="dropdown-item">
                     <i class="mdi mdi-logout mr-2 text-primary"></i>Sair</a>
                 </div>
-              </li>
+              </li> -->
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
               <span class="mdi mdi-menu"></span>
@@ -177,7 +177,7 @@
         <div class="main-panel">
           <div class="content-wrapper pb-0">
             <div class="page-header flex-wrap">
-              <h3 class="mb-0"> Olá Sr. Fernando, Bem vindo!
+              <h3 class="mb-0"> Olá <span id="span_nome_usuario_bem_vindo" style="font-size:inherit;"></span>, Bem vindo!
               </h3>
               <div class="d-flex">
                 <!-- <button type="button" class="btn btn-sm bg-white btn-icon-text border">
@@ -266,7 +266,7 @@
                       <div class="col-sm-4" style="cursor:pointer" onclick="mudarDadosGrafico('cpu')">
                         <div class="card mb-3 mb-sm-0">
                           <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Ocorrências com:</p>
+                            <p class="m-0 survey-head">Ocorrências com</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
                                 <h3 class="m-0 survey-value">CPU: <span id="span_ocorrencia_cpu">0</span></h3>
@@ -294,7 +294,7 @@
                       <div class="col-sm-4">
                         <div class="card" style="cursor: pointer;" onclick="mudarDadosGrafico('bat')">
                           <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Ocorrências com:</p>
+                            <p class="m-0 survey-head">Ocorrências com</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
                                 <h3 class="m-0 survey-value">Bateria: <span id="span_ocorrencia_bat">0</span></h3>
@@ -379,8 +379,8 @@
 </html>
 
 <script>
-  var idUsuario = localStorage.ID_USUARIO;
-  var idModelo = localStorage.ID_MODELO;
+  var idUsuario = sessionStorage.ID_USUARIO;
+  var idModelo = sessionStorage.ID_MODELO;
 
 
   if (idUsuario == undefined || idModelo == undefined) {
@@ -397,9 +397,10 @@
 
   function sair() {
 
-    delete localStorage.ID_USUARIO;
-    delete localStorage.ID_MODELO;
-    delete localStorage.REDIRECIONAMENTO;
+    delete sessionStorage.ID_USUARIO;
+    delete sessionStorage.ID_MODELO;
+    delete sessionStorage.NOME_USUARIO;
+    delete sessionStorage.REDIRECIONAMENTO;
 
     window.location = "index.html";
   }
