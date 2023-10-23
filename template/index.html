@@ -189,7 +189,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-xl-3 col-lg-12 stretch-card grid-margin">
+              <!-- <div class="col-xl-3 col-lg-12 stretch-card grid-margin">
                 <div class="row">
                   <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
                     <div class="card bg-warning">
@@ -236,7 +236,7 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="col-xl-12 col-md-6 stretch-card pb-sm-3 pb-lg-0">
+                  <div class="col-xl-12 col-md-6 stretch-card pb-sm-3 pb-lg-0">
                     <div class="card bg-success">
                       <div class="card-body px-3 py-4">
                         <div class="d-flex justify-content-between align-items-start">
@@ -249,58 +249,108 @@
                         <h6 class="text-white">Nos últimos 30 dias</h6>
                       </div>
                     </div>
-                  </div> -->
+                  </div>
                 </div>
-              </div>
-              <div class="col-xl-9 stretch-card grid-margin">
+              </div> -->
+              <div class="col-xl-12 stretch-card grid-margin">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-sm-7" id="current_date"></div>
+                      <div class="col-sm-5 text-md-right" id="div_total_carros">Carros monitorados: 0</div>
                       <!-- <div class="col-sm-5 text-md-right">
                         <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
                           <i class="mdi mdi-email btn-icon-prepend"></i>Download Report </button>
                       </div> -->
                     </div>
                     <div class="row">
-                      <div class="col-sm-4" style="cursor:pointer" onclick="mudarDadosGrafico('cpu')">
-                        <div class="card mb-3 mb-sm-0">
+                      <div class="col-sm-4">
+                        <div class="card mb-3 mb-sm-0" id="div_card_cpu" onclick="mudarDadosGrafico('cpu')" style="cursor:pointer">
                           <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Ocorrências com</p>
+                            <p class="m-0 survey-head">Ocorrências com CPU</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">CPU: <span id="span_ocorrencia_cpu">0</span></h3>
+                                <h3 class="m-0 survey-value"><span id="span_ocorrencia_cpu">0</span></h3>
                                 <!-- <p class="text-success m-0">2</p> -->
                               </div>
-                              <div id="earningChart" class="flot-chart"></div>
+                              <!-- <div id="earningChart" class="flot-chart"></div> -->
+                            </div>
+                            <p class="m-0 survey-head">Carros com ocorrências</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value"><span id="span_ocorrencia_cpu_carros">0</span></h3>
+                                <!-- <p class="text-success m-0">2</p> -->
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
+                              <div>
+                                <p class="m-0 survey-head">Meta</p>
+                                <p class="m-0 survey-head" id="p_cpu_meta">5 %</p>
+                              </div>
+                              <div>
+                                <p class="m-0 survey-head">Atual</p>
+                                <p class="m-0 survey-head" id="p_cpu_atual">0 %</p>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="col-sm-4">
-                        <div class="card mb-3 mb-sm-0" onclick="mudarDadosGrafico('ram')" style="cursor: pointer;">
+                        <div class="card mb-3 mb-sm-0" id="div_cad_gpu" onclick="mudarDadosGrafico('ram')" style="cursor: pointer;">
                           <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Ocorrências com</p>
+                            <p class="m-0 survey-head">Ocorrências com GPU</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">GPU: <span id="span_ocorrencia_gpu">0</span></h3>
+                                <h3 class="m-0 survey-value"><span id="span_ocorrencia_gpu">0</span></h3>
                                 <!-- <p class="text-danger m-0">12</p> -->
                               </div>
-                              <div id="productChart" class="flot-chart"></div>
+                            </div>
+                            <p class="m-0 survey-head">Carros com ocorrências</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value"><span id="span_ocorrencia_gpu_carros">0</span></h3>
+                                <!-- <p class="text-success m-0">2</p> -->
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
+                              <div>
+                                <p class="m-0 survey-head">Meta</p>
+                                <p class="m-0 survey-head" id="p_gpu_meta">10 %</p>
+                              </div>
+                              <div>
+                                <p class="m-0 survey-head">Atual</p>
+                                <p class="m-0 survey-head" id="p_gpu_atual">0 %</p>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="col-sm-4">
-                        <div class="card" style="cursor: pointer;" onclick="mudarDadosGrafico('bat')">
+                        <div class="card" id="" style="cursor: pointer;" onclick="mudarDadosGrafico('bat')">
                           <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Ocorrências com</p>
+                            <p class="m-0 survey-head">Ocorrências com bateria</p>
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
-                                <h3 class="m-0 survey-value">Bateria: <span id="span_ocorrencia_bat">0</span></h3>
+                                <h3 class="m-0 survey-value"><span id="span_ocorrencia_bat">0</span></h3>
                                 <!-- <p class="text-success m-0">5</p> -->
                               </div>
-                              <div id="orderChart" class="flot-chart"></div>
+                            </div>
+                            <p class="m-0 survey-head">Carros com ocorrências</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value"><span id="span_ocorrencia_bat_carros">0</span></h3>
+                                <!-- <p class="text-success m-0">2</p> -->
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
+                              <div>
+                                <p class="m-0 survey-head">Meta</p>
+                                <p class="m-0 survey-head" id="p_bat_meta">5 %</p>
+                              </div>
+                              <div>
+                                <p class="m-0 survey-head">Atual</p>
+                                <p class="m-0 survey-head" id="p_bat_atual">0 %</p>
+                              </div>
                             </div>
                           </div>
                         </div>

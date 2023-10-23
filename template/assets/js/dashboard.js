@@ -44,7 +44,79 @@ function carregarDados() {
 
         extrairDadosGraficos(jsonAlertas);
 
+        
+        obterMetricas();
         exibirGraficos();
+      });
+    } else {
+      console.log(resposta)
+      console.log("Houve um erro ao tentar recuperar os dados!");
+
+      resposta.text().then(texto => {
+        console.error(texto);
+        alert("Houve um erro ao tentar recuperar os dados!");
+      });
+    }
+  });
+}
+
+function obterMetricas() {
+
+  fetch("/Dados/metasDashboard", {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then((response) => {
+        response[0].meta_cpu = Number(response[0].meta_cpu);
+        response[0].meta_gpu = Number(response[0].meta_gpu);
+        response[0].meta_bat = Number(response[0].meta_bat);
+        console.log(response);
+        div_total_carros.innerHTML = `Carros monitorados: ${response[0].count_carro}`;
+
+        span_ocorrencia_cpu.innerHTML = dados_kpis.cpu.alerta;
+        span_ocorrencia_cpu_carros.innerHTML = dados_kpis.cpu.carros.size;
+        p_cpu_meta.innerHTML = `${response[0].meta_cpu} %`;
+        p_cpu_meta.style = "color: black";
+        let ocorrenciasCpuAtual = Math.round(dados_kpis.cpu.carros.size * 100 / response[0].count_carro,1);
+        console.log(ocorrenciasCpuAtual);
+        console.log(response[0].meta_cpu);
+        console.log(ocorrenciasCpuAtual < response[0].meta_cpu);
+        if (ocorrenciasCpuAtual < response[0].meta_cpu) {
+          p_cpu_atual.style="color: green;";
+        } else {
+          p_cpu_atual.style="color: red;";
+        }
+        p_cpu_atual.innerHTML = `${ocorrenciasCpuAtual} %`;
+        
+      
+        span_ocorrencia_gpu.innerHTML = dados_kpis.ram.alerta;
+        span_ocorrencia_gpu_carros.innerHTML = dados_kpis.ram.carros.size;
+        p_gpu_meta.innerHTML = `${response[0].meta_gpu} %`;
+        p_gpu_meta.style = "color: black";
+        let ocorrenciasGpuAtual = Math.round(dados_kpis.ram.carros.size * 100 / response[0].count_carro,1);
+        if (ocorrenciasGpuAtual < response[0].meta_gpu) {
+          p_gpu_atual.style="color: green;";
+        } else {
+          p_gpu_atual.style="color: red;";
+        }
+        p_gpu_atual.innerHTML = `${ocorrenciasGpuAtual} %`;
+      
+        span_ocorrencia_bat.innerHTML = dados_kpis.bat.alerta;
+        span_ocorrencia_bat_carros.innerHTML = dados_kpis.bat.carros.size;
+        p_bat_meta.innerHTML = `${response[0].meta_bat} %`;
+        p_bat_meta.style = "color: black";
+        let ocorrenciasBatAtual = Math.round(dados_kpis.bat.carros.size * 100 / response[0].count_carro,1);
+        if (ocorrenciasBatAtual < response[0].meta_bat) {
+          p_bat_atual.style = "color: green";
+        } else {
+          p_bat_atual.style = "color: red";
+        }
+        p_bat_atual.innerHTML = `${ocorrenciasBatAtual} %`;
+
       });
     } else {
       console.log(resposta)
@@ -66,10 +138,11 @@ var labels_graph = [];
 var dados_kpis = {};
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0];
+var grafico_atual = "todos";
 carregarDados();
 
 function mudarDadosGrafico(parametro) {
-  if (parametro == "cpu") {
+  if (parametro == "cpu" && grafico_atual != "cpu") {
     flotPlot.setData([
       {
         label: "Estado de Alerta",
@@ -88,7 +161,8 @@ function mudarDadosGrafico(parametro) {
         },
       }
     ]);
-  } else if (parametro == "ram") {
+    grafico_atual = "cpu";
+  } else if (parametro == "ram" && grafico_atual != "ram") {
     flotPlot.setData([
       {
         label: "Estado de Alerta",
@@ -107,7 +181,8 @@ function mudarDadosGrafico(parametro) {
         },
       }
     ]);
-  } else if (parametro == "bat") {
+    grafico_atual = "ram";
+  } else if (parametro == "bat" && grafico_atual != "bat") {
     flotPlot.setData([
       {
         label: "Estado de Alerta",
@@ -126,7 +201,8 @@ function mudarDadosGrafico(parametro) {
         },
       }
     ]);
-  } else if (parametro == "todos") {
+    grafico_atual = "bat"
+  } else {
     flotPlot.setData([
       {
         label: "Estado de Alerta",
@@ -145,6 +221,7 @@ function mudarDadosGrafico(parametro) {
         },
       }
     ]);
+    grafico_atual = "todos";
   }
   flotPlot.setupGrid(false);
   flotPlot.draw();
