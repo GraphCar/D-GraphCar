@@ -188,75 +188,24 @@
                 <button type="button" class="btn btn-sm ml-3 btn-success"><a href="https://graphcar.atlassian.net/servicedesk/customer/portals">Abrir chamado</a></button>
               </div>
             </div>
+            <div class="row atualizacao">
+              <label for="refreshInterval">Escolha o intervalo de atualização:</label>
+                  <select id="refreshInterval" class="selectAtualizar">
+                    <option value="6000">1 minuto</option>
+                    <option value="3000">5 minutos</option>
+                    <option value="600000">10 minutos</option>
+                    <option value="900000">15 minutos</option>
+                  </select>
+            </div>
             <div class="row">
-              <!-- <div class="col-xl-3 col-lg-12 stretch-card grid-margin">
-                <div class="row">
-                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
-                    <div class="card bg-warning">
-                      <div class="card-body px-3 py-4">
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div class="color-card">
-                            <p class="mb-0 color-card-head">Alertas CPU</p>
-                            <h2 class="text-white"><span id="span_alerta_cpu">0</span>
-                            </h2>
-                          </div>
-                          <i class="card-icon-indicator mdi mdi-alert-outline bg-inverse-icon-warning"></i>
-                        </div>
-                        <h6 class="text-white">Nos últimos 30 dias</h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3">
-                    <div class="card bg-danger">
-                      <div class="card-body px-3 py-4">
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div class="color-card">
-                            <p class="mb-0 color-card-head">Alertas GPU</p>
-                            <h2 class="text-white"><span id="span_alerta_gpu">0</span>
-                            </h2>
-                          </div>
-                          <i class="card-icon-indicator mdi mdi-car-connected bg-inverse-icon-danger"></i>
-                        </div>
-                        <h6 class="text-white">Nos últimos 30 dias</h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-12 col-md-6 stretch-card grid-margin grid-margin-sm-0 pb-sm-3 pb-lg-0 pb-xl-3">
-                    <div class="card bg-primary">
-                      <div class="card-body px-3 py-4">
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div class="color-card">
-                            <p class="mb-0 color-card-head">Alertas bateria</p>
-                            <h2 class="text-white"><span id="span_alerta_bat">0</span>
-                            </h2>
-                          </div>
-                          <i class="card-icon-indicator mdi mdi-led-on bg-inverse-icon-primary"></i>
-                        </div>
-                        <h6 class="text-white">Nos últimos 30 dias</h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-xl-12 col-md-6 stretch-card pb-sm-3 pb-lg-0">
-                    <div class="card bg-success">
-                      <div class="card-body px-3 py-4">
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div class="color-card">
-                            <p class="mb-0 color-card-head">Ocorrências</p>
-                            <h2 class="text-white">35</h2>
-                          </div>
-                          <i class="card-icon-indicator mdi mdi-receipt bg-inverse-icon-success"></i>
-                        </div>
-                        <h6 class="text-white">Nos últimos 30 dias</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
               <div class="col-xl-12 stretch-card grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <div class="row">
-                      <div class="col-sm-7" id="current_date"></div>
+                    <div class="row atualizar">
+                      <div>
+                        <span id="lastUpdate"></span>
+                        <button class="mdi mdi-replay" id="reloadButton"></button>
+                      </div>
                       <div class="col-sm-5 text-md-right" id="div_total_carros">Carros monitorados: 0</div>
                       <!-- <div class="col-sm-5 text-md-right">
                         <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
@@ -456,4 +405,43 @@
   }
 }
 
+</script>
+
+<script>
+  let intervalID; // Variável para armazenar o ID do intervalo
+
+  // Função para recarregar a página e exibir a data e hora da última atualização
+  function reloadPage() {
+      location.reload(); // Isso recarregará a página
+      updateLastUpdate(); // Atualiza a data e hora da última atualização
+  }
+
+  // Função para atualizar a data e hora da última atualização
+  function updateLastUpdate() {
+      const now = new Date();
+      const lastUpdateElement = document.getElementById('lastUpdate');
+      lastUpdateElement.textContent = 'Última atualização: ' + now.toLocaleString();
+  }
+
+  // Função para iniciar ou atualizar o intervalo com base na opção selecionada
+  function startInterval() {
+      const selectElement = document.getElementById('refreshInterval');
+      const selectedValue = selectElement.value;
+      
+      if (intervalID) {
+          clearInterval(intervalID); // Limpa o intervalo atual
+      }
+      
+      intervalID = setInterval(reloadPage, selectedValue);
+      updateLastUpdate(); // Atualiza a data e hora da última atualização ao iniciar
+  }
+
+  // Adiciona um evento de clique ao botão para recarregar a página
+  document.getElementById('reloadButton').addEventListener('click', reloadPage);
+
+  // Adiciona um evento de mudança ao select para atualizar o intervalo
+  document.getElementById('refreshInterval').addEventListener('change', startInterval);
+
+  // Inicializa o intervalo com base na opção padrão
+  startInterval();
 </script>

@@ -2297,7 +2297,9 @@ pre {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-right: -15px;
-  margin-left: -15px; }
+  margin-left: -15px; 
+  margin-bottom: 1%;
+}
 
 .no-gutters {
   margin-right: 0;
@@ -15524,4 +15526,18 @@ dl {
 .background-item-selected .survey-head {
   text-decoration: underline;
   color: rgba(120,120,120,1);
+}
+
+.atualizar{
+  justify-content: space-between;
+}
+
+.selectAtualizar{
+    border-radius: 20px;
+    padding: 0.5%;
+    margin-left: 0.5%;
+}
+
+.atualizacao{
+  margin-left: 1.5%;
 }
