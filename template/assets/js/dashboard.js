@@ -8,9 +8,9 @@ function carregarDados() {
   }).then(function (resposta) {
     if (resposta.ok) {
       resposta.json().then((response) => {
-        span_alerta_cpu.innerHTML = response[0].cpuCritico;
-        span_alerta_gpu.innerHTML = response[0].ramCritico;
-        span_alerta_bat.innerHTML = response[0].bateriaCritico;
+        // span_alerta_cpu.innerHTML = response[0].cpuCritico;
+        // span_alerta_gpu.innerHTML = response[0].ramCritico;
+        // span_alerta_bat.innerHTML = response[0].bateriaCritico;
         span_ocorrencia_cpu.innerHTML = Number(response[0].cpuAlerta) + Number(response[0].cpuCritico);
         span_ocorrencia_gpu.innerHTML = Number(response[0].ramAlerta) + Number(response[0].ramCritico);
         span_ocorrencia_bat.innerHTML = Number(response[0].bateriaAlerta) + Number(response[0].bateriaCritico);
@@ -79,7 +79,7 @@ function obterMetricas() {
 
         span_ocorrencia_cpu.innerHTML = dados_kpis.cpu.alerta;
         span_ocorrencia_cpu_carros.innerHTML = dados_kpis.cpu.carros.size;
-        p_cpu_meta.innerHTML = `${response[0].meta_cpu} %`;
+        p_cpu_meta.innerHTML = `< ${response[0].meta_cpu} %`;
         p_cpu_meta.style = "color: black";
         let ocorrenciasCpuAtual = Math.round(dados_kpis.cpu.carros.size * 100 / response[0].count_carro,1);
         console.log(ocorrenciasCpuAtual);
@@ -95,7 +95,7 @@ function obterMetricas() {
       
         span_ocorrencia_gpu.innerHTML = dados_kpis.ram.alerta;
         span_ocorrencia_gpu_carros.innerHTML = dados_kpis.ram.carros.size;
-        p_gpu_meta.innerHTML = `${response[0].meta_gpu} %`;
+        p_gpu_meta.innerHTML = `< ${response[0].meta_gpu} %`;
         p_gpu_meta.style = "color: black";
         let ocorrenciasGpuAtual = Math.round(dados_kpis.ram.carros.size * 100 / response[0].count_carro,1);
         if (ocorrenciasGpuAtual < response[0].meta_gpu) {
@@ -107,7 +107,7 @@ function obterMetricas() {
       
         span_ocorrencia_bat.innerHTML = dados_kpis.bat.alerta;
         span_ocorrencia_bat_carros.innerHTML = dados_kpis.bat.carros.size;
-        p_bat_meta.innerHTML = `${response[0].meta_bat} %`;
+        p_bat_meta.innerHTML = `< ${response[0].meta_bat} %`;
         p_bat_meta.style = "color: black";
         let ocorrenciasBatAtual = Math.round(dados_kpis.bat.carros.size * 100 / response[0].count_carro,1);
         if (ocorrenciasBatAtual < response[0].meta_bat) {
@@ -162,6 +162,9 @@ function mudarDadosGrafico(parametro) {
       }
     ]);
     grafico_atual = "cpu";
+    div_card_cpu.classList.add("background-item-selected");
+    div_card_gpu.classList.remove("background-item-selected");
+    div_card_bat.classList.remove("background-item-selected");
   } else if (parametro == "ram" && grafico_atual != "ram") {
     flotPlot.setData([
       {
@@ -182,6 +185,9 @@ function mudarDadosGrafico(parametro) {
       }
     ]);
     grafico_atual = "ram";
+    div_card_cpu.classList.remove("background-item-selected");
+    div_card_gpu.classList.add("background-item-selected");
+    div_card_bat.classList.remove("background-item-selected");
   } else if (parametro == "bat" && grafico_atual != "bat") {
     flotPlot.setData([
       {
@@ -202,6 +208,9 @@ function mudarDadosGrafico(parametro) {
       }
     ]);
     grafico_atual = "bat"
+    div_card_cpu.classList.remove("background-item-selected");
+    div_card_gpu.classList.remove("background-item-selected");
+    div_card_bat.classList.add("background-item-selected");
   } else {
     flotPlot.setData([
       {
@@ -222,8 +231,11 @@ function mudarDadosGrafico(parametro) {
       }
     ]);
     grafico_atual = "todos";
+    div_card_cpu.classList.remove("background-item-selected");
+    div_card_gpu.classList.remove("background-item-selected");
+    div_card_bat.classList.remove("background-item-selected");
   }
-  flotPlot.setupGrid(false);
+  flotPlot.setupGrid(true);
   flotPlot.draw();
 }
 
@@ -332,12 +344,19 @@ function extrairDadosGraficos(jsonAlertas) {
   for (i = 0; i < 30; i++) {
     labels_graph.push(day.getDate() + "/" + (day.getMonth() + 1));
     day.setDate(day.getDate() - 1);
-    if (cont >= 0 && dados_graph[cont].dia == labels_graph[i]) {
-      dados_graph[cont].tick = 29 - i;
-      cont--;
-    }
+    // if (cont >= 0 && dados_graph[cont].dia == labels_graph[i]) {
+    //   dados_graph[cont].tick = 29 - i;
+    //   cont--;
+    // }
   }
   labels_graph = labels_graph.reverse();
+  for (i = 0; i < 30; i++) {
+    let curDia = labels_graph[i];
+    let index = dados_graph.findIndex((x) => x.dia == curDia);
+    if (index > -1) {
+      dados_graph[index].tick = i;
+    }
+  }
 }
 
 
@@ -1384,29 +1403,33 @@ function exibirGraficos() {
         let cont = 0;
         for (let i = 0; i < 30; i++) {
           tickData.push([i, labels_graph[i]]);
-          if (cont < dados_graph.length && dados_graph[cont].tick == i) {
-            let dado = dados_graph[cont];
+          let index = dados_graph.findIndex((x) => x.dia == labels_graph[i]);
+          if (index > -1) {
+
+            let dado = dados_graph[index];
+            
             dashDataAlerta.cpu.push([i, Number(dado.cpuAlerta)]);
             dashDataAlerta.ram.push([i, Number(dado.ramAlerta)]);
             dashDataAlerta.bat.push([i, Number(dado.batAlerta)]);
             dashDataAlerta.total.push([i, Number(dado.cpuAlerta) + Number(dado.ramAlerta) + Number(dado.batAlerta)]);
-
+            
             dashDataCrit.cpu.push([i, Number(dado.cpuCritico)]);
             dashDataCrit.ram.push([i, Number(dado.ramCritico)]);
             dashDataCrit.bat.push([i, Number(dado.batCritico)]);
             dashDataCrit.total.push([i, Number(dado.cpuCritico) + Number(dado.ramCritico) + Number(dado.batCritico)]);
-            cont++;
           } else {
             dashDataAlerta.cpu.push([i, 0]);
             dashDataAlerta.ram.push([i, 0]);
             dashDataAlerta.bat.push([i, 0]);
             dashDataAlerta.total.push([i, 0]);
-
+            
             dashDataCrit.cpu.push([i, 0]);
             dashDataCrit.ram.push([i, 0]);
             dashDataCrit.bat.push([i, 0]);
             dashDataCrit.total.push([i, 0]);
           }
+
+          
         }
         console.log(tickData)
         console.log(dashDataAlerta)

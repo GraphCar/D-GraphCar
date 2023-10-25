@@ -15517,3 +15517,11 @@ dl {
   stroke: rgba(0, 0, 0, 0.85);
   stroke-width: 1;
   }
+
+.background-item-selected {
+  border: 1px solid rgba(0,0,0,0.85);
+}
+.background-item-selected .survey-head {
+  text-decoration: underline;
+  color: rgba(120,120,120,1);
+}
