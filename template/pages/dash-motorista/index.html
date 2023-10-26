@@ -6,7 +6,7 @@
     <title>Painel motorista</title>
     <link rel="stylesheet" href="css.css">
 </head>
-<body onload="goTo(),goTo1(),goTo2(),goTo3(),checkTime()">
+<body onload="exibirCPU(),exibirGPU(),goTo(),goTo1(),goTo2(),goTo3(),checkTime()">
     <div class="ipadBox">
       <button class="powerButton" onclick="powerMe();">I</button>
       <div class="ipadScreen">
@@ -28,8 +28,14 @@
               </div>
               <div class="table-cell2">
                 <div id="main2">
-                  <h1>CPU : 50.00</h1>
-                  <h1>GPU : 40.00 </h1>
+                  <div class="dadosTablet">
+                  <h1> CPU: </h1>
+                  <h1 id="cardCPU"></h1>
+                  </div>
+                  <div class="dadosTablet">
+                    <h1> GPU: </h1>
+                    <h1 id="cardGPU"></h1>
+                  </div>
                 </div>
                 <div class="alertas">
                   <h1>Alertas</h1>
@@ -253,46 +259,84 @@
 
 <script>
 
-    /**
-    * This function allows you to go to an specific frame of the animation
-    * Remember the frames are a percentage number, so it goes from 0 to 100
-    **/
+let frame1 = "";
+
+function exibirCPU() {
+
+fetch(`/tablet/exibirCPU`)
+
+.then(function (response) {
+
+if (response.ok) {
+
+response.json().then(function (resposta) {
+
+console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+arrayTablet = resposta;
+
+cardCPU.innerHTML += `<p>${arrayTablet[0].cpuUso}</p>`
+
+frame1 = arrayTablet[0].cpuUso.replace(/\./g, ','); 
+goTo1();
+
+});
+
+} else {
+  console.error("Nenhum dado encontrado ou erro na API");
+}}) .catch(function (error) { console.error(
+`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`
+);});
+return false;
+}
+
+
+function exibirGPU() {
+
+fetch(`/tablet/exibirGPU`) .then(function (response) {
+
+if (response.ok) {
+response.json().then(function (resposta) { console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+arrayTablet = resposta;
+
+cardGPU.innerHTML += `<p>${arrayTablet[0].memoria}</p>
+`
+frame2 = arrayTablet[0].memoria
+const memoriaComVirgula = substituirPontoPorVirgula(frame2);
+
+});} else {
+console.error("Nenhum dado encontrado ou erro na API");
+}}).catch(function (error) { console.error(
+`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`
+);});
+return false;
+}
+
+  function goTo1(){
   
-    function goTo1(frame1){
+  reset(); 
   
-  reset(); // Just reset
-  
-  //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
   setTimeout(function(){
-    //Get components
     var chart = document.getElementById("radioChartContent1"), pVal = document.getElementById("percentValue1");
   
-    //Add animate
     chart.classList.add("animate");
-  
-    var currentPercent = 0; //Initial percentage
-  
-    frame1 = 65;
-  
-    //Get percentage one by one
+    var currentPercent = 0; 
     var currTimeout = setInterval(function(){
-      //Check is reach the limit
+
       if(currentPercent == frame1 || currentPercent > 100){
-          
-          //Clear interval
+  
           clearInterval(currTimeout);
-          //Pause animation
           chart.style.animationPlayState = "paused";
-          chart.style.webkitAnimationPlayState = "paused"; //if webkit
+          chart.style.webkitAnimationPlayState = "paused"; 
           
           return false;
         }else{
-          //Sum percentage
+
           currentPercent++;
-          //show new percentage
+
           pVal.innerHTML = currentPercent+"ºC";
         }
-    }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+    }, 10); 
   },100);
   }
   
@@ -347,9 +391,7 @@
     chart.classList.add("animate");
   
     var currentPercent = 0; //Initial percentage
-  
-    frame2 = 30;
-  
+    
     //Get percentage one by one
     var currTimeout = setInterval(function(){
       //Check is reach the limit
@@ -386,7 +428,7 @@
   
     var currentPercent = 0; //Initial percentage
   
-    frame3 = 80;
+    frame3 = arrayTablet[0].cpuUso;
   
     //Get percentage one by one
     var currTimeout = setInterval(function(){
@@ -419,4 +461,11 @@
   // chart.style.animationPlayState = "initial";
   // chart.style.webkitAnimationPlayState = "initial"; //if webkit
   }
+
+// function reloadPage() {
+//             location.reload(); 
+//         }
+
+//       const intervalID = setInterval(reloadPage, 60000);
+
   </script>

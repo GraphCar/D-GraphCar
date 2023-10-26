@@ -402,6 +402,7 @@ color: white;
 display: flex;
 flex-direction: row;
 justify-content: space-evenly;
+align-items: flex-end;
 }
 
 /* The animation based on an hexagon
@@ -907,4 +908,11 @@ justify-content: space-evenly;
   left: 38%;
   top: 65%;
   font-size: 22px;
+}
+
+.dadosTablet{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1%;  
 }
