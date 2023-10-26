@@ -345,7 +345,7 @@ animation-timing-function: linear;
 -webkit-animation-name: circled;
 -webkit-animation-duration: 1s;
 -webkit-animation-timing-function: linear;
-background: linear-gradient(165deg, #ff0000 0%, #ffe1b3 100%);
+background: linear-gradient(165deg, #44ff00 0%, #ffe1b3 100%);
 box-shadow: 0 0 90px rgb(255 0 0 / 42%);
 }
 
@@ -789,20 +789,6 @@ height: 100%;
 border-radius: 50%;
 
 position:absolute;
-}
-
-.chart .radio_chart.animate{
-animation-name: circled;
-animation-duration: 1s;
-animation-timing-function: linear;
--moz-animation-name: circled;
--moz-animation-duration: 1s;
--moz-animation-timing-function: linear;
--webkit-animation-name: circled;
--webkit-animation-duration: 1s;
--webkit-animation-timing-function: linear;
-background: linear-gradient(165deg, #ff0000 0%, #ffe1b3 100%);
-box-shadow: 0 0 90px rgb(255 0 0 / 42%);
 }
 
 .chart .cap{
