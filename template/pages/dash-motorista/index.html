@@ -263,9 +263,7 @@ let frame1 = "";
 
 function exibirCPU() {
 
-fetch(`/tablet/exibirCPU`)
-
-.then(function (response) {
+fetch(`/tablet/exibirCPU`).then(function (response) {
 
 if (response.ok) {
 
@@ -323,6 +321,8 @@ return false;
     var currentPercent = 0; 
     var currTimeout = setInterval(function(){
 
+      frame1 = 9,5
+
       if(currentPercent == frame1 || currentPercent > 100){
   
           clearInterval(currTimeout);
@@ -342,124 +342,97 @@ return false;
   
     function goTo(frame){
   
-      reset(); // Just reset
+      reset(); 
       
-      //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
       setTimeout(function(){
-        //Get components
         var chart = document.getElementById("radioChartContent"), pVal = document.getElementById("percentValue");
     
-        //Add animate
         chart.classList.add("animate");
     
-        var currentPercent = 0; //Initial percentage
+        var currentPercent = 0; 
   
         frame = 20;
     
-        //Get percentage one by one
         var currTimeout = setInterval(function(){
-          //Check is reach the limit
           if(currentPercent == frame || currentPercent > 100){
               
-              //Clear interval
               clearInterval(currTimeout);
-              //Pause animation
               chart.style.animationPlayState = "paused";
-              chart.style.webkitAnimationPlayState = "paused"; //if webkit
+              chart.style.webkitAnimationPlayState = "paused"; 
               
               return false;
             }else{
-              //Sum percentage
               currentPercent++;
-              //show new percentage
               pVal.innerHTML = currentPercent+"%";
             }
-        }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+        }, 10); 
       },100);
     }
   
     function goTo2(frame2){
   
-  reset(); // Just reset
+  reset(); 
   
-  //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
   setTimeout(function(){
-    //Get components
     var chart = document.getElementById("radioChartContent2"), pVal = document.getElementById("percentValue2");
   
-    //Add animate
     chart.classList.add("animate");
   
-    var currentPercent = 0; //Initial percentage
+    var currentPercent = 0; 
+
+    frame2 = 30
     
-    //Get percentage one by one
     var currTimeout = setInterval(function(){
-      //Check is reach the limit
       if(currentPercent == frame2 || currentPercent > 100){
           
-          //Clear interval
           clearInterval(currTimeout);
-          //Pause animation
           chart.style.animationPlayState = "paused";
-          chart.style.webkitAnimationPlayState = "paused"; //if webkit
+          chart.style.webkitAnimationPlayState = "paused";
           
           return false;
         }else{
-          //Sum percentage
           currentPercent++;
-          //show new percentage
           pVal.innerHTML = currentPercent+"ºC";
         }
-    }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+    }, 10); 
   },100);
   }
   
   function goTo3(frame3){
   
-  reset(); // Just reset
+  reset(); 
   
-  //For some reason Javascript needs a time to remove animate class. I tried to use as callback from reset but it just didnt work. 
   setTimeout(function(){
-    //Get components
     var chart = document.getElementById("radioChartContent3"), pVal = document.getElementById("percentValue3");
   
-    //Add animate
     chart.classList.add("animate");
   
-    var currentPercent = 0; //Initial percentage
+    var currentPercent = 0; 
   
-    frame3 = arrayTablet[0].cpuUso;
+    frame3 = 40;
   
-    //Get percentage one by one
     var currTimeout = setInterval(function(){
-      //Check is reach the limit
       if(currentPercent == frame3 || currentPercent > 100){
           
-          //Clear interval
           clearInterval(currTimeout);
-          //Pause animation
           chart.style.animationPlayState = "paused";
-          chart.style.webkitAnimationPlayState = "paused"; //if webkit
+          chart.style.webkitAnimationPlayState = "paused"; 
           
           return false;
         }else{
-          //Sum percentage
           currentPercent++;
-          //show new percentage
           pVal.innerHTML = currentPercent+"ºC";
         }
-    }, 10); //We are using 10 cause it reference by a 1 second (1000 miliseconds) animation. If you're using 4 seconds, change to 40 as  example
+    }, 10); 
   },100);
   }
   
-  //Reset to initial position
   function reset(){
   var chart = document.getElementById("radioChartContent3"), pVal = document.getElementById("percentValue2");
   
   chart.classList.remove("animate");
   pVal.innerHTML = "0ºC";
-  // chart.style.animationPlayState = "initial";
-  // chart.style.webkitAnimationPlayState = "initial"; //if webkit
+  
   }
 
 // function reloadPage() {
