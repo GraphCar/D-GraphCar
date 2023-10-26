@@ -191,8 +191,8 @@
             <div class="row atualizacao">
               <label for="refreshInterval">Escolha o intervalo de atualização:</label>
                   <select id="refreshInterval" class="selectAtualizar">
-                    <option value="6000">1 minuto</option>
-                    <option value="3000">5 minutos</option>
+                    <option value="60000">1 minuto</option>
+                    <option value="30000">5 minutos</option>
                     <option value="600000">10 minutos</option>
                     <option value="900000">15 minutos</option>
                   </select>
@@ -305,6 +305,9 @@
                         </div>
                       </div>
                     </div>
+                    <div class="downloadButton">
+                      <button id="download" onclick="download()"><img src="assets/images/dashboard/download (1).png" alt=""></button>
+                    </div>
                     <div class="row my-3">
                       <div class="col-sm-12">
                         <div class="flot-chart-wrapper">
@@ -408,40 +411,70 @@
 </script>
 
 <script>
-  let intervalID; // Variável para armazenar o ID do intervalo
+  let intervalID; 
 
-  // Função para recarregar a página e exibir a data e hora da última atualização
   function reloadPage() {
-      location.reload(); // Isso recarregará a página
-      updateLastUpdate(); // Atualiza a data e hora da última atualização
+      location.reload(); 
+      updateLastUpdate(); 
   }
 
-  // Função para atualizar a data e hora da última atualização
   function updateLastUpdate() {
       const now = new Date();
       const lastUpdateElement = document.getElementById('lastUpdate');
       lastUpdateElement.textContent = 'Última atualização: ' + now.toLocaleString();
   }
 
-  // Função para iniciar ou atualizar o intervalo com base na opção selecionada
   function startInterval() {
       const selectElement = document.getElementById('refreshInterval');
       const selectedValue = selectElement.value;
       
       if (intervalID) {
-          clearInterval(intervalID); // Limpa o intervalo atual
+          clearInterval(intervalID); 
       }
       
       intervalID = setInterval(reloadPage, selectedValue);
-      updateLastUpdate(); // Atualiza a data e hora da última atualização ao iniciar
+      updateLastUpdate(); 
   }
 
-  // Adiciona um evento de clique ao botão para recarregar a página
   document.getElementById('reloadButton').addEventListener('click', reloadPage);
 
-  // Adiciona um evento de mudança ao select para atualizar o intervalo
   document.getElementById('refreshInterval').addEventListener('change', startInterval);
 
-  // Inicializa o intervalo com base na opção padrão
   startInterval();
+</script>
+
+<script>
+  // Função para criar e baixar o arquivo CSV
+  function downloadCSV() {
+      // Suponha que você já tenha os dados em um array chamado 'data'
+      const data = [
+          ['Nome', 'Idade'],
+          ['João', 30],
+          ['Maria', 25]
+      ];
+
+      // Formate os dados em um CSV
+      const csvContent = data.map(row => row.join(',')).join('\n');
+
+      // Crie um Blob contendo o CSV
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+
+      // Crie uma URL do objeto Blob
+      const url = URL.createObjectURL(blob);
+
+      // Crie um link para fazer o download do arquivo CSV
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dados.csv';
+      document.body.appendChild(a);
+
+      // Simule o clique no link para iniciar o download
+      a.click();
+
+      // Libere a URL do objeto Blob
+      URL.revokeObjectURL(url);
+  }
+
+  // Adicione um evento de clique ao botão
+  document.getElementById('downloadButton').addEventListener('click', downloadCSV);
 </script>

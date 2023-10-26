@@ -60,6 +60,8 @@ function carregarDados() {
   });
 }
 
+
+
 function obterMetricas() {
 
   fetch("/Dados/metasDashboard", {
@@ -1514,7 +1516,26 @@ function exibirGraficos() {
             },
           }
         );
+    
       });
     });
   })(jQuery);
+}
+
+function download(){
+
+  const csvContent = dashDataAlerta.cpu.map(row => row.join(',')).join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'dados.csv';
+  document.body.appendChild(a);
+
+  a.click();
+
+  URL.revokeObjectURL(url);
 }

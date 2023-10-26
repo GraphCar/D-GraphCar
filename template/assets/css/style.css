@@ -15541,3 +15541,13 @@ dl {
 .atualizacao{
   margin-left: 1.5%;
 }
+
+.downloadButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+/* class="mdi mdi-floppy button" */ 
+.downloadButton button img{
+  width: 20px;
+}
