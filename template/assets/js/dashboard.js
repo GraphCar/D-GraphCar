@@ -138,6 +138,7 @@ var dashDataAlerta
 var dados_graph = [];
 var labels_graph = [];
 var dados_kpis = {};
+var tickData = [];
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0];
 var grafico_atual = "todos";
@@ -1400,7 +1401,7 @@ function exibirGraficos() {
         var dashData2 = [];
         dashDataCrit = { "cpu": [], "ram": [], "bat": [], "total": [] };
         dashDataAlerta = { "cpu": [], "ram": [], "bat": [], "total": [] };
-        var tickData = [];
+        tickData = [];
 
         let cont = 0;
         for (let i = 0; i < 30; i++) {
@@ -1522,11 +1523,26 @@ function exibirGraficos() {
   })(jQuery);
 }
 
-function download(){
+function download() {
+  const columnTitles = ['id', 'Data captura', 'Alerta cpu', 'Alerta ram', 'Alerta bateria', 'Alerta total', 'Crítico cpu', 'Crítico ram','Crítico bateria', 'Crítico total']; 
 
-  const csvContent = dashDataAlerta.cpu.map(row => row.join(',')).join('\n');
+  const combinedData = [columnTitles];
+  for (let i = 0; i < tickData.length; i++) {
+    const row1 = tickData[i];
+    const row2 = dashDataAlerta.cpu[i][1];
+    const row3 = dashDataAlerta.ram[i][1];
+    const row4 = dashDataAlerta.bat[i][1];
+    const row5 = dashDataAlerta.total[i][1];
+    const row6 = dashDataCrit.cpu[i][1];
+    const row7 = dashDataCrit.ram[i][1];
+    const row8 = dashDataCrit.bat[i][1];
+    const row9 = dashDataCrit.total[i][1];
+    combinedData.push([row1, row2, row3, row4,row5,row6,row7,row8,row9]);
+  }
 
-  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const combinedCSV = combinedData.map(row => row.join(',')).join('\n');
+
+  const blob = new Blob([combinedCSV], { type: 'text/csv' });
 
   const url = URL.createObjectURL(blob);
 
