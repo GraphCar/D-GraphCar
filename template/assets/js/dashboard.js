@@ -60,7 +60,117 @@ function carregarDados() {
   });
 }
 
+function atualizarNotificacoes() {
+  fetch("/Dados/listarNotificacoes").then(function (resposta) {
+    if (resposta.ok) {
+      if (resposta.status == 204) {
+        var notificacoes = document.getElementById("div_lista_alertas");
+        var mensagem = document.createElement("p");
 
+        mensagem.innerHTML = "Nada novo aqui!"
+        mensagem.classList.add("text-small", "text-muted", "ellipsis", "mb-0")
+
+        feed.appendChild(mensagem);
+        throw "Nada novo aqui!";
+      }
+
+      resposta.json().then(function (resposta) {
+        console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+        
+        var nomeNotificacoes = []
+        var mensagens = []
+        var notificacoes = document.getElementById("div_lista_alertas");
+        var alertas = {
+          cpuAlerta: 0,
+          cpuCritico: 0,
+          gpuAlerta: 0,
+          gpuCritico: 0,
+          bateriaAlerta: 0,
+          bateriaCritico: 0
+        }
+
+        notificacoes.innerHTML = "";
+        for (let i = 0; i < resposta.length; i++) {
+          var publicacao = resposta[i];
+          if (publicacao.cpuUso > 70) {
+            alertas.cpuAlerta++;
+          } else if (publicacao.cpuUso > 90) {
+            alertas.cpuCritico++;
+          }
+          if (publicacao.gpuUso > 70) {
+            alertas.gpuAlerta++;
+          } else if (publicacao.gpuUso > 90) {
+            alertas.gpuCritico++;
+          }
+          if (publicacao.bateriaNivel < 10) {
+            alertas.bateriaCritico++;
+          } else if (publicacao.bateriaNivel < 20) {
+            alertas.bateriaAlerta++;
+          }
+
+          if (alertas.cpuAlerta != 0) {
+            nomeNotificacoes.push("Alerta de CPU")
+            mensagens.push("Existem " + alertas.cpuAlerta + " alertas de CPU nos últimos 5 minutos")
+          }
+          if (alertas.cpuCritico != 0) {
+            nomeNotificacoes.push("Nivel Critico de CPU")
+            mensagens.push("Existem " + alertas.cpuAlerta + " CPUs em nível CRÍTICO nos últimos 5 minutos")
+          }
+          if (alertas.gpuAlerta != 0) {
+            nomeNotificacoes.push("Alerta de GPU")
+            mensagens.push("Existem " + alertas.cpuAlerta + " alertas de GPU nos últimos 5 minutos")
+          }
+          if (alertas.gpuCritico != 0) {
+            nomeNotificacoes.push("Nivel Critico de GPU")
+            mensagens.push("Existem " + alertas.cpuAlerta + " GPUs em nível CRÍTICO nos últimos 5 minutos")
+          }
+          if (alertas.bateriaAlerta != 0) {
+            nomeNotificacoes.push("Alerta de Bateria")
+            mensagens.push("Existem " + alertas.cpuAlerta + " alertas de bateria nos últimos 5 minutos")
+          }
+          if (alertas.bateriaCritico != 0) {
+            nomeNotificacoes.push("Nivel Critico de Bateria")
+            mensagens.push("Existem " + alertas.cpuAlerta + " baterias em nível CRÍTICO nos últimos 5 minutos")
+          }
+        }
+        const classesA = ["dropdown-item", "preview-item"]
+        const classesDiv = ["preview-item-content", "flex-grow"]
+        
+        const classesTitulo = ["badge", "badge-pill"]
+        const classeAlerta = ["badge-warning"]
+        const classePerigo = ["badge-danger"]
+        
+        const classesCorpo = ["text-small", "text-muted", "ellipsis", "mb-0"];
+
+
+        for (i = 0; i < nomeNotificacoes.length; i++) {
+          var aDropDown = document.createElement("a");
+          var divConteudo = document.createElement("div");
+          var spanTitulo = document.createElement("span");
+          var pMensagem = document.createElement("p");
+
+          spanTitulo.innerHTML = nomeNotificacoes[i]
+          pMensagem.innerHTML = mensagens[i]
+
+          aDropDown.classList.add(classesA)
+          divConteudo.classList.add(classesDiv)
+          spanTitulo.classList.add(classesTitulo)
+          pMensagem.classList.add(classesCorpo)
+
+          divConteudo.appendChild(spanTitulo, pMensagem);
+          aDropDown.appendChild(divConteudo)
+
+        }
+
+      });
+    } else {
+      throw ('Houve um erro na API!');
+    }
+  }).catch(function (resposta) {
+    console.error(resposta);
+  });
+}
 
 function obterMetricas() {
 
