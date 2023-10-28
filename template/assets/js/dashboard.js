@@ -89,6 +89,8 @@ function atualizarNotificacoes() {
           bateriaAlerta: 0,
           bateriaCritico: 0
         }
+        console.log("alertas");
+        console.log(resposta);
 
         notificacoes.innerHTML = "";
         for (let i = 0; i < resposta.length; i++) {
@@ -98,9 +100,9 @@ function atualizarNotificacoes() {
           } else if (publicacao.cpuUso > 90) {
             alertas.cpuCritico++;
           }
-          if (publicacao.gpuUso > 70) {
+          if (publicacao.memoria > 70) {
             alertas.gpuAlerta++;
-          } else if (publicacao.gpuUso > 90) {
+          } else if (publicacao.memoria > 90) {
             alertas.gpuCritico++;
           }
           if (publicacao.bateriaNivel < 10) {
@@ -108,40 +110,41 @@ function atualizarNotificacoes() {
           } else if (publicacao.bateriaNivel < 20) {
             alertas.bateriaAlerta++;
           }
-
-          if (alertas.cpuAlerta != 0) {
-            nomeNotificacoes.push("Alerta de CPU")
-            mensagens.push("Existem " + alertas.cpuAlerta + " alertas de CPU nos últimos 5 minutos")
-          }
-          if (alertas.cpuCritico != 0) {
-            nomeNotificacoes.push("Nivel Critico de CPU")
-            mensagens.push("Existem " + alertas.cpuAlerta + " CPUs em nível CRÍTICO nos últimos 5 minutos")
-          }
-          if (alertas.gpuAlerta != 0) {
-            nomeNotificacoes.push("Alerta de GPU")
-            mensagens.push("Existem " + alertas.cpuAlerta + " alertas de GPU nos últimos 5 minutos")
-          }
-          if (alertas.gpuCritico != 0) {
-            nomeNotificacoes.push("Nivel Critico de GPU")
-            mensagens.push("Existem " + alertas.cpuAlerta + " GPUs em nível CRÍTICO nos últimos 5 minutos")
-          }
-          if (alertas.bateriaAlerta != 0) {
-            nomeNotificacoes.push("Alerta de Bateria")
-            mensagens.push("Existem " + alertas.cpuAlerta + " alertas de bateria nos últimos 5 minutos")
-          }
-          if (alertas.bateriaCritico != 0) {
-            nomeNotificacoes.push("Nivel Critico de Bateria")
-            mensagens.push("Existem " + alertas.cpuAlerta + " baterias em nível CRÍTICO nos últimos 5 minutos")
-          }
         }
-        const classesA = ["dropdown-item", "preview-item"]
-        const classesDiv = ["preview-item-content", "flex-grow"]
+
+        if (alertas.cpuAlerta != 0) {
+          nomeNotificacoes.push("Alerta de CPU")
+          mensagens.push("Existem " + alertas.cpuAlerta + " alertas de CPU nos últimos 5 minutos")
+        }
+        if (alertas.cpuCritico != 0) {
+          nomeNotificacoes.push("Nivel Critico de CPU")
+          mensagens.push("Existem " + alertas.cpuAlerta + " CPUs em nível CRÍTICO nos últimos 5 minutos")
+        }
+        if (alertas.gpuAlerta != 0) {
+          nomeNotificacoes.push("Alerta de GPU")
+          mensagens.push("Existem " + alertas.gpuAlerta + " alertas de GPU nos últimos 5 minutos")
+        }
+        if (alertas.gpuCritico != 0) {
+          nomeNotificacoes.push("Nivel Critico de GPU")
+          mensagens.push("Existem " + alertas.gpuCritico + " GPUs em nível CRÍTICO nos últimos 5 minutos")
+        }
+        if (alertas.bateriaAlerta != 0) {
+          nomeNotificacoes.push("Alerta de Bateria")
+          mensagens.push("Existem " + alertas.bateriaAlerta + " alertas de bateria nos últimos 5 minutos")
+        }
+        if (alertas.bateriaCritico != 0) {
+          nomeNotificacoes.push("Nivel Critico de Bateria")
+          mensagens.push("Existem " + alertas.bateriaCritico + " baterias em nível CRÍTICO nos últimos 5 minutos")
+        }
+      
+        // const classesA = ["dropdown-item", "preview-item"]
+        // const classesDiv = ["preview-item-content", "flex-grow"]
         
-        const classesTitulo = ["badge", "badge-pill"]
-        const classeAlerta = ["badge-warning"]
-        const classePerigo = ["badge-danger"]
+        // const classesTitulo = ["badge", "badge-pill"]
+        // const classeAlerta = ["badge-warning"]
+        // const classePerigo = ["badge-danger"]
         
-        const classesCorpo = ["text-small", "text-muted", "ellipsis", "mb-0"];
+        // const classesCorpo = ["text-small", "text-muted", "ellipsis", "mb-0"];
 
 
         for (i = 0; i < nomeNotificacoes.length; i++) {
@@ -150,18 +153,20 @@ function atualizarNotificacoes() {
           var spanTitulo = document.createElement("span");
           var pMensagem = document.createElement("p");
 
-          spanTitulo.innerHTML = nomeNotificacoes[i]
-          pMensagem.innerHTML = mensagens[i]
+          spanTitulo.innerHTML = nomeNotificacoes[i];
+          pMensagem.innerHTML = mensagens[i];
 
-          aDropDown.classList.add(classesA)
-          divConteudo.classList.add(classesDiv)
-          spanTitulo.classList.add(classesTitulo)
-          pMensagem.classList.add(classesCorpo)
+          aDropDown.classList.add("dropdown-item", "preview-item");
+          divConteudo.classList.add("preview-item-content", "flex-grow");
+          spanTitulo.classList.add("badge", "badge-pill", "badge-danger");
+          pMensagem.classList.add("text-small", "text-muted", "ellipsis", "mb-0");
 
-          divConteudo.appendChild(spanTitulo, pMensagem);
-          aDropDown.appendChild(divConteudo)
-
+          divConteudo.appendChild(spanTitulo);
+          divConteudo.appendChild(pMensagem);
+          aDropDown.appendChild(divConteudo);
+          notificacoes.appendChild(aDropDown);
         }
+        
 
       });
     } else {
@@ -253,6 +258,7 @@ span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0];
 var grafico_atual = "todos";
 carregarDados();
+atualizarNotificacoes();
 
 function mudarDadosGrafico(parametro) {
   if (parametro == "cpu" && grafico_atual != "cpu") {
