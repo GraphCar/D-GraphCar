@@ -142,7 +142,7 @@
           <div class="page-header flex-wrap">
             <h3 class="mb-0">
               Olá
-              <span id="span_nome_usuario_bem_vindo" style="font-size: inherit"></span>, Bem vindo!
+              <span id="span_nome_usuario_bem_vindo" style="font-size: inherit"></span>, Bem vindo (a)!
             </h3>
             <div class="d-flex">
               <!-- <button type="button" class="btn btn-sm bg-white btn-icon-text border">
@@ -155,26 +155,22 @@
               </button>
             </div>
           </div>
-          <div class="row atualizacao">
-            <label for="refreshInterval">Escolha o intervalo de atualização:</label>
-            <select id="refreshInterval" class="selectAtualizar">
-              <option value="60000">1 minuto</option>
-              <option value="300000">5 minutos</option>
-              <option value="600000">10 minutos</option>
-              <option value="900000">15 minutos</option>
-            </select>
-          </div>
           <div class="row">
             <div class="col-xl-12 stretch-card grid-margin">
               <div class="card">
                 <div class="card-body">
                   <div class="row atualizar">
-                    <div>
+                    <div class="col-sm-5">
                       <span id="lastUpdate"></span>
                       <button class="mdi mdi-replay" id="reloadButton"></button>
                     </div>
-                    <div class="col-sm-5 text-md-right" id="div_total_carros">
-                      Carros monitorados: 0
+                    <div class="col-sm-3">
+                      Modelo: 
+                      <select id="sel_modelo_carro" onchange="carregarDados();">
+                      </select>
+                    </div>
+                    <div class="col-sm-4 text-md-right" id="div_total_carros">
+                      Carros monitorados: <span id="span_total_carros">0</span>
                     </div>
                     <!-- <div class="col-sm-5 text-md-right">
                         <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
@@ -221,7 +217,7 @@
                       </div>
                     </div>
                     <div class="col-sm-4">
-                      <div class="card mb-3 mb-sm-0" id="div_card_gpu" onclick="mudarDadosGrafico('ram')"
+                      <div class="card mb-3 mb-sm-0" id="div_card_gpu" onclick="mudarDadosGrafico('gpu')"
                         style="cursor: pointer">
                         <div class="card-body py-3 px-4">
                           <p class="m-0 survey-head">Ocorrências com GPU</p>
@@ -321,6 +317,15 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="row atualizacao">
+            <label for="refreshInterval">Escolha o intervalo de atualização:</label>
+            <select id="refreshInterval" class="selectAtualizar">
+              <option value="60000">1 minuto</option>
+              <option value="300000">5 minutos</option>
+              <option value="600000">10 minutos</option>
+              <option value="900000">15 minutos</option>
+            </select>
           </div>
         </div>
         <!-- <div class="row">
