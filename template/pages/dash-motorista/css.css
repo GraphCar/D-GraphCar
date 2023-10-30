@@ -900,5 +900,10 @@ justify-content: space-evenly;
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 1%;  
+  }
+
+.table-cell2 h2{
+  font-size: 24px;
+  color: #00000091;
+  margin-left: 23%;
 }
