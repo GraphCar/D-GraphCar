@@ -294,7 +294,7 @@ font-family: sans-serif;
 }
 h1{
   font-size: 19px;
-  color: rgb(99 99 99);
+  color: rgb(230, 230, 230);
 }
 
 .area{
@@ -750,10 +750,7 @@ body{
 /* background-color: #333; */
 font-family: sans-serif;
 }
-h1{
-font-size: 19px;
-color: rgb(99 99 99);
-}
+
 
 .area{
 display: flex;
