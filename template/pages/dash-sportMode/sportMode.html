@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,32 +9,53 @@
 </head>
 <header>
     <div class="modo">
-    <input class="tgl tgl-ios" id="cb2" type="checkbox"/>
-    <label class="tgl-btn" for="cb2"></label>
-    <h2>Modo sport</h2>
+        <input class="tgl tgl-ios" id="cb2" type="checkbox" />
+        <label class="tgl-btn" for="cb2"></label>
+        <h2>Modo sport</h2>
     </div>
     <div class="logo">
-        <img src="tesla_logo_icon_181279.png" alt="" width="50px">
+        <img src="../../../../assets/img/tesla_logo_icon_181279.png" alt="" width="50px">
     </div>
     <div class="hora">
         <span id="hora" class="hora"></span>
-    </div> 
+    </div>
 </header>
-<body>
 
+<body onload="horario()">
+    <div class="divEsquerda">
+        Telemetria:
+        <div class="divResumo">
+            <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgResumo">
+            Baixo
+            <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgResumo">
+            Alto
+            <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgResumo">
+            Médio
+        </div>
+        <div class="divTeslaTelemetria">
+            <div class="divRodaDianteiraEsquerda">teste</div>
+            <!-- <img src="../../../../assets/img/teslaTelemetria.png" alt="" id="imgTelemetria"> -->
+            <div class="divRodaDianteiraDireita">teste</div>
+        </div>
+    </div>
 </body>
+
 </html>
 
-<script src="tela.js" ></script>
+<script src="tela.js"></script>
 
 <script>
 
-var tempo = new Date();
+    function horario() {
 
-document.getElementById("hora").innerHTML = `${tempo.getHours()}:${tempo.getMinutes()}`;
+        var tempo = new Date();
 
-if (tempo.getMinutes() < 10){
-    document.getElementById("hora").innerHTML = `${tempo.getHours()}:0${tempo.getMinutes()}`;
-}
+        document.getElementById("hora").innerHTML = `${tempo.getHours()}:${tempo.getMinutes()}`;
+
+        if (tempo.getMinutes() < 10) {
+            document.getElementById("hora").innerHTML = `${tempo.getHours()}:0${tempo.getMinutes()}`;
+        }
+    }
+    setInterval(horario, 10000)
 
 </script>

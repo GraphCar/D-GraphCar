@@ -33,7 +33,7 @@ li {
 }
 
 h2 {
-    color: #777;
+    color: #000000;
 }
 
 h4 {
@@ -297,4 +297,51 @@ h4 {
 .nome-usuario{
     margin-left: 5%;
     margin: 44px 69px;
+}
+
+.divEsquerda{
+    display: flex;
+    padding-top: 30px;
+    font-size: 24px;
+    width: 35%;
+    height: 644px;
+    border-right: solid 2px red;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.divResumo{
+    display: flex;
+    margin: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 15px;
+    width: 100%;
+}
+
+.imgResumo{
+    display: flex;
+    width: 35px;
+    margin-right: -60px;
+
+}
+
+.divTeslaTelemetria{
+    background-image: url(../../../../assets/img/teslaTelemetria.png);
+    background-size: 176px;
+    height: 500px;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#imgTelemetria{
+    display: flex;
+    width: 50%;
+    margin: 50px;
+    margin-left: -100px;
+    margin-right: -100px;
 }
