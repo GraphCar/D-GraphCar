@@ -304,7 +304,7 @@ h4 {
     padding-top: 30px;
     font-size: 24px;
     width: 35%;
-    height: 644px;
+    height: 614px;
     border-right: solid 2px red;
     align-items: center;
     justify-content: center;
@@ -319,6 +319,7 @@ h4 {
     justify-content: space-evenly;
     font-size: 15px;
     width: 100%;
+    margin-bottom: -20px;
 }
 
 .imgResumo{
@@ -331,11 +332,31 @@ h4 {
 .divTeslaTelemetria{
     background-image: url(../../../../assets/img/teslaTelemetria.png);
     background-size: 176px;
+    background-position: center;
     height: 500px;
     background-repeat: no-repeat;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
+}
+
+.divDianteira{
+    display: flex;
+    width: 340px;
+    flex-direction: row;
+    margin-top: 70px;
+    margin-bottom: 50px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.divTraseira{
+    display: flex;
+    flex-direction: row;
+    width: 340px;
+    margin-top: 40px;
+    align-items: center;
+    justify-content: space-between;
 }
 
 #imgTelemetria{
@@ -344,4 +365,60 @@ h4 {
     margin: 50px;
     margin-left: -100px;
     margin-right: -100px;
+}
+
+.imgTelemetriaComponente{
+    display: flex;
+    width: 30px;
+
+}
+
+.divRodaDianteiraEsquerda{
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    gap:10px; 
+}
+
+.divRodaTraseiraEsquerda{
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    gap:10px;   
+}
+
+.divRodaDianteiraDireita{
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    gap:10px; 
+}
+.divRodaTraseiraDireita{
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    gap:10px; 
+}
+.divSup{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+.divLegenda{
+    display: flex;
+    width : 100%;
+    padding-top: 10px;
+    padding-bottom: 10px ;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 15px;
+    width: 100%;
+    border-top: solid 2px red;
 }
