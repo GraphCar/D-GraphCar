@@ -271,20 +271,24 @@ h4 {
 	}
 }
 
+.graficos{
+    display: flex;
+    justify-content: space-around;
+}
+
 .modo{
     display: flex;
 	min-height: 100%;
 	flex-direction: row;
     align-items: center;
-    width: 45%;
+    width: 47%;
     margin-left: 1%;
 }
 
 .hora{
     font-size: 24px;
     width: 5%;
-    margin-left: 25%;
-}
+    margin-left: 23%;}
 
 .logo{
     width: 20%;
@@ -297,6 +301,37 @@ h4 {
 .nome-usuario{
     margin-left: 5%;
     margin: 44px 69px;
+    font-size: 20px;
+
+}
+
+.numeros{
+    fill:#87959f;
+    font-family:"Open Sans", sans-serif;
+    font-weight:400;
+    font-size:14px;
+    cursor:default;
+}
+
+.box-alerta{
+    border: solid red 2px;
+    border-radius: 50px;
+    width: 480px;
+    height: 146px;
+    margin-top: 30%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.box-alerta h1 {
+    color: rgba(0, 0, 0, 0.349);
+    font-size: 17px;
+    margin: 25px 33px;
+}
+
+.box-alerta h3 {
+    color: rgb(0, 0, 0);
+    font-size: 19px;
+    margin: 25px 33px;
 }
 
 /* graficos */
@@ -376,7 +411,7 @@ h4 {
   .gauge .dxg-value-indicator .dxg-spindle-hole {
     fill: #26323a;
   }
-  #indicator {
+  #indicator-Temperatura-Gpu {
     -ms-transform-origin: 50% 65.9%;
     -moz-transform-origin: 50% 65.9%;
     -webkit-transform-origin: 50% 65.9%;
@@ -387,6 +422,80 @@ h4 {
     transform: rotate(-90deg);
   }
 
-  .container{
-    margin-left: 5%;
+  #indicator-Temperatura-Cpu {
+    -ms-transform-origin: 50% 65.9%;
+    -moz-transform-origin: 50% 65.9%;
+    -webkit-transform-origin: 50% 65.9%;
+    -o-transform-origin: 50% 65.9%;
+    transform-origin: 50% 65.9%;
+    -webkit-transition: all .5s;
+    transition: all 1s;
+    transform: rotate(-90deg);
   }
+
+  #indicatorGpu {
+    -ms-transform-origin: 50% 65.9%;
+    -moz-transform-origin: 50% 65.9%;
+    -webkit-transform-origin: 50% 65.9%;
+    -o-transform-origin: 50% 65.9%;
+    transform-origin: 50% 65.9%;
+    -webkit-transition: all .5s;
+    transition: all 1s;
+    transform: rotate(-90deg);
+  }
+
+  #indicatorCpu {
+    -ms-transform-origin: 50% 65.9%;
+    -moz-transform-origin: 50% 65.9%;
+    -webkit-transform-origin: 50% 65.9%;
+    -o-transform-origin: 50% 65.9%;
+    transform-origin: 50% 65.9%;
+    -webkit-transition: all .5s;
+    transition: all 1s;
+    transform: rotate(-90deg);
+  }
+
+  /* bateria */
+    
+  #batBody {
+    float: left;
+    width: 200px;
+    height: 75px;
+    border: 5px #111 solid;
+    border-radius: 8px;
+}
+
+
+.batEnd {
+    float: left;
+    height: 95px;
+    width: 15px;
+}
+
+.batEnd div {
+    width: 10px;
+    height: 25px;
+    margin-top: 30px;
+    margin-left: 5px;
+    background-color: #111;
+    border-radius: 0px 30px 30px 0px;
+}
+
+#porcentagem {
+    height: 90%;
+    width: 50%;
+    margin: 3.3px;
+    border-radius: 4px;
+}
+
+#porcentagem.charging {
+    background-color: #4EC259;
+}
+
+#porcentagem.notCharging {
+    background-color: #f60000;
+}
+
+.bateria{
+    margin-left: 25%;
+}
