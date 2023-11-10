@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Motorista</title>
     <link rel="stylesheet" href="tela_nova.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 </head>
 <header>
     <div class="modo">
@@ -20,7 +23,7 @@
     </div>  
 </header>
 
-<body onload="exibirCPU(), horario(), exibirGPU(), exibirCPU2()">
+<body onload="exibirCPU(), horario(), exibirGPU(),exibirBateria()">
     <h4 id="span_nome_usuario_bem_vindo" class="nome-usuario">
         Olá, Barbara Oliveira !!!
     </h4> 
@@ -28,7 +31,7 @@
     <div class="graficos">
     <div>
     <!-- grafico 1 -->
-    <div class="container pt-5">
+    <div class="container pt-5" id="exibirAlerta">
         <div class="row justify-content-center">
           <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
             <div>
@@ -132,7 +135,13 @@
           </linearGradient>
         </defs>
       </svg>
-
+      <div id="alerta" class="alerta">
+        <div class="conteudo-alerta">
+            <h1>Histórico de temperatura da CPU</h1>
+            <span class="closebtn" id="fecharAlerta">&times;</span>
+            <div id="chart"></div>
+        </div>
+    </div>
       <!-- grafico 2 -->
 
       <div class="container pt-5">
@@ -244,18 +253,30 @@
 
     <div>
         <div class="bateria">
-            <div id="batBody">
-                <div id="indicator">     
+          <div class="battery__card">
+            <div class="battery__data">
+                <p class="battery__text">Battery</p>
+                <h1 id="batteryPercentage" class="battery__percentage">
+                  20%
+                </h1>
+
+                <p class="battery__status">
+                    Low battery <i class="ri-plug-line"></i>
+                </p>
+            </div>
+
+            <div class="battery__pill">
+                <div class="battery__level">
+                    <div class="battery__liquid"></div>
                 </div>
             </div>
-            <div class="batEnd">
-                <div></div>
-            </div>
+        </div>
         </div>
 
         <div class="box-alerta">
             <h1>Alertas</h1>
-            <h3>Assuma o controle do volante 🚨</h3>
+            <h3>Nenhum alerta</h3>
+            <!-- <h3>Assuma o controle do volante 🚨</h3> -->
         </div>
         
     </div>
@@ -439,7 +460,7 @@
                       <g class="dxg-title"></g>
                     </g>
                   </g>
-                  <g id="indicator-Temperatura-Gpu" class="dxg-value-indicator">
+                  <g id="indicator_GPU" class="dxg-value-indicator">
                     <path d="M 150 45 L147 145 L153 145 Z" fill="#2c3e50" transform="translate(0,0)"></path>
                     <!-- <circle cx="150" cy="145" r="7" class="dxg-spindle-border"></circle> -->
                     <!-- <circle cx="150" cy="145" r="5" class="dxg-spindle-hole" fill="#ffffff"></circle> -->
@@ -451,7 +472,7 @@
                       style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
                     GPU
                     </text>
-                    <text id="value-temperatura-gpu" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
+                    <text id="value_GPU" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>
                     </text>
                   </g>
