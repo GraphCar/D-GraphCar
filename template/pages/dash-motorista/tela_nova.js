@@ -23,7 +23,7 @@ function exibirCPU() {
         console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
       });
     return false;
-} 
+} setInterval(exibirCPU,7000)
 
 function temperaturaCPU(taxaTemperaturaCPU) {
   var degrees = rateToDegrees(taxaTemperaturaCPU);
@@ -37,7 +37,7 @@ function temperaturaCPU(taxaTemperaturaCPU) {
   frame3 = frame1 * 1.2;
     CPU(frame3);
 
-} setInterval(exibirCPU, 1000);
+} 
 
 function rateToDegrees(taxaTemperaturaCPU) {
     var degrees = taxaTemperaturaCPU * 180 / 100 - 90;
@@ -71,7 +71,7 @@ function exibirGPU() {
         );
       });
     return false;
-  }
+  } 
 
 function temperaturaGPU(taxaTemperaturaGPU) {
   var degrees = rateToDegrees(taxaTemperaturaGPU);
@@ -84,7 +84,7 @@ function temperaturaGPU(taxaTemperaturaGPU) {
     GPU(frame4);
   
   valueTextGpu.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
-} setInterval(temperaturaGPU, 1000);
+} 
 
 function rateToDegrees(taxaTemperaturaGPU) {
     var degrees = taxaTemperaturaGPU * 180 / 100 - 90;
@@ -105,7 +105,7 @@ function CPU(taxaCPU) {
   
   valueTextCpu.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
 
-} setInterval(CPU, 1000);
+} 
 
 function rateToDegrees(taxaCPU) {
     var degrees = taxaCPU * 180 / 100 - 90;
@@ -125,7 +125,7 @@ function GPU(taxaGPU) {
   var formattedRate = parseFloat(frame4).toFixed(1);
   
   valueText_GPU.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
-} setInterval(GPU, 1000);
+} 
 
 function rateToDegrees(taxaGPU) {
     var degrees = taxaGPU * 180 / 100 - 90;
@@ -143,8 +143,8 @@ function exibirBateria() {
         response.json().then(function (resposta) {
           console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
           arrayTablet = resposta;
-          
-          batteryPercentage = arrayTablet[0].bateriaNivel.toString().slice(0, 2)
+
+          batteryPercentage = arrayTablet[0].bateriaNivel.toString().slice(0, 3)
           initBattery(batteryPercentage)
 
         });
@@ -156,9 +156,7 @@ function exibirBateria() {
       console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
     });
   return false;
-} 
-
-initBattery()
+}
 
 function initBattery(){
     const batteryLiquid = document.querySelector('.battery__liquid'),
@@ -200,7 +198,7 @@ function initBattery(){
                 batteryLiquid.classList.add('gradient-color-green')
                 batteryLiquid.classList.remove('gradient-color-red','gradient-color-orange','gradient-color-yellow')
             }
-        } setInterval(initBattery,10000)
+        } 
 // alertas
 
 // grafico
@@ -217,46 +215,105 @@ fecharAlerta.addEventListener('click', () => {
     alerta.style.display = 'none';
 });
 
-// Gráfico
-var options = {
+// Gráfico temperatura cpu
+
+//  dados
+var dadosDahTemperaturaCPU = [];
+var chart;  
+
+function dadosDahTemperaturaCpu() {
+  fetch(`/tablet/dadosDahTemperaturaCpu`)
+    .then(function (response) {
+      console.log(response)
+      if (response.ok) {
+        response.json().then(function (resposta) {
+          console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+          dadosDahTemperaturaCPU = resposta;
+
+          var valores_cpu = dadosDahTemperaturaCPU.map(function (dado) {
+            return parseFloat(dado.cpuUso);
+          }).reverse(); 
+
+          chart.updateSeries([{ data: valores_cpu }]);
+        });
+      } else {
+        console.error("Nenhum dado encontrado ou erro na API");
+      }
+    })
+    .catch(function (error) {
+      console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
+    });
+  return false;
+}
+
+// data
+
+function dataDashTemperaturaCpu() {
+  fetch(`/tablet/dataDashTemperaturaCpu`)
+    .then(function (response) {
+      console.log(response)
+      if (response.ok) {
+        response.json().then(function (resposta) {
+          console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+          datasDashTemperaturaCPU = resposta;
+
+          var datas_cpu = datasDashTemperaturaCPU.map(function (data) {
+            return data.hora; 
+          }).reverse();
+
+          chart.updateOptions({
+            xaxis: {
+              categories: datas_cpu
+            }
+          });
+        });
+      } else {
+        console.error("Nenhum dado encontrado ou erro na API");
+      }
+    })
+    .catch(function (error) {
+      console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
+    });
+  return false;
+}
+
+// plotar grafico
+
+function criarGrafico() {
+  var options = {
     chart: {
-        height: 390,
-        width: 800,
-        type: "area"
+      height: 380,
+      width: 800,
+      type: "area"
     },
     dataLabels: {
-        enabled: false
+      enabled: false
     },
     series: [
-        {
-            name: "Series 1",
-            data: [45, 52, 38, 45, 19, 23, 2]
-        }
+      {
+        name: "Series 1",
+        data: []
+      }
     ],
     fill: {
-        type: "gradient",
-        gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
-            stops: [0, 90, 100]
-        }
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.7,
+        opacityTo: 0.9,
+        stops: [0, 90, 100]
+      }
     },
     xaxis: {
-        categories: [
-            "01 Jan",
-            "02 Jan",
-            "03 Jan",
-            "04 Jan",
-            "05 Jan",
-            "06 Jan",
-            "07 Jan"
-        ]
+      categories: []
     }
-};
+  };
 
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-chart.render();
+  chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
+}
 
+criarGrafico();
 
-
+setInterval(dadosDahTemperaturaCpu, 1000);
+setInterval(dataDashTemperaturaCpu, 1000);
