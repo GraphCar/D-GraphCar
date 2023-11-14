@@ -10,7 +10,7 @@
 </head>
 <header>
     <div class="modo">
-        <input class="tgl tgl-ios" id="cb2" type="checkbox" />
+        <input class="tgl tgl-ios" id="cb2" type="checkbox" onclick="verifyCheckbox()" checked />
         <label class="tgl-btn" for="cb2"></label>
         <h2>Modo sport</h2>
     </div>
@@ -22,7 +22,7 @@
     </div>
 </header>
 
-<body onload="horario()">
+<body onload="horario() , exibirBateria() , initBattery()">
     <div class="divTotal">
         <div class="divEsquerda">
             Telemetria:
@@ -113,6 +113,25 @@
                     Média de gasto:(Mhz) <br>
                     XXXXXX
                 </div>
+                <div class="bateria">
+                    <div class="battery__card">
+                      <div class="battery__data">
+                          <p class="battery__text">Battery</p>
+                          <h1 id="batteryPercentage" class="battery__percentage">
+                            20%
+                          </h1>
+          
+                          <p class="battery__status">
+                              Low battery <i class="ri-plug-line"></i>
+                          </p>
+                      </div>
+          
+                      <div class="battery__pill">
+                          <div class="battery__level">
+                              <div class="battery__liquid"></div>
+                          </div>
+                      </div>
+                  </div>
                 <div class="divKpi">
                     Lap <br>
                     Volta: 2:34:31 Votla<br>
@@ -143,4 +162,78 @@
     }
     setInterval(horario, 10000)
 
+
+    var arrayTablet = []; 
+
+function exibirBateria() {
+  fetch(`/tablet/exibirBateria`)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (resposta) {
+          console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+          arrayTablet = resposta;
+
+          batteryPercentage = arrayTablet[0].bateriaNivel.toString().slice(0, 3)
+          initBattery(batteryPercentage)
+
+        });
+      } else {
+        console.error("Nenhum dado encontrado ou erro na API");
+      }
+    })
+    .catch(function (error) {
+      console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
+    });
+  return false;
+}
+
+function initBattery(){
+    const batteryLiquid = document.querySelector('.battery__liquid'),
+          batteryStatus = document.querySelector('.battery__status'),
+          batteryHTML = document.querySelector('#batteryPercentage')
+
+          let level = Math.floor(batteryPercentage)
+          batteryHTML.innerHTML = level + '%'
+
+            batteryLiquid.style.height = `${parseInt(batteryPercentage )}%`
+
+            if(batteryPercentage == 100){ 
+                batteryStatus.innerHTML = `Full battery <i class="ri-battery-2-fill green-color"></i>`
+                batteryLiquid.style.height = '103%' 
+            }
+            else if(batteryPercentage <= 20 &! batteryPercentage.charging){ 
+                batteryStatus.innerHTML = `Low battery <i class="ri-plug-line animated-red"></i>`
+            }
+            else if(batteryPercentage.charging){ 
+                batteryStatus.innerHTML = `Charging... <i class="ri-flashlight-line animated-green"></i>`
+            }
+            else{
+                batteryStatus.innerHTML = ''
+            }
+            
+            if(batteryPercentage <=20){
+                batteryLiquid.classList.add('gradient-color-red')
+                batteryLiquid.classList.remove('gradient-color-orange','gradient-color-yellow','gradient-color-green')
+            }
+            else if(batteryPercentage <= 40){
+                batteryLiquid.classList.add('gradient-color-orange')
+                batteryLiquid.classList.remove('gradient-color-red','gradient-color-yellow','gradient-color-green')
+            }
+            else if(batteryPercentage <= 80){
+                batteryLiquid.classList.add('gradient-color-yellow')
+                batteryLiquid.classList.remove('gradient-color-red','gradient-color-orange','gradient-color-green')
+            }
+            else{
+                batteryLiquid.classList.add('gradient-color-green')
+                batteryLiquid.classList.remove('gradient-color-red','gradient-color-orange','gradient-color-yellow')
+            }
+        } 
+
+        function verifyCheckbox() {
+            if (cb2.checked) {
+                window.location.href = "../dash-sportMode/sportMode.html";
+            } else {
+                window.location.href = "../dash-motorista/tela_nova.html";
+            }
+        }
 </script>
