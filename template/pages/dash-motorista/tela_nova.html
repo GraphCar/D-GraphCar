@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Motorista</title>
     <link rel="stylesheet" href="tela_nova.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 </head>
 <header>
     <div class="modo">
@@ -20,13 +23,388 @@
     </div>  
 </header>
 
-<body onload="exibirCPU()">
+<body onload="exibirCPU(), horario(), exibirGPU(),exibirBateria(),initBattery(),dadosDahTemperaturaCpu(),dataDashTemperaturaCpu(),dadosDahTemperaturaGpu()">
     <h4 id="span_nome_usuario_bem_vindo" class="nome-usuario">
-        <b>Olá, Barbara Oliveira !!!</b>
+        Olá, Barbara Oliveira !!!
     </h4> 
-    
 
-    <div class="container pt-5">
+    <div class="graficos">
+    <div>
+    <!-- grafico 1 -->
+    <div class="container pt-5" id="exibirAlertaCPU">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
+            <div>
+              <div data-value="15" class="gauge">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" fill="none"
+                  stroke="none" stroke-width="0" class="dxg dxg-circular-gauge"
+                  style="line-height:normal;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);display:block;overflow:hidden;"
+                  width="300" height="220" direction="ltr">
+                  <defs>
+                    <filter id="DevExpress_1" x="-50%" y="-50%" width="200%" height="200%" transform="translate(0,0)">
+                      <feGaussianBlur in="SourceGraphic" result="gaussianBlurResult" stdDeviation="3"></feGaussianBlur>
+                      <feOffset in="gaussianBlurResult" result="offsetResult" dx="2" dy="6"></feOffset>
+                      <feFlood result="floodResult" flood-color="" flood-opacity="0.8"></feFlood>
+                      <feComposite in="floodResult" in2="offsetResult" operator="in" result="compositeResult"></feComposite>
+                      <feComposite in="SourceGraphic" in2="compositeResult" operator="over"></feComposite>
+                    </filter>
+                    <clipPath id="DevExpress_3">
+                      <rect x="-39" y="-7" width="78" height="69" transform="translate(0,0)"></rect>
+                    </clipPath>
+                  </defs>
+                  <g class="dxg-range-container">
+                    <path
+                      d="M 269.00000 145.00000 A 119.00000 119.00000 0 1 0 31.00000 145.00000 L 36.00000 145.00000 A 114.00000 114.00000 0 1 1 264.00000 145.00000 Z"
+                      transform="translate(0,0)" stroke-linejoin="round" fill="url(#gradientGauge)"
+                      class="dxg-range dxg-background-range"></path>
+                  </g>
+                  <g class="dxg-scale">
+                    <g class="dxg-axis" transform="translate(36,31)">
+                        <g class="dxg-elements">
+                            <text x="-21" y="117.5" transform="translate(0,0)" class="numeros" text-anchor="middle">0</text>
+                            <text x="-17.119017293312762" y="74.92908363781378" transform="translate(0,0)" class="numeros" text-anchor="middle">10</text>
+                            <text x="1.4376941012509477" y="36.0992613188344" transform="translate(0,0)" class="numeros" text-anchor="middle">20</text>
+                            <text x="32.89315394498065" y="4.437694101250946" transform="translate(0,0)" class="numeros" text-anchor="middle">30</text>
+                            <text x="71.42908363781379" y="-14.119017293312766" transform="translate(0,0)" class="numeros" text-anchor="middle">40</text>
+                            <text x="114" y="-21" transform="translate(0,0)" class="numeros" text-anchor="middle">50</text>
+                            <text x="156.41640786499875" y="-14.119017293312762" transform="translate(0,0)" class="numeros" text-anchor="middle">60</text>
+                            <text x="195.10684605501936" y="4.437694101250946" transform="translate(0,0)" class="numeros" text-anchor="middle">70</text>
+                            <text x="226.56230589874906" y="36.09926131883441" transform="translate(0,0)" class="numeros" text-anchor="middle">80</text>
+                            <text x="245.11901729331277" y="74.92908363781379" transform="translate(0,0)" class="numeros" text-anchor="middle">90</text>
+                            <text x="254" y="117.5" transform="translate(0,0)" class="numeros" text-anchor="middle">100</text>
+                          </g>
+                      <g class="dxg-line">
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-180,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-162,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-144,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-126,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-108,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-90,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-72,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-54,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-36,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-18,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0)" stroke="#ffffff" stroke-width="2"
+                          stroke-opacity="1"></path>
+                      </g>
+                      <g class="dxg-title"></g>
+                    </g>
+                  </g>
+                  <g id="indicator-Temperatura-Cpu" class="dxg-value-indicator">
+                    <path d="M 150 45 L147 145 L153 145 Z" fill="#2c3e50" transform="translate(0,0)"></path>
+                    <!-- <circle cx="150" cy="145" r="7" class="dxg-spindle-border"></circle> -->
+                    <!-- <circle cx="150" cy="145" r="5" class="dxg-spindle-hole" fill="#ffffff"></circle> -->
+                    <circle cx="150" cy="145" r="7" class="dxg-spindle-border" fill="#2c3e50"></circle>
+                    <circle cx="150" cy="145" r="5" class="dxg-spindle-hole" fill="#fff" style="fill: #fff;"></circle>
+                  </g>
+                  <g class="dxg-title" clip-path="url(#DevExpress_3)" transform="translate(150,158)">
+                    <text x="0" y="48" transform="translate(0,0)" text-anchor="middle"
+                      style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
+                      CPU
+                    </text>
+                    <text id="value-temperatura-cpu" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
+                      style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>
+                    </text>
+                  </g>
+                  <g class="dxg-tracker" stroke="none" stroke-width="0" fill="#000000" opacity="0.0001">
+                    <path d="M 140 51 L 140 145 L 160 145 L 160 51 Z" transform="translate(0,0) rotate(-36,150,145)"></path>
+                  </g>
+                </svg>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+      <svg width="0" height="0" version="1.1" class="gradient-mask" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradientGauge">
+            <stop class="color-green" offset="0%" />
+            <stop class="color-yellow" offset="50%" />
+            <stop class="color-red" offset="100%" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div id="alertaCPU" class="alerta">
+        <div class="conteudo-alerta">
+            <h1>Histórico da CPU</h1>
+            <span class="closebtn" id="fecharAlertaCPU">&times;</span>
+            <div id="chart"></div>
+        </div>
+    </div>
+      <!-- grafico 2 -->
+
+      <div class="container pt-5" id="exibirAlertaTemperaturaCPU">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
+            <div>
+              <div data-value="15" class="gauge">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" fill="none"
+                  stroke="none" stroke-width="0" class="dxg dxg-circular-gauge"
+                  style="line-height:normal;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);display:block;overflow:hidden;"
+                  width="300" height="220" direction="ltr">
+                  <defs>
+                    <filter id="DevExpress_1" x="-50%" y="-50%" width="200%" height="200%" transform="translate(0,0)">
+                      <feGaussianBlur in="SourceGraphic" result="gaussianBlurResult" stdDeviation="3"></feGaussianBlur>
+                      <feOffset in="gaussianBlurResult" result="offsetResult" dx="2" dy="6"></feOffset>
+                      <feFlood result="floodResult" flood-color="" flood-opacity="0.8"></feFlood>
+                      <feComposite in="floodResult" in2="offsetResult" operator="in" result="compositeResult"></feComposite>
+                      <feComposite in="SourceGraphic" in2="compositeResult" operator="over"></feComposite>
+                    </filter>
+                    <clipPath id="DevExpress_3">
+                      <rect x="-39" y="-7" width="78" height="69" transform="translate(0,0)"></rect>
+                    </clipPath>
+                  </defs>
+                  <g class="dxg-range-container">
+                    <path
+                      d="M 269.00000 145.00000 A 119.00000 119.00000 0 1 0 31.00000 145.00000 L 36.00000 145.00000 A 114.00000 114.00000 0 1 1 264.00000 145.00000 Z"
+                      transform="translate(0,0)" stroke-linejoin="round" fill="url(#gradientGauge)"
+                      class="dxg-range dxg-background-range"></path>
+                  </g>
+                  <g class="dxg-scale">
+                    <g class="dxg-axis" transform="translate(36,31)">
+                        <g class="dxg-elements">
+                            <text x="-21" y="117.5" transform="translate(0,0)" class="numeros" text-anchor="middle">0</text>
+                            <text x="-17.119017293312762" y="74.92908363781378" transform="translate(0,0)" class="numeros" text-anchor="middle">10</text>
+                            <text x="1.4376941012509477" y="36.0992613188344" transform="translate(0,0)" class="numeros" text-anchor="middle">20</text>
+                            <text x="32.89315394498065" y="4.437694101250946" transform="translate(0,0)" class="numeros" text-anchor="middle">30</text>
+                            <text x="71.42908363781379" y="-14.119017293312766" transform="translate(0,0)" class="numeros" text-anchor="middle">40</text>
+                            <text x="114" y="-21" transform="translate(0,0)" class="numeros" text-anchor="middle">50</text>
+                            <text x="156.41640786499875" y="-14.119017293312762" transform="translate(0,0)" class="numeros" text-anchor="middle">60</text>
+                            <text x="195.10684605501936" y="4.437694101250946" transform="translate(0,0)" class="numeros" text-anchor="middle">70</text>
+                            <text x="226.56230589874906" y="36.09926131883441" transform="translate(0,0)" class="numeros" text-anchor="middle">80</text>
+                            <text x="245.11901729331277" y="74.92908363781379" transform="translate(0,0)" class="numeros" text-anchor="middle">90</text>
+                            <text x="254" y="117.5" transform="translate(0,0)" class="numeros" text-anchor="middle">100</text>
+                          </g>
+                      <g class="dxg-line">
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-180,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-162,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-144,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-126,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-108,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-90,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-72,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-54,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-36,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-18,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0)" stroke="#ffffff" stroke-width="2"
+                          stroke-opacity="1"></path>
+                      </g>
+                      <g class="dxg-title"></g>
+                    </g>
+                  </g>
+                  <g id="indicator-Temperatura-Gpu" class="dxg-value-indicator">
+                    <path d="M 150 45 L147 145 L153 145 Z" fill="#2c3e50" transform="translate(0,0)"></path>
+                    <!-- <circle cx="150" cy="145" r="7" class="dxg-spindle-border"></circle> -->
+                    <!-- <circle cx="150" cy="145" r="5" class="dxg-spindle-hole" fill="#ffffff"></circle> -->
+                    <circle cx="150" cy="145" r="7" class="dxg-spindle-border" fill="#2c3e50"></circle>
+                    <circle cx="150" cy="145" r="5" class="dxg-spindle-hole" fill="#fff" style="fill: #fff;"></circle>
+                  </g>
+                  <g class="dxg-title" clip-path="url(#DevExpress_3)" transform="translate(150,158)">
+                    <text x="0" y="48" transform="translate(0,0)" text-anchor="middle"
+                      style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
+                      Temperatura CPU
+                    </text>
+                    <text id="value-temperatura-gpu" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
+                      style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>
+                    </text>
+                  </g>
+                  <g class="dxg-tracker" stroke="none" stroke-width="0" fill="#000000" opacity="0.0001">
+                    <path d="M 140 51 L 140 145 L 160 145 L 160 51 Z" transform="translate(0,0) rotate(-36,150,145)"></path>
+                  </g>
+                </svg>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+      <svg width="0" height="0" version="1.1" class="gradient-mask" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradientGauge">
+            <stop class="color-green" offset="0%" />
+            <stop class="color-yellow" offset="50%" />
+            <stop class="color-red" offset="100%" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div id="alertaTemperaturaCPU" class="alerta">
+        <div class="conteudo-alerta">
+            <h1>Histórico da Temperatura de CPU</h1>
+            <span class="closebtn" id="fecharAlertaTemperaturaCPU">&times;</span>
+            <div id="chartTemperaturaCPU"></div>
+        </div>
+    </div>
+    </div>
+
+    <div>
+        <div class="bateria">
+          <div class="battery__card">
+            <div class="battery__data">
+                <p class="battery__text">Battery</p>
+                <h1 id="batteryPercentage" class="battery__percentage">
+                  20%
+                </h1>
+
+                <p class="battery__status">
+                    Low battery <i class="ri-plug-line"></i>
+                </p>
+            </div>
+
+            <div class="battery__pill">
+                <div class="battery__level">
+                    <div class="battery__liquid"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="box-alerta">
+            <h1>Alertas</h1>
+            <h3>Nenhum alerta</h3>
+            <!-- <h3>Assuma o controle do volante 🚨</h3> -->
+        </div>
+        
+    </div>
+
+    <!-- grafico 3 -->
+
+    <div>
+    <div class="container" id="exibirAlertaGPU">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
+            <div>
+              <div data-value="15" class="gauge">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" fill="none"
+                  stroke="none" stroke-width="0" class="dxg dxg-circular-gauge"
+                  style="line-height:normal;-ms-user-select:none;-moz-user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);display:block;overflow:hidden;"
+                  width="300" height="220" direction="ltr">
+                  <defs>
+                    <filter id="DevExpress_1" x="-50%" y="-50%" width="200%" height="200%" transform="translate(0,0)">
+                      <feGaussianBlur in="SourceGraphic" result="gaussianBlurResult" stdDeviation="3"></feGaussianBlur>
+                      <feOffset in="gaussianBlurResult" result="offsetResult" dx="2" dy="6"></feOffset>
+                      <feFlood result="floodResult" flood-color="" flood-opacity="0.8"></feFlood>
+                      <feComposite in="floodResult" in2="offsetResult" operator="in" result="compositeResult"></feComposite>
+                      <feComposite in="SourceGraphic" in2="compositeResult" operator="over"></feComposite>
+                    </filter>
+                    <clipPath id="DevExpress_3">
+                      <rect x="-39" y="-7" width="78" height="69" transform="translate(0,0)"></rect>
+                    </clipPath>
+                  </defs>
+                  <g class="dxg-range-container">
+                    <path
+                      d="M 269.00000 145.00000 A 119.00000 119.00000 0 1 0 31.00000 145.00000 L 36.00000 145.00000 A 114.00000 114.00000 0 1 1 264.00000 145.00000 Z"
+                      transform="translate(0,0)" stroke-linejoin="round" fill="url(#gradientGauge)"
+                      class="dxg-range dxg-background-range"></path>
+                  </g>
+                  <g class="dxg-scale">
+                    <g class="dxg-axis" transform="translate(36,31)">
+                        <g class="dxg-elements">
+                            <text x="-21" y="117.5" transform="translate(0,0)" class="numeros" text-anchor="middle">0</text>
+                            <text x="-17.119017293312762" y="74.92908363781378" transform="translate(0,0)" class="numeros" text-anchor="middle">10</text>
+                            <text x="1.4376941012509477" y="36.0992613188344" transform="translate(0,0)" class="numeros" text-anchor="middle">20</text>
+                            <text x="32.89315394498065" y="4.437694101250946" transform="translate(0,0)" class="numeros" text-anchor="middle">30</text>
+                            <text x="71.42908363781379" y="-14.119017293312766" transform="translate(0,0)" class="numeros" text-anchor="middle">40</text>
+                            <text x="114" y="-21" transform="translate(0,0)" class="numeros" text-anchor="middle">50</text>
+                            <text x="156.41640786499875" y="-14.119017293312762" transform="translate(0,0)" class="numeros" text-anchor="middle">60</text>
+                            <text x="195.10684605501936" y="4.437694101250946" transform="translate(0,0)" class="numeros" text-anchor="middle">70</text>
+                            <text x="226.56230589874906" y="36.09926131883441" transform="translate(0,0)" class="numeros" text-anchor="middle">80</text>
+                            <text x="245.11901729331277" y="74.92908363781379" transform="translate(0,0)" class="numeros" text-anchor="middle">90</text>
+                            <text x="254" y="117.5" transform="translate(0,0)" class="numeros" text-anchor="middle">100</text>
+                          </g>
+                      <g class="dxg-line">
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-180,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-162,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-144,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-126,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-108,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-90,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-72,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-54,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-36,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-18,114,114)" stroke="#ffffff"
+                          stroke-width="2" stroke-opacity="1"></path>
+                        <path d="M 228 114 L 236 114" transform="translate(0,0)" stroke="#ffffff" stroke-width="2"
+                          stroke-opacity="1"></path>
+                      </g>
+                      <g class="dxg-title"></g>
+                    </g>
+                  </g>
+                  <g id="indicatorCpu" class="dxg-value-indicator">
+                    <path d="M 150 45 L147 145 L153 145 Z" fill="#2c3e50" transform="translate(0,0)"></path>
+                    <!-- <circle cx="150" cy="145" r="7" class="dxg-spindle-border"></circle> -->
+                    <!-- <circle cx="150" cy="145" r="5" class="dxg-spindle-hole" fill="#ffffff"></circle> -->
+                    <circle cx="150" cy="145" r="7" class="dxg-spindle-border" fill="#2c3e50"></circle>
+                    <circle cx="150" cy="145" r="5" class="dxg-spindle-hole" fill="#fff" style="fill: #fff;"></circle>
+                  </g>
+                  <g class="dxg-title" clip-path="url(#DevExpress_3)" transform="translate(150,158)">
+                    <text x="0" y="48" transform="translate(0,0)" text-anchor="middle"
+                      style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
+                    GPU
+                    </text>
+                    <text id="valueCpu" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
+                      style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>
+                    </text>
+                  </g>
+                  <g class="dxg-tracker" stroke="none" stroke-width="0" fill="#000000" opacity="0.0001">
+                    <path d="M 140 51 L 140 145 L 160 145 L 160 51 Z" transform="translate(0,0) rotate(-36,150,145)"></path>
+                  </g>
+                </svg>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+      <svg width="0" height="0" version="1.1" class="gradient-mask" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradientGauge">
+            <stop class="color-green" offset="0%" />
+            <stop class="color-yellow" offset="50%" />
+            <stop class="color-red" offset="100%" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div id="alertaGPU" class="alerta">
+        <div class="conteudo-alerta">
+            <h1>Histórico da GPU</h1>
+            <span class="closebtn" id="fecharAlertaGPU">&times;</span>
+            <div id="chartGPU"></div>
+        </div>
+    </div>
+
+      <!-- grafico 4 -->
+
+      <div class="container pt-5">
         <div class="row justify-content-center">
           <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
             <div>
@@ -56,61 +434,17 @@
                   <g class="dxg-scale">
                     <g class="dxg-axis" transform="translate(36,31)">
                       <g class="dxg-elements">
-                        <text x="-21" y="117.5" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          0
-                        </text>
-                        <text x="-17.119017293312762" y="74.92908363781378" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          10
-                        </text>
-                        <text x="1.4376941012509477" y="36.0992613188344" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          20
-                        </text>
-                        <text x="32.89315394498065" y="4.437694101250946" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          30
-                        </text>
-                        <text x="71.42908363781379" y="-14.119017293312766" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          40
-                        </text>
-                        <text x="114" y="-21" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          50
-                        </text>
-                        <text x="156.41640786499875" y="-14.119017293312762" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          60
-                        </text>
-                        <text x="195.10684605501936" y="4.437694101250946" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          70
-                        </text>
-                        <text x="226.56230589874906" y="36.09926131883441" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          80
-                        </text>
-                        <text x="245.11901729331277" y="74.92908363781379" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          90
-                        </text>
-                        <text x="254" y="117.5" transform="translate(0,0)"
-                          style='fill:#87959f;font-family:"Open Sans", sans-serif;font-weight:400;font-size:9px;cursor:default;'
-                          text-anchor="middle">
-                          100
-                        </text>
+                        <text x="-21" y="117.5" transform="translate(0,0)" class="numeros" text-anchor="middle">0</text>
+                        <text x="-17.119017293312762" y="74.92908363781378" transform="translate(0,0)" class="numeros" text-anchor="middle">10</text>
+                        <text x="1.4376941012509477" y="36.0992613188344" transform="translate(0,0)" class="numeros" text-anchor="middle">20</text>
+                        <text x="32.89315394498065" y="4.437694101250946" transform="translate(0,0)" class="numeros" text-anchor="middle">30</text>
+                        <text x="71.42908363781379" y="-14.119017293312766" transform="translate(0,0)" class="numeros" text-anchor="middle">40</text>
+                        <text x="114" y="-21" transform="translate(0,0)" class="numeros" text-anchor="middle">50</text>
+                        <text x="156.41640786499875" y="-14.119017293312762" transform="translate(0,0)" class="numeros" text-anchor="middle">60</text>
+                        <text x="195.10684605501936" y="4.437694101250946" transform="translate(0,0)" class="numeros" text-anchor="middle">70</text>
+                        <text x="226.56230589874906" y="36.09926131883441" transform="translate(0,0)" class="numeros" text-anchor="middle">80</text>
+                        <text x="245.11901729331277" y="74.92908363781379" transform="translate(0,0)" class="numeros" text-anchor="middle">90</text>
+                        <text x="254" y="117.5" transform="translate(0,0)" class="numeros" text-anchor="middle">100</text>
                       </g>
                       <g class="dxg-line">
                         <path d="M 228 114 L 236 114" transform="translate(0,0) rotate(-180,114,114)" stroke="#ffffff"
@@ -139,7 +473,7 @@
                       <g class="dxg-title"></g>
                     </g>
                   </g>
-                  <g id="indicator" class="dxg-value-indicator">
+                  <g id="indicator_GPU" class="dxg-value-indicator">
                     <path d="M 150 45 L147 145 L153 145 Z" fill="#2c3e50" transform="translate(0,0)"></path>
                     <!-- <circle cx="150" cy="145" r="7" class="dxg-spindle-border"></circle> -->
                     <!-- <circle cx="150" cy="145" r="5" class="dxg-spindle-hole" fill="#ffffff"></circle> -->
@@ -149,30 +483,16 @@
                   <g class="dxg-title" clip-path="url(#DevExpress_3)" transform="translate(150,158)">
                     <text x="0" y="48" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
-                      Temperatura CPU
+                    Temperatura GPU
                     </text>
-                    <text id="value-text" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
+                    <text id="value_GPU" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>
-                      0ºC
                     </text>
                   </g>
                   <g class="dxg-tracker" stroke="none" stroke-width="0" fill="#000000" opacity="0.0001">
                     <path d="M 140 51 L 140 145 L 160 145 L 160 51 Z" transform="translate(0,0) rotate(-36,150,145)"></path>
                   </g>
                 </svg>
-              </div>
-              <div class="d-flex flex-row justify-content-between">
-                <button class="btn btn-info" id="random">
-                  Random value
-                </button>
-                <form id="value-form" class="form-inline">
-                  <div class="form-group mx-3">
-                    <label for="value-input" class="sr-only">value</label>
-                    <input type="number" min="0" max="100" class="form-control" id="value-input" placeholder="value"
-                      required />
-                  </div>
-                  <button type="submit" class="btn btn-info ">Update</button>
-                </form>
               </div>
     
             </div>
@@ -188,12 +508,19 @@
           </linearGradient>
         </defs>
       </svg>
+
+    </div>
+</div>
+</div>
+
 </body>
 </html>
 
-<script src="tela.js" ></script>
+<script src="tela_nova.js" ></script>
 
 <script>
+
+function horario(){
 
 var tempo = new Date();
 
@@ -203,6 +530,8 @@ if(tempo.getMinutes() < 10){
     document.getElementById("hora").innerHTML = `${tempo.getHours()}:0${tempo.getMinutes()}`;
 }
 
-
+} setInterval(horario,10000)
 
 </script>
+
+
