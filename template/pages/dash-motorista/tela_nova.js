@@ -34,7 +34,28 @@ function temperaturaCPU(taxaTemperaturaCPU) {
   
   valueText.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
 
-  frame3 = frame1 * 1.3;
+  frame3 = frame1 * 4;
+
+  var divElement = document.getElementById('exibirAlertaDados');
+
+    if (frame3 > 60) {
+   
+      void divElement.offsetWidth;
+  
+      divElement.classList.add('pulsar');
+  
+      divElement.querySelector('h3').textContent = 'Assuma o controle do volante 🚨';
+
+      divElement.style.animation = 'pulse 4s infinite'
+    
+    } else{
+
+      divElement.style.animation = 'none'
+
+      divElement.querySelector('h3').textContent = 'Nenhum alerta';
+
+    }
+
     CPU(frame3);
 
 } 
@@ -94,7 +115,7 @@ function temperaturaGPU(taxaTemperaturaGPU) {
 
   var formattedRate = parseFloat(frame2).toFixed(1);
 
-  frame4 = frame2 * 0.9;
+  frame4 = frame2 * 1.3;
     GPU(frame4);
   
   valueTextGpu.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
@@ -250,7 +271,7 @@ function dadosDahTemperaturaCpu() {
           chart.updateSeries([{ data: valores_cpu }]);
 
           var valores_gpu = dadosDahTemperaturaCPU.map(function (dadoGPU) {
-            return parseFloat(((dadoGPU.cpuUso) * 1.3) - 2.0).toFixed(1);
+            return parseFloat((dadoGPU.cpuUso) * 4).toFixed(1);
           }).reverse(); 
 
           chartGPU.updateSeries([{ data: valores_gpu }]);
@@ -439,7 +460,7 @@ function dadosDahTemperaturaGpu() {
           chartTemperaturaCPU.updateSeries([{ data: valores_Temperatura_cpu }]);
 
           var valores_Temperatura_GPU = dadosTemperaturaGpu.map(function (dado3) {
-            return parseFloat(((dado3.memoria) * 0.6) * 0.9).toFixed(1);
+            return parseFloat(((dado3.memoria) * 0.6) * 1.3).toFixed(1);
           }).reverse(); 
 
         chartTemperaturaGPU.updateSeries([{ data: valores_Temperatura_GPU }]);
@@ -546,11 +567,3 @@ criarGraficoTemperaturaGPU();
 
 
 // alertas
-
-const exibirAlerta = document.getElementById('exibirAlerta');
-
-if(frame1 > 75){
-  exibirAlertaTemperaturaGPU.addEventListener('click', () => {
-    alertaTemperaturaGPU.style.display = 'block';
-});
-}

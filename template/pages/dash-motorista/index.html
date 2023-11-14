@@ -1,141 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alerta</title>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerta</title>
+  <style>
+    /* Adiciona uma animação chamada "pulse" */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
 
-
-    <style>
-        .alerta {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .conteudo-alerta {
-            background-color: #fff;
-            margin: 6% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 60%;
-            height: 70%;
-        }
-
-        .btn {
-            background-color: #008CBA;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: background-color 0.3s;
-        }
-
-        .closebtn {
-            position: absolute;
-            top: 5px;
-            right: 15px;
-            color: white;
-            font-size: 28px;
-            margin-right: 79%;
-            cursor: pointer;
-            margin-top: 4.5%;
-            background-color: black;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            padding: 1%;
-        }
-
-        .conteudo-alerta h1 {
-            margin-left: 3%;
-        }
-
-        #chart {
-            max-width: 817px;            
-            margin: 35px auto;
-        }
-    </style>
+    /* Aplica a animação à div com o id "exibirAlerta" */
+    #exibirAlerta {
+      animation: pulse 3s infinite; /* 1s de duração, infinitamente repetida */
+    }
+  </style>
 </head>
 <body>
-    <button id="exibirAlerta" class="btn">Exibir Alerta</button>
-    <div id="alerta" class="alerta">
-        <div class="conteudo-alerta">
-            <h1>Histórico de CPU</h1>
-            <span class="closebtn" id="fecharAlerta">&times;</span>
-            <div id="chart"></div>
-        </div>
-    </div>
 
-    <script>
-        const exibirAlerta = document.getElementById('exibirAlerta');
-        const alerta = document.getElementById('alerta');
-        const fecharAlerta = document.getElementById('fecharAlerta');
+<!-- Adiciona a classe "pulsar" à div para a animação inicial -->
+<div id="exibirAlerta" class="pulsar">
+  <h2>Mensagem Padrão</h2>
+</div>
 
-        exibirAlerta.addEventListener('click', () => {
-            alerta.style.display = 'block';
-        });
+<script>
+  // Substitua o valor da variável frame1 com o valor real
+  var frame1 = 85;
 
-        fecharAlerta.addEventListener('click', () => {
-            alerta.style.display = 'none';
-        });
+  // Verifica se o valor do frame1 é maior que 80
+  if (frame1 > 80) {
+    // Obtém a referência da <div> com o id "exibirAlerta"
+    var divElement = document.getElementById('exibirAlerta');
 
-        // Gráfico
-        var options = {
-            chart: {
-                height: 390,
-                width: 800,
-                type: "area"
-            },
-            dataLabels: {
-                enabled: false
-            },
-            series: [
-                {
-                    name: "Series 1",
-                    data: [45, 52, 38, 45, 19, 23, 2]
-                }
-            ],
-            fill: {
-                type: "gradient",
-                gradient: {
-                    shadeIntensity: 1,
-                    opacityFrom: 0.7,
-                    opacityTo: 0.9,
-                    stops: [0, 90, 100]
-                }
-            },
-            xaxis: {
-                categories: [
-                    "01 Jan",
-                    "02 Jan",
-                    "03 Jan",
-                    "04 Jan",
-                    "05 Jan",
-                    "06 Jan",
-                    "07 Jan"
-                ]
-            }
-        };
+    // Remove a classe "pulsar" para reiniciar a animação
+    divElement.classList.remove('pulsar');
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
-    </script>
+    // Força o navegador a recalcular as propriedades de estilo, ativando a animação novamente
+    void divElement.offsetWidth;
+
+    // Adiciona a classe "pulsar" para reiniciar a animação
+    divElement.classList.add('pulsar');
+
+    // Altera o conteúdo da <h2> para "Assuma o controle do volante"
+    divElement.querySelector('h2').textContent = 'Assuma o controle do volante';
+  }
+</script>
+
 </body>
 </html>
