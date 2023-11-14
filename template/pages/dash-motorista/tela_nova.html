@@ -404,7 +404,7 @@
 
       <!-- grafico 4 -->
 
-      <div class="container pt-5">
+      <div class="container pt-5" id="exibirAlertaTemperaturaGPU">
         <div class="row justify-content-center">
           <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
             <div>
@@ -508,6 +508,13 @@
           </linearGradient>
         </defs>
       </svg>
+      <div id="alertaTemperaturaGPU" class="alerta">
+        <div class="conteudo-alerta">
+            <h1>Histórico temperatura da GPU</h1>
+            <span class="closebtn" id="fecharAlertaTemperaturaGPU">&times;</span>
+            <div id="chartTemperaturaGPU"></div>
+        </div>
+    </div>
 
     </div>
 </div>
