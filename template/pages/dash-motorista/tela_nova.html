@@ -23,7 +23,7 @@
     </div>  
 </header>
 
-<body onload="exibirCPU(), horario(), exibirGPU(),exibirBateria(),initBattery(),dadosDahTemperaturaCpu(),dataDashTemperaturaCpu()">
+<body onload="exibirCPU(), horario(), exibirGPU(),exibirBateria(),initBattery(),dadosDahTemperaturaCpu(),dataDashTemperaturaCpu(),dadosDahTemperaturaGpu()">
     <h4 id="span_nome_usuario_bem_vindo" class="nome-usuario">
         Olá, Barbara Oliveira !!!
     </h4> 
@@ -31,7 +31,7 @@
     <div class="graficos">
     <div>
     <!-- grafico 1 -->
-    <div class="container pt-5" id="exibirAlerta">
+    <div class="container pt-5" id="exibirAlertaCPU">
         <div class="row justify-content-center">
           <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
             <div>
@@ -110,7 +110,7 @@
                   <g class="dxg-title" clip-path="url(#DevExpress_3)" transform="translate(150,158)">
                     <text x="0" y="48" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
-                      Temperatura CPU
+                      CPU
                     </text>
                     <text id="value-temperatura-cpu" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>
@@ -135,16 +135,16 @@
           </linearGradient>
         </defs>
       </svg>
-      <div id="alerta" class="alerta">
+      <div id="alertaCPU" class="alerta">
         <div class="conteudo-alerta">
-            <h1>Histórico de temperatura da CPU</h1>
-            <span class="closebtn" id="fecharAlerta">&times;</span>
+            <h1>Histórico da CPU</h1>
+            <span class="closebtn" id="fecharAlertaCPU">&times;</span>
             <div id="chart"></div>
         </div>
     </div>
       <!-- grafico 2 -->
 
-      <div class="container pt-5">
+      <div class="container pt-5" id="exibirAlertaTemperaturaCPU">
         <div class="row justify-content-center">
           <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
             <div>
@@ -223,7 +223,7 @@
                   <g class="dxg-title" clip-path="url(#DevExpress_3)" transform="translate(150,158)">
                     <text x="0" y="48" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
-                      Temperatura GPU
+                      Temperatura CPU
                     </text>
                     <text id="value-temperatura-gpu" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>
@@ -248,7 +248,13 @@
           </linearGradient>
         </defs>
       </svg>
-
+      <div id="alertaTemperaturaCPU" class="alerta">
+        <div class="conteudo-alerta">
+            <h1>Histórico da Temperatura de CPU</h1>
+            <span class="closebtn" id="fecharAlertaTemperaturaCPU">&times;</span>
+            <div id="chartTemperaturaCPU"></div>
+        </div>
+    </div>
     </div>
 
     <div>
@@ -284,7 +290,7 @@
     <!-- grafico 3 -->
 
     <div>
-    <div class="container">
+    <div class="container" id="exibirAlertaGPU">
         <div class="row justify-content-center">
           <div class="col-12 col-md-6 d-flex flex-row justify-content-center">
             <div>
@@ -363,7 +369,7 @@
                   <g class="dxg-title" clip-path="url(#DevExpress_3)" transform="translate(150,158)">
                     <text x="0" y="48" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
-                    CPU
+                    GPU
                     </text>
                     <text id="valueCpu" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>
@@ -388,6 +394,13 @@
           </linearGradient>
         </defs>
       </svg>
+      <div id="alertaGPU" class="alerta">
+        <div class="conteudo-alerta">
+            <h1>Histórico da GPU</h1>
+            <span class="closebtn" id="fecharAlertaGPU">&times;</span>
+            <div id="chartGPU"></div>
+        </div>
+    </div>
 
       <!-- grafico 4 -->
 
@@ -470,7 +483,7 @@
                   <g class="dxg-title" clip-path="url(#DevExpress_3)" transform="translate(150,158)">
                     <text x="0" y="48" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:10px;font-family:"Open Sans", sans-serif;font-weight:200;fill:#2c3e50;cursor:default;'>
-                    GPU
+                    Temperatura GPU
                     </text>
                     <text id="value_GPU" x="0" y="28" transform="translate(0,0)" text-anchor="middle"
                       style='font-size:28px;font-family:"Open Sans", sans-serif;font-weight:700;fill:#2c3e50;cursor:default;'>

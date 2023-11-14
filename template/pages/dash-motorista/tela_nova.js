@@ -30,11 +30,11 @@ function temperaturaCPU(taxaTemperaturaCPU) {
   indicator.style.transform = "rotate(" + degrees + "deg)";
   frame1 = taxaTemperaturaCPU;
 
-  var formattedRate = parseFloat(frame1).toFixed(2);
+  var formattedRate = parseFloat(frame1).toFixed(1);
   
   valueText.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
 
-  frame3 = frame1 * 1.2;
+  frame3 = frame1 * 1.3;
     CPU(frame3);
 
 } 
@@ -49,15 +49,29 @@ function rateToDegrees(taxaTemperaturaCPU) {
 var indicatorGpu = document.querySelector("#indicator-Temperatura-Gpu");
 var valueTextGpu = document.getElementById("value-temperatura-gpu");
 
+var chartTemperaturaCPU; 
+
+const exibirAlertaTemperaturaCPU = document.getElementById('exibirAlertaTemperaturaCPU');
+const alertaTemperaturaCPU = document.getElementById('alertaTemperaturaCPU');
+const fecharAlertaTemperaturaCPU = document.getElementById('fecharAlertaTemperaturaCPU');
+
+exibirAlertaTemperaturaCPU.addEventListener('click', () => {
+    alertaTemperaturaCPU.style.display = 'block';
+});
+
+fecharAlertaTemperaturaCPU.addEventListener('click', () => {
+    alertaTemperaturaCPU.style.display = 'none';
+});
+
 function exibirGPU() {
     fetch(`/tablet/exibirGPU`)
       .then(function (response) {
         if (response.ok) {
           response.json().then(function (resposta) {
             console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-            arrayTablet = resposta;
+            dadosTemperaturaCPU = resposta;
 
-            frame2 = arrayTablet[0].memoria;
+            frame2 = (dadosTemperaturaCPU[0].memoria) * 0.5;
             temperaturaGPU(frame2);
 
           });
@@ -78,9 +92,9 @@ function temperaturaGPU(taxaTemperaturaGPU) {
   indicatorGpu.style.transform = "rotate(" + degrees + "deg)";
   frame2 = taxaTemperaturaGPU;
 
-  var formattedRate = parseFloat(frame2).toFixed(2);
+  var formattedRate = parseFloat(frame2).toFixed(1);
 
-  frame4 = frame2 * 1.2;
+  frame4 = frame2 * 0.7;
     GPU(frame4);
   
   valueTextGpu.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
@@ -201,25 +215,25 @@ function initBattery(){
         } 
 // alertas
 
-// grafico
+// grafico CPU
   
-const exibirAlerta = document.getElementById('exibirAlerta');
-const alerta = document.getElementById('alerta');
-const fecharAlerta = document.getElementById('fecharAlerta');
+const exibirAlertaCPU = document.getElementById('exibirAlertaCPU');
+const alertaCPU = document.getElementById('alertaCPU');
+const fecharAlertaCPU = document.getElementById('fecharAlertaCPU');
 
-exibirAlerta.addEventListener('click', () => {
-    alerta.style.display = 'block';
+exibirAlertaCPU.addEventListener('click', () => {
+    alertaCPU.style.display = 'block';
 });
 
-fecharAlerta.addEventListener('click', () => {
-    alerta.style.display = 'none';
+fecharAlertaCPU.addEventListener('click', () => {
+    alertaCPU.style.display = 'none';
 });
-
-// Gráfico temperatura cpu
 
 //  dados
 var dadosDahTemperaturaCPU = [];
-var chart;  
+var chart; 
+var chartGPU; 
+var chartTemperaturaCPU; 
 
 function dadosDahTemperaturaCpu() {
   fetch(`/tablet/dadosDahTemperaturaCpu`)
@@ -235,6 +249,13 @@ function dadosDahTemperaturaCpu() {
           }).reverse(); 
 
           chart.updateSeries([{ data: valores_cpu }]);
+
+          var valores_gpu = dadosDahTemperaturaCPU.map(function (dadoGPU) {
+            return parseFloat(((dadoGPU.cpuUso) * 1.3) - 2.0).toFixed(1);
+          }).reverse(); 
+
+          chartGPU.updateSeries([{ data: valores_gpu }]);
+
         });
       } else {
         console.error("Nenhum dado encontrado ou erro na API");
@@ -266,6 +287,27 @@ function dataDashTemperaturaCpu() {
               categories: datas_cpu
             }
           });
+
+          var datas_GPU = datasDashTemperaturaCPU.map(function (data) {
+            return data.hora; 
+          }).reverse();
+
+          chartGPU.updateOptions({
+            xaxis: {
+              categories: datas_GPU
+            }
+          });
+
+          var datas_TemperaturaCPU = datasDashTemperaturaCPU.map(function (data) {
+            return data.hora; 
+          }).reverse();
+
+          chartTemperaturaCPU.updateOptions({
+            xaxis: {
+              categories: datas_TemperaturaCPU
+            }
+          });
+
         });
       } else {
         console.error("Nenhum dado encontrado ou erro na API");
@@ -279,7 +321,7 @@ function dataDashTemperaturaCpu() {
 
 // plotar grafico
 
-function criarGrafico() {
+function criarGraficoCpu() {
   var options = {
     chart: {
       height: 380,
@@ -311,9 +353,126 @@ function criarGrafico() {
 
   chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
+  
 }
 
-criarGrafico();
+criarGraficoCpu();
 
 setInterval(dadosDahTemperaturaCpu, 1000);
 setInterval(dataDashTemperaturaCpu, 1000);
+setInterval(dadosDahTemperaturaGpu, 1000);
+
+// grafico gpu
+
+const exibirAlertaGPU = document.getElementById('exibirAlertaGPU');
+const alertaGPU = document.getElementById('alertaGPU');
+const fecharAlertaGPU = document.getElementById('fecharAlertaGPU');
+
+exibirAlertaGPU.addEventListener('click', () => {
+    alertaGPU.style.display = 'block';
+});
+
+fecharAlertaGPU.addEventListener('click', () => {
+    alertaGPU.style.display = 'none';
+});
+
+function criarGraficoGPU() {
+  var options = {
+    chart: {
+      height: 380,
+      width: 800,
+      type: "area"
+    },
+    dataLabels: {
+      enabled: false
+    },
+    series: [
+      {
+        name: "GPU Usage",
+        data: []
+      }
+    ],
+    fill: {
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.7,
+        opacityTo: 0.9,
+        stops: [0, 90, 100]
+      }
+    },
+    xaxis: {
+      categories: []
+    }
+  };
+
+  chartGPU = new ApexCharts(document.querySelector("#chartGPU"), options);
+  chartGPU.render();
+}
+
+criarGraficoGPU();
+
+// temperatura cpu
+
+function dadosDahTemperaturaGpu() {
+  fetch(`/tablet/dadosDahTemperaturaGpu`)
+    .then(function (response) {
+      console.log(response)
+      if (response.ok) {
+        response.json().then(function (resposta) {
+          console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+          dadosTemperaturaGpu = resposta;
+
+         var valores_Temperatura_cpu = dadosTemperaturaGpu.map(function (dado3) {
+              return parseFloat((dado3.memoria) * 0.5);
+            }).reverse(); 
+  
+          chartTemperaturaCPU.updateSeries([{ data: valores_Temperatura_cpu }]);
+
+        });
+      } else {
+        console.error("Nenhum dado encontrado ou erro na API");
+      }
+    })
+    .catch(function (error) {
+      console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
+    });
+  return false;
+}
+
+  function criarGraficoTemperaturaCPU() {
+    var options = {
+      chart: {
+        height: 380,
+        width: 800,
+        type: "area"
+      },
+      dataLabels: {
+        enabled: false
+      },
+      series: [
+        {
+          name: "GPU Usage",
+          data: []
+        }
+      ],
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.7,
+          opacityTo: 0.9,
+          stops: [0, 90, 100]
+        }
+      },
+      xaxis: {
+        categories: []
+      }
+    };
+  
+    chartTemperaturaCPU = new ApexCharts(document.querySelector("#chartTemperaturaCPU"), options);
+    chartTemperaturaCPU.render();
+  }
+  
+  criarGraficoTemperaturaCPU();
+
