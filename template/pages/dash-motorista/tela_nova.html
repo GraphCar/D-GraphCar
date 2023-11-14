@@ -11,7 +11,7 @@
 </head>
 <header>
     <div class="modo">
-    <input class="tgl tgl-ios" id="cb2" type="checkbox"/>
+    <input class="tgl tgl-ios" id="cb2" type="checkbox" onclick="verifyCheckbox()"/>
     <label class="tgl-btn" for="cb2"></label>
     <h2>Modo sport</h2>
     </div>
@@ -538,6 +538,14 @@ if(tempo.getMinutes() < 10){
 }
 
 } setInterval(horario,10000)
+
+function verifyCheckbox() {
+            if (cb2.checked) {
+                window.location.href = "../dash-sportMode/sportMode.html";
+            } else {
+                window.location.href = "../dash-motorista/tela_nova.html";
+            }
+        }
 
 </script>
 
