@@ -299,6 +299,12 @@ h4 {
     margin: 44px 69px;
 }
 
+.divTotal{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
 .divEsquerda{
     display: flex;
     padding-top: 30px;
@@ -421,4 +427,26 @@ h4 {
     font-size: 15px;
     width: 100%;
     border-top: solid 2px red;
+}
+
+.divDireta{
+    display: flex;
+    flex-direction: column;
+}
+
+.divSuperior{
+    display: flex;
+    width: 900px;
+    margin: 30px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.divKpi{ 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
