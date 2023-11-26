@@ -1,5 +1,5 @@
 function carregarDados() {
-  /*  fetch("/Dados/alertasGerais", {
+   fetch("/Dados/alertasGerais", {
       method: "GET",
       cache: "no-store",
       headers: {
@@ -24,7 +24,7 @@ function carregarDados() {
           alert("Houve um erro ao tentar recuperar os dados!");
         });
       }
-    }); */
+    });
   console.log("abc: " + sel_modelo_carro.value);
   fetch(`/Dados/alertasConcatenados/${sel_modelo_carro.value || "-"}`, {
     method: "GET",
