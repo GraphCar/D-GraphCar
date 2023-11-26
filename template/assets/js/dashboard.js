@@ -1742,3 +1742,29 @@ function download() {
 
   URL.revokeObjectURL(url);
 }
+
+
+function pesquisarId(){
+  fetch(`/Dados/pesquisarId/${fkCarro.value}`, {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then((response) => {
+        console.log("OI")
+
+      });
+    } else {
+      console.log(resposta)
+      console.log("Houve um erro ao tentar recuperar os dados!");
+
+      resposta.text().then(texto => {
+        console.error(texto);
+        alert("Houve um erro ao tentar recuperar os dados!");
+      });
+    }
+  });
+}
