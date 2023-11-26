@@ -6,29 +6,30 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>GraphCar Painel</title>
-  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css" />
-  <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css" />
-  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css" />
-  <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="shortcut icon" href="../../assets/img/graph.png" />
+  <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css" />
+  <link rel="stylesheet" href="../../assets/vendors/flag-icon-css/css/flag-icon.min.css" />
+  <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css" />
+  <link rel="stylesheet" href="../../assets/vendors/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <link rel="stylesheet" href="dash-manutencao-style.css">
+  <link rel="shortcut icon" href="../../../../assets/img/graph.png" />
 </head>
-
+<!-- onload="validarSessao()" -->
 <body onload="validarSessao()">
   <div class="container-scroller">
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
-        <a class="sidebar-brand brand-logo" href="index.html"><img src="../../assets/img/logo-preto2.png"
+        <a class="sidebar-brand brand-logo" href="index.html"><img src="../../../../assets/img/logo-preto2.png"
             alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img src="../../assets/img/logo-preto.png"
+        <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img src="../../../../assets/img/logo-preto.png"
             alt="logo" /></a>
       </div>
       <ul class="nav">
         <li class="nav-item nav-profile">
           <a href="#" class="nav-link">
             <div class="nav-profile-image">
-              <img src="../../assets/img/image.png" alt="profile" />
+              <img src="../../../../assets/img/image.png" alt="profile" />
               <span class="login-status online"></span>
             </div>
             <div class="nav-profile-text d-flex flex-column pr-3">
@@ -55,7 +56,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="pages/dash-manutencao/index.html">
+          <a class="nav-link" href="#ramChart">
             <i class="mdi mdi-memory menu-icon"></i>
             <span class="menu-title">Manutenção</span>
           </a>
@@ -162,16 +163,9 @@
                 <div class="card-body">
                   <div class="row atualizar">
                     <div class="col-sm-5">
-                      <span id="lastUpdate"></span>
-                      <button class="mdi mdi-replay" id="reloadButton"></button>
-                    </div>
-                    <div class="col-sm-3">
-                      Modelo:
-                      <select id="sel_modelo_carro" onchange="carregarDados();">
-                      </select>
                     </div>
                     <div class="col-sm-4 text-md-right" id="div_total_carros">
-                      Carros monitorados: <span id="span_total_carros">0</span>
+                      Número de Série: <span id="span_numero_de_serie">0</span>
                     </div>
                     <!-- <div class="col-sm-5 text-md-right">
                         <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
@@ -194,24 +188,13 @@
                             <!-- <div id="earningChart" class="flot-chart"></div> -->
                           </div>
                           <p class="m-0 survey-head">
-                            Carros com ocorrências
+                            CPU Atual
                           </p>
                           <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                             <div>
                               <h3 class="m-0 survey-value">
-                                <span id="span_ocorrencia_cpu_carros">0</span>
+                                <span id="span_cpu_atual">0</span>
                               </h3>
-                              <!-- <p class="text-success m-0">2</p> -->
-                            </div>
-                          </div>
-                          <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
-                            <div>
-                              <p class="m-0 survey-head">Meta</p>
-                              <p class="m-0" id="p_cpu_meta">5 %</p>
-                            </div>
-                            <div>
-                              <p class="m-0 survey-head">Atual</p>
-                              <p class="m-0" id="p_cpu_atual">0 %</p>
                             </div>
                           </div>
                         </div>
@@ -221,82 +204,55 @@
                       <div class="card mb-3 mb-sm-0" id="div_card_gpu" onclick="mudarDadosGrafico('gpu')"
                         style="cursor: pointer">
                         <div class="card-body py-3 px-4">
-                          <p class="m-0 survey-head">Ocorrências com GPU</p>
-                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                            <div>
-                              <h3 class="m-0 survey-value">
-                                <span id="span_ocorrencia_gpu">0</span>
-                              </h3>
-                              <!-- <p class="text-danger m-0">12</p> -->
+                            <p class="m-0 survey-head">Ocorrências com GPU</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value">
+                                  <span id="span_ocorrencia_gpu">0</span>
+                                </h3>
+                                <!-- <p class="text-success m-0">2</p> -->
+                              </div>
+                              <!-- <div id="earningChart" class="flot-chart"></div> -->
+                            </div>
+                            <p class="m-0 survey-head">
+                              GPU Atual
+                            </p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value">
+                                  <span id="span_gpu_atual">0</span>
+                                </h3>
+                              </div>
                             </div>
                           </div>
-                          <p class="m-0 survey-head">
-                            Carros com ocorrências
-                          </p>
-                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                            <div>
-                              <h3 class="m-0 survey-value">
-                                <span id="span_ocorrencia_gpu_carros">0</span>
-                              </h3>
-                              <!-- <p class="text-success m-0">2</p> -->
-                            </div>
-                          </div>
-                          <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
-                            <div>
-                              <p class="m-0 survey-head">Meta</p>
-                              <p class="m-0" id="p_gpu_meta">10 %</p>
-                            </div>
-                            <div>
-                              <p class="m-0 survey-head">Atual</p>
-                              <p class="m-0" id="p_gpu_atual">0 %</p>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <div class="col-sm-4">
                       <div class="card" id="div_card_bat" style="cursor: pointer" onclick="mudarDadosGrafico('bat')">
                         <div class="card-body py-3 px-4">
-                          <p class="m-0 survey-head">
-                            Ocorrências com bateria
-                          </p>
-                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                            <div>
-                              <h3 class="m-0 survey-value">
-                                <span id="span_ocorrencia_bat">0</span>
-                              </h3>
-                              <!-- <p class="text-success m-0">5</p> -->
+                            <p class="m-0 survey-head">Ocorrências com Bateria</p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value">
+                                  <span id="span_ocorrencia_bateria">0</span>
+                                </h3>
+                                <!-- <p class="text-success m-0">2</p> -->
+                              </div>
+                              <!-- <div id="earningChart" class="flot-chart"></div> -->
+                            </div>
+                            <p class="m-0 survey-head">
+                                Bateria Atual
+                            </p>
+                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                              <div>
+                                <h3 class="m-0 survey-value">
+                                  <span id="span_bateria_atual">0</span>
+                                </h3>
+                              </div>
                             </div>
                           </div>
-                          <p class="m-0 survey-head">
-                            Carros com ocorrências
-                          </p>
-                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                            <div>
-                              <h3 class="m-0 survey-value">
-                                <span id="span_ocorrencia_bat_carros">0</span>
-                              </h3>
-                              <!-- <p class="text-success m-0">2</p> -->
-                            </div>
-                          </div>
-                          <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
-                            <div>
-                              <p class="m-0 survey-head">Meta</p>
-                              <p class="m-0" id="p_bat_meta">5 %</p>
-                            </div>
-                            <div>
-                              <p class="m-0 survey-head">Atual</p>
-                              <p class="m-0" id="p_bat_atual">0 %</p>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="downloadButton">
-                    <button id="download" onclick="download()">
-                      <img src="assets/images/dashboard/download (1).png" alt="" />
-                    </button>
                   </div>
                   <div class="row my-3">
                     <div class="col-sm-12">
@@ -318,15 +274,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row atualizacao">
-            <label for="refreshInterval">Escolha o intervalo de atualização:</label>
-            <select id="refreshInterval" class="selectAtualizar">
-              <option value="60000">1 minuto</option>
-              <option value="300000">5 minutos</option>
-              <option value="600000">10 minutos</option>
-              <option value="900000">15 minutos</option>
-            </select>
           </div>
         </div>
         <!-- <div class="row">
@@ -350,26 +297,26 @@
       </div>
     </div>
   </div>
-  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../assets/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
-  <script src="assets/vendors/chart.js/Chart.min.js"></script>
-  <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-  <script src="assets/vendors/flot/jquery.flot.js"></script>
-  <script src="assets/vendors/flot/jquery.flot.resize.js"></script>
-  <script src="assets/vendors/flot/jquery.flot.categories.js"></script>
-  <script src="assets/vendors/flot/jquery.flot.fillbetween.js"></script>
-  <script src="assets/vendors/flot/jquery.flot.stack.js"></script>
-  <script src="assets/vendors/flot/jquery.flot.pie.js"></script>
-  <script src="assets/js/chart.js"></script>
+  <script src="../../assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+  <script src="../../assets/vendors/flot/jquery.flot.js"></script>
+  <script src="../../assets/vendors/flot/jquery.flot.resize.js"></script>
+  <script src="../../assets/vendors/flot/jquery.flot.categories.js"></script>
+  <script src="../../assets/vendors/flot/jquery.flot.fillbetween.js"></script>
+  <script src="../../assets/vendors/flot/jquery.flot.stack.js"></script>
+  <script src="../../assets/vendors/flot/jquery.flot.pie.js"></script>
+  <script src="../../assets/js/chart.js"></script>
   <!-- End plugin js for this page -->
   <!-- inject:js -->
-  <script src="assets/js/off-canvas.js"></script>
-  <script src="assets/js/hoverable-collapse.js"></script>
-  <script src="assets/js/misc.js"></script>
+  <script src="../../assets/js/off-canvas.js"></script>
+  <script src="../../assets/js/hoverable-collapse.js"></script>
+  <script src="../../assets/js/misc.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page -->
-  <script src="assets/js/dashboard.js"></script>
+  <script src="../../assets/js/dashboard.js"></script>
   <!-- End custom js for this page -->
 </body>
 
@@ -380,7 +327,7 @@
   var idModelo = sessionStorage.ID_MODELO;
 
   if (idUsuario == undefined || idModelo == undefined) {
-    window.location = "../../login.html";
+    window.location = "../../../../login.html";
   } else {
     date = new Date();
     year = date.getFullYear();
