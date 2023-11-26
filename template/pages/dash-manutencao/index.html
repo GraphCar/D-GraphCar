@@ -289,42 +289,8 @@
 
 </html>
 
-<!-- <script>
-    function pesquisarId(fkCarro){
-        fetch("/Dados/pesquisarId/:fkCarro", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                }).then(function (resposta) {
-
-                    if (resposta.ok) {
-
-                        console.log('Fetch realizado com sucesso! Resposta: \n' + resposta);
-
-                        resposta.json().then(json => {
-                            console.log(json);
-                            
-                            sessionStorage.FK_MODELO = json.fkModelo;
-
-                        });
-                    } else {
-                        console.log(resposta)
-                        console.log("Houve um erro ao tentar realizar a busca!");
-
-                        resposta.text().then(texto => {
-                            console.error(texto);
-                            alert("Houve um erro ao tentar realizar a busca!");
-                        });
-                    }
-                }).catch(function (erro) {
-                    console.log(erro);
-                })
-    }
-</script> -->
-
-
 <script>
+
   var idUsuario = sessionStorage.ID_USUARIO;
   var idModelo = sessionStorage.ID_MODELO;
 
