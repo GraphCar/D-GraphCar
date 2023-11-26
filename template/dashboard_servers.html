@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>GraphCar Painel</title>
+  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css" />
+  <link rel="stylesheet" href="assets/vendors/flag-icon-css/css/flag-icon.min.css" />
+  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css" />
+  <link rel="stylesheet" href="assets/vendors/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="shortcut icon" href="../../assets/img/graph.png" />
+</head>
+
+<body onload="validarSessao()">
+  <div class="container-scroller">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
+        <a class="sidebar-brand brand-logo" href="index.html"><img src="../../assets/img/logo-preto2.png"
+            alt="logo" /></a>
+        <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img src="../../assets/img/logo-preto.png"
+            alt="logo" /></a>
+      </div>
+      <ul class="nav">
+        <li class="nav-item nav-profile">
+          <a href="#" class="nav-link">
+            <div class="nav-profile-image">
+              <img src="../../assets/img/image.png" alt="profile" />
+              <span class="login-status online"></span>
+            </div>
+            <div class="nav-profile-text d-flex flex-column pr-3">
+              <span class="font-weight-medium mb-2" id="span_nome_usuario">Fernando Brandão</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">
+            <i class="mdi mdi-trending-up menu-icon"></i>
+            <span class="menu-title">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="pages/charts/chartjs.html">
+            <i class="mdi mdi-chip menu-icon"></i>
+            <span class="menu-title">Veiculos</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="x">
+            <i class="mdi mdi-flash menu-icon"></i>
+            <span class="menu-title">Carregamento</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#ramChart">
+            <i class="mdi mdi-memory menu-icon"></i>
+            <span class="menu-title">Manutenção</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="pages/dash-motorista/tela_nova.html">
+            <i class="mdi mdi-chart-bar menu-icon"></i>
+            <span class="menu-title">Painel motorista</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link" href="#">
+            <span class="menu-title">Cadastros</span>
+          </span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../cadastroCarro.html">
+            <i class="mdi mdi-car menu-icon"></i>
+            <span class="menu-title">Cadastro de Carro</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../cadastroADM.html">
+            <i class="mdi mdi-face menu-icon"></i>
+            <span class="menu-title">Cadastro de Admin.</span>
+          </a>
+        </li>
+        <li class="nav-item sidebar-actions">
+          <div class="nav-link">
+            <div class="mt-4">
+              <ul class="mt-4 pl-0">
+                <a href="../../index.html">
+                  <li onclick="sair()">Sair</li>
+                </a>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+      <nav class="navbar col-lg-12 col-12 p-lg-0 fixed-top d-flex flex-row">
+        <div class="navbar-menu-wrapper d-flex align-items-stretch justify-content-between">
+          <a class="navbar-brand brand-logo-mini align-self-center d-lg-none" href="index.html"><img
+              src="../../assets/img/graph-icon.png" alt="logo" /></a>
+          <button class="navbar-toggler navbar-toggler align-self-center mr-2" type="button" data-toggle="minimize">
+            <i class="mdi mdi-menu"></i>
+          </button>
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown d-none d-sm-flex">
+              <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown">
+                <i class="mdi mdi-alert-outline"></i>
+                <span class="count count-varient1 font-weight-bold" style="line-height: 1.4 !important;"
+                  id="span_qtde_alertas"></span>
+              </a>
+              <div class="dropdown-menu navbar-dropdown navbar-dropdown-large preview-list"
+                aria-labelledby="messageDropdown" id="div_lista_alertas">
+                <h6 class="p-3 mb-0">Mensagens</h6>
+              </div>
+            </li>
+            <li class="nav-item nav-search border-0 ml-1 ml-md-3 ml-lg-5 d-none d-md-flex"></li>
+          </ul>
+          <ul class="navbar-nav navbar-nav-right ml-lg-auto">
+            <!-- <li class="nav-item nav-profile dropdown border-0">
+                <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown">
+                  <img class="nav-profile-img mr-2" alt="" src="../../assets/img/fotosUsuarios/user-branco.png" />
+                  <span class="profile-name">Fernando Brandão</span>
+                </a>
+                <div class="dropdown-menu navbar-dropdown w-100" aria-labelledby="profileDropdown">
+
+                  <a onclick="sair()" class="dropdown-item">
+                    <i class="mdi mdi-logout mr-2 text-primary"></i>Sair</a>
+                </div>
+              </li> -->
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+            data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <div class="main-panel">
+        <div class="content-wrapper pb-0">
+          <div class="page-header flex-wrap">
+            <h3 class="mb-0">
+              Olá
+              <span id="span_nome_usuario_bem_vindo" style="font-size: inherit"></span>, Bem vindo (a)!
+            </h3>
+            <div class="d-flex">
+              <!-- <button type="button" class="btn btn-sm bg-white btn-icon-text border">
+                  <i class="mdi mdi-email btn-icon-prepend"></i> Email </button>
+                  <a href="mailto:GraphCar2023@provedor.com.br?subject=Assunto do email&cc=copia@provedor.com.br&bcc=copiaoculta@provedor.com.br&body=Conteúdo do email que será preenchido automaticamente"></a>
+                <button type="button" class="btn btn-sm bg-white btn-icon-text border ml-3">
+                  <i class="mdi mdi-printer btn-icon-prepend"></i> Print </button> -->
+              <button type="button" class="btn btn-sm ml-3 btn-success">
+                <a href="https://graphcar.atlassian.net/servicedesk/customer/portals">Abrir chamado</a>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12 stretch-card grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row atualizar">
+                    <div class="col-sm-5">
+                      <span id="lastUpdate"></span>
+                      <button class="mdi mdi-replay" id="reloadButton"></button>
+                    </div>
+                    <div class="col-sm-3">
+                      Modelo:
+                      <select id="sel_modelo_carro" onchange="carregarDados();">
+                      </select>
+                    </div>
+                    <div class="col-sm-4 text-md-right" id="div_total_carros">
+                      Carros monitorados: <span id="span_total_carros">0</span>
+                    </div>
+                    <!-- <div class="col-sm-5 text-md-right">
+                        <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
+                          <i class="mdi mdi-email btn-icon-prepend"></i>Download Report </button>
+                      </div> -->
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <div class="card mb-3 mb-sm-0" id="div_card_cpu" onclick="mudarDadosGrafico('cpu')"
+                        style="cursor: pointer">
+                        <div class="card-body py-3 px-4">
+                          <p class="m-0 survey-head">Ocorrências com CPU</p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_ocorrencia_cpu">0</span>
+                              </h3>
+                              <!-- <p class="text-success m-0">2</p> -->
+                            </div>
+                            <!-- <div id="earningChart" class="flot-chart"></div> -->
+                          </div>
+                          <p class="m-0 survey-head">
+                            Carros com ocorrências
+                          </p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_ocorrencia_cpu_carros">0</span>
+                              </h3>
+                              <!-- <p class="text-success m-0">2</p> -->
+                            </div>
+                          </div>
+                          <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
+                            <div>
+                              <p class="m-0 survey-head">Meta</p>
+                              <p class="m-0" id="p_cpu_meta">5 %</p>
+                            </div>
+                            <div>
+                              <p class="m-0 survey-head">Atual</p>
+                              <p class="m-0" id="p_cpu_atual">0 %</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="card mb-3 mb-sm-0" id="div_card_gpu" onclick="mudarDadosGrafico('gpu')"
+                        style="cursor: pointer">
+                        <div class="card-body py-3 px-4">
+                          <p class="m-0 survey-head">Ocorrências com GPU</p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_ocorrencia_gpu">0</span>
+                              </h3>
+                              <!-- <p class="text-danger m-0">12</p> -->
+                            </div>
+                          </div>
+                          <p class="m-0 survey-head">
+                            Carros com ocorrências
+                          </p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_ocorrencia_gpu_carros">0</span>
+                              </h3>
+                              <!-- <p class="text-success m-0">2</p> -->
+                            </div>
+                          </div>
+                          <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
+                            <div>
+                              <p class="m-0 survey-head">Meta</p>
+                              <p class="m-0" id="p_gpu_meta">10 %</p>
+                            </div>
+                            <div>
+                              <p class="m-0 survey-head">Atual</p>
+                              <p class="m-0" id="p_gpu_atual">0 %</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="card" id="div_card_bat" style="cursor: pointer" onclick="mudarDadosGrafico('bat')">
+                        <div class="card-body py-3 px-4">
+                          <p class="m-0 survey-head">
+                            Ocorrências com bateria
+                          </p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_ocorrencia_bat">0</span>
+                              </h3>
+                              <!-- <p class="text-success m-0">5</p> -->
+                            </div>
+                          </div>
+                          <p class="m-0 survey-head">
+                            Carros com ocorrências
+                          </p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_ocorrencia_bat_carros">0</span>
+                              </h3>
+                              <!-- <p class="text-success m-0">2</p> -->
+                            </div>
+                          </div>
+                          <div class="d-flex justify-content-around align-items-center flot-bar-wrapper">
+                            <div>
+                              <p class="m-0 survey-head">Meta</p>
+                              <p class="m-0" id="p_bat_meta">5 %</p>
+                            </div>
+                            <div>
+                              <p class="m-0 survey-head">Atual</p>
+                              <p class="m-0" id="p_bat_atual">0 %</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="downloadButton">
+                    <button id="download" onclick="download()">
+                      <img src="assets/images/dashboard/download (1).png" alt="" />
+                    </button>
+                  </div>
+                  <div class="row my-3">
+                    <div class="col-sm-12">
+                      <div class="flot-chart-wrapper">
+                        <div id="flotChart" class="flot-chart">
+                          <canvas class="flot-base"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-8"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row atualizacao">
+            <label for="refreshInterval">Escolha o intervalo de atualização:</label>
+            <select id="refreshInterval" class="selectAtualizar">
+              <option value="60000">1 minuto</option>
+              <option value="300000">5 minutos</option>
+              <option value="600000">10 minutos</option>
+              <option value="900000">15 minutos</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+  <script src="assets/vendors/flot/jquery.flot.js"></script>
+  <script src="assets/vendors/flot/jquery.flot.resize.js"></script>
+  <script src="assets/vendors/flot/jquery.flot.categories.js"></script>
+  <script src="assets/vendors/flot/jquery.flot.fillbetween.js"></script>
+  <script src="assets/vendors/flot/jquery.flot.stack.js"></script>
+  <script src="assets/vendors/flot/jquery.flot.pie.js"></script>
+  <script src="assets/js/chart.js"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="assets/js/off-canvas.js"></script>
+  <script src="assets/js/hoverable-collapse.js"></script>
+  <script src="assets/js/misc.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page -->
+  <script src="assets/js/dashboard_servers.js"></script>
+  <!-- End custom js for this page -->
+</body>
+
+</html>
+
+<script>
+  var idUsuario = sessionStorage.ID_USUARIO;
+  var idModelo = sessionStorage.ID_MODELO;
+  var nivelAcesso = sessionStorage.NIVEL_ACESSO;
+
+  if (idUsuario == undefined || idModelo == undefined) {
+    window.location = "../../login.html";
+  } else if (nivelAcesso == 3) {
+    window.location = "./index.html";
+  } else {
+    date = new Date();
+    year = date.getFullYear();
+    month = date.getMonth() + 1;
+    day = date.getDate();
+    // document.getElementById("current_date").innerHTML =
+    //   "<h3>" + day + "/" + month + "/" + year + "</h3>";
+
+    function sair() {
+      delete sessionStorage.ID_USUARIO;
+      delete sessionStorage.ID_MODELO;
+      delete sessionStorage.NOME_USUARIO;
+      delete sessionStorage.REDIRECIONAMENTO;
+
+      window.location = "index.html";
+    }
+  }
+</script>
+
+<script>
+  let intervalID;
+
+  function reloadPage() {
+    location.reload();
+    updateLastUpdate();
+  }
+
+  function updateLastUpdate() {
+    const now = new Date();
+    const lastUpdateElement = document.getElementById('lastUpdate');
+    lastUpdateElement.textContent = 'Última atualização: ' + now.toLocaleString();
+  }
+
+  function startInterval() {
+    const selectElement = document.getElementById('refreshInterval');
+    const selectedValue = selectElement.value;
+
+    if (intervalID) {
+      clearInterval(intervalID);
+    }
+
+    intervalID = setInterval(reloadPage, selectedValue);
+    updateLastUpdate();
+  }
+
+  document.getElementById('reloadButton').addEventListener('click', reloadPage);
+
+  document.getElementById('refreshInterval').addEventListener('change', startInterval);
+
+  startInterval();
+
+  var arrayTablet = [];
+
+</script>
