@@ -23,76 +23,61 @@
     </div>
 </header>
 
-<body onload="horario() , exibirBateria() , initBattery()">
+<body onload="horario() , exibirBateria() , initBattery() , exibirAutonomia() ,exibirCPU(), simularDados()">
     <div class="divTotal">
         <div class="divEsquerda">
             Telemetria:
-            <div class="divResumo">
-                <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgResumo">
-                Baixo
-                <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgResumo">
-                Alto
-                <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgResumo">
-                Médio
-            </div>
+
             <div class="divTeslaTelemetria">
                 <div class="divDianteira">
                     <div class="divRodaDianteiraEsquerda">
-                        <div class="divSup">
-                            155°C<img src="../../../../assets/img/eixoTelemetria.png" alt=""
+                        <div class="divSup" id="eixo1">
+                            <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente">
+                        </div>
+                        <div class="divSup" id="freio1">
+                            <img src="../../../../assets/img/freioTelemetria.png" alt=""
                                 class="imgTelemetriaComponente">
                         </div>
-                        <div class="divSup">
-                            155°C<img src="../../../../assets/img/freioTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">
-                        </div>
-                        <div class="divSup">
-                            155°C<img src="../../../../assets/img/pneuTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">
+                        <div class="divSup" id="pneu1">
+                            <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente">
                         </div>
                     </div>
                     <div class="divRodaDianteiraDireita">
-                        <div class="divSup">
-                            <img src="../../../../assets/img/eixoTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">155°C
+                        <div class="divSup" id="eixo2">
+                            <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente">
                         </div>
-                        <div class="divSup">
+                        <div class="divSup" id="freio2">
                             <img src="../../../../assets/img/freioTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">155°C
+                                class="imgTelemetriaComponente">
                         </div>
-                        <div class="divSup">
-                            <img src="../../../../assets/img/pneuTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">155°C
+                        <div class="divSup" id="pneu2">
+                            <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente">
                         </div>
                     </div>
                 </div>
                 <div class="divTraseira">
                     <div class="divRodaTraseiraEsquerda">
-                        <div class="divSup">
-                            155°C <img src="../../../../assets/img/eixoTelemetria.png" alt=""
+                        <div class="divSup" id="eixo3">
+                            <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente">
+                        </div>
+                        <div class="divSup" id="freio3">
+                            <img src="../../../../assets/img/freioTelemetria.png" alt=""
                                 class="imgTelemetriaComponente">
                         </div>
-                        <div class="divSup">
-                            155°C <img src="../../../../assets/img/freioTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">
-                        </div>
-                        <div class="divSup">
-                            155°C <img src="../../../../assets/img/pneuTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">
+                        <div class="divSup" id="pneu3">
+                            <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente">
                         </div>
                     </div>
                     <div class="divRodaTraseiraDireita">
-                        <div class="divSup">
-                            <img src="../../../../assets/img/eixoTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">155°C
+                        <div class="divSup" id="eixo4">
+                            <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente">
                         </div>
-                        <div class="divSup">
+                        <div class="divSup" id="freio4">
                             <img src="../../../../assets/img/freioTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">155°C
+                                class="imgTelemetriaComponente">
                         </div>
-                        <div class="divSup">
-                            <img src="../../../../assets/img/pneuTelemetria.png" alt=""
-                                class="imgTelemetriaComponente">155°C
+                        <div class="divSup" id="pneu4">
+                            <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente">
                         </div>
                     </div>
                 </div>
@@ -111,8 +96,6 @@
                 <div class="divKpi">
                     Autonomia da bateria: <br>
                     2 h 34 min <br><br>
-                    Média de gasto:(Mhz) <br>
-                    XXXXXX
                 </div>
                 <div class="bateria">
                     <div class="battery__card">
@@ -135,12 +118,10 @@
                     </div>
                 </div>
                 <div class="divKpi">
-                    Lap <br><br>
-                    Volta: 2:34:31 Votla<br> <br>
-                    Ultima volta: 2:34:31 <br>
-                    Melhor volta: 2:34:31 <br><br>
-                    Sessão: 30:21:32 <br><br>
-                    Finalizar
+                    <div class="divAux">
+                        <div id="stopwatch">Volta 00:00:000</div><br><br>
+                        <div id="lastLap">Ultima Volta: -</div>
+                    </div>
                 </div>
             </div>
             <div class="divInferior">
@@ -158,76 +139,121 @@
 
 <script>
 
+    function simularDados() {
+        const temperaturaEixo = Math.floor(Math.random() * (131 - 100) + 100);
+        const temperaturaFreio = Math.floor(Math.random() * 100) + 80;
+        const temperaturaPneu = Math.floor(Math.random() * (131 - 100) + 100);
 
-    const ctx = document.getElementById('myChart');
-    const data = [];
-    let prev = 100;
-    for (let i = 0; i < 1000; i++) {
-        prev += 5 - Math.random() * 10;
-        data.push({ x: i, y: prev });
+        // Atualize os textos com as temperaturas simuladas e aplique as classes de cor
+        document.getElementById("eixo1").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("eixo2").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("eixo3").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("eixo4").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+        document.getElementById("freio1").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("freio2").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("freio3").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("freio4").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+        document.getElementById("pneu1").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("pneu2").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("pneu3").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        document.getElementById("pneu4").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+    }
+    setInterval(simularDados, 2000);
+
+    let isRunning = false;
+    let isPaused = false;
+    let startTime;
+    let interval;
+    let lastLapTime = 0;
+
+    function startStopwatch() {
+        if (!isRunning && !isPaused) {
+            isRunning = true;
+            startTime = new Date().getTime();
+
+            interval = setInterval(updateTime, 10);
+        }
     }
 
-    const totalDuration = 10000;
-    const delayBetweenPoints = totalDuration / data.length;
-    const previousY = (ctx) => ctx.index === 0 ? ctx.chart.scales.y.getPixelForValue(100) : ctx.chart.getDatasetMeta(ctx.datasetIndex).data[ctx.index - 1].getProps(['y'], true).y;
-    const animation = {
-        x: {
-            type: 'number',
-            easing: 'linear',
-            duration: delayBetweenPoints,
-            from: NaN, // the point is initially skipped
-            delay(ctx) {
-                if (ctx.type !== 'data' || ctx.xStarted) {
-                    return 0;
-                }
-                ctx.xStarted = true;
-                return ctx.index * delayBetweenPoints;
-            }
-        },
-        y: {
-            type: 'number',
-            easing: 'linear',
-            duration: delayBetweenPoints,
-            from: previousY,
-            delay(ctx) {
-                if (ctx.type !== 'data' || ctx.yStarted) {
-                    return 0;
-                }
-                ctx.yStarted = true;
-                return ctx.index * delayBetweenPoints;
-            }
+    function stopStopwatch() {
+        if (isRunning) {
+            isRunning = false;
+            clearInterval(interval);
         }
-    };
+    }
 
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: data,
-                borderWidth: 1,
-                borderColor: "rgb(255, 0, 0)",
-                radius: 0,
-            }]
-        },
-        options: {
-            animation,
-            interaction: {
-                intersect: false
-            },
-            plugins: {
-                legend: false
-            },
-            scales: {
-                x: {
-                    type: 'linear',
-                }
-            }
+    function resetStopwatch() {
+        isRunning = false;
+        isPaused = false;
+        clearInterval(interval);
+        document.getElementById("stopwatch").innerText = "Volta: 00:00:000";
+        lastLapTime = 0;
+        updateLastLapDisplay();
+    }
+
+    function updateTime() {
+        if (!isRunning || isPaused) return;
+
+        const currentTime = new Date().getTime();
+        const elapsedTime = currentTime - startTime;
+
+        const minutes = Math.floor(elapsedTime / (60 * 1000));
+        const seconds = Math.floor((elapsedTime % (60 * 1000)) / 1000);
+        const milliseconds = elapsedTime % 1000;
+
+        const formattedTime =
+            padNumber(minutes) + ":" +
+            padNumber(seconds) + ":" +
+            padNumber(milliseconds, 3);
+
+        document.getElementById("stopwatch").innerText = "Volta:" + formattedTime;
+    }
+
+    function lapStopwatch() {
+        if (isRunning && !isPaused) {
+            const currentTime = new Date().getTime();
+            lastLapTime = currentTime - startTime;
+            startTime = currentTime; // Reinicia o início do cronômetro
+            updateLastLapDisplay();
+        } else {
+            lastLapTime = 0;
+            updateLastLapDisplay();
         }
+    }
 
+    function updateLastLapDisplay() {
+        const lastLapElement = document.getElementById("lastLap");
+        const lastLapText = lastLapTime > 0 ? `Ultima Volta: ${formatTime(lastLapTime)}` : "Ultima Volta: -";
+        lastLapElement.innerText = lastLapText;
+    }
+
+    function formatTime(time) {
+        const minutes = Math.floor(time / (60 * 1000));
+        const seconds = Math.floor((time % (60 * 1000)) / 1000);
+        const milliseconds = time % 1000;
+
+        return `${padNumber(minutes)}:${padNumber(seconds)}:${padNumber(milliseconds, 3)}`;
+    }
+
+    function padNumber(number, width = 2) {
+        return number.toString().padStart(width, '0');
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "7") {
+            if (isRunning) {
+                lapStopwatch();
+            } else {
+                startStopwatch();
+            }
+        } else if (event.key === "8") {
+            resetStopwatch();
+        } else if (event.key === "9") {
+            isPaused = !isPaused;
+        }
     });
-
 
     function horario() {
 
@@ -243,6 +269,90 @@
 
 
     var arrayTablet = [];
+
+    function exibirAutonomia() {
+        fetch(`/tablet/exibirAutonomia`)
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos autonomia: ${JSON.stringify(resposta)}`);
+                        arrayTablet = resposta;
+                    });
+                } else {
+                    console.error("Nenhum dado encontrado ou erro na API");
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
+            });
+        return false;
+    }
+
+    function exibirCPU() {
+        fetch(`/tablet/exibirCPU`)
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos CPU: ${JSON.stringify(resposta)}`);
+                        arrayTablet = resposta;
+
+                        frame1 = arrayTablet[0].cpuUso;
+
+                        // Adicione a chamada para atualizar o gráfico
+                        atualizarGrafico(arrayTablet);
+                    });
+                } else {
+                    console.error("Nenhum dado encontrado ou erro na API");
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
+            });
+        return false;
+        atualizarGrafico();
+    } setInterval(exibirCPU, 7000)
+
+    function atualizarGrafico(dados) {
+        // Recupere o contexto do canvas onde o gráfico está renderizado
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // Atualize os dados do gráfico
+        meuGrafico.data.labels.push(""); // Adicione um rótulo de tempo (ou use uma abordagem diferente)
+        meuGrafico.data.datasets[0].data.push(dados[0].cpuUso);
+
+        // Limita o número de pontos no gráfico, se necessário
+        const maxDataPoints = 10;
+        if (meuGrafico.data.labels.length > maxDataPoints) {
+            meuGrafico.data.labels.shift();
+            meuGrafico.data.datasets[0].data.shift();
+        }
+
+        // Atualize o gráfico
+        meuGrafico.update();
+    }
+
+    const ctx = document.getElementById('myChart');
+    const meuGrafico = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: '#Consumo em KwH',
+                data: [],
+                borderWidth: 1,
+                borderColor: "red",
+                pointBackgroundColor: "red",
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
 
     function exibirBateria() {
         fetch(`/tablet/exibirBateria`)
@@ -319,5 +429,18 @@
         }
     }
 
-
 </script>
+
+<style>
+    .verde {
+        color: green;
+    }
+
+    .amarelo {
+        color: yellow;
+    }
+
+    .vermelho {
+        color: red;
+    }
+</style>
