@@ -570,14 +570,16 @@
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos autonomia: ${JSON.stringify(resposta)}`);
                         arrayTablet = resposta;
-                        divAutonomia.innerHTML = `Autonomia da Bateria: <br>${arrayTablet[0].exibirAutonomia}`;
+                        divAutonomia.innerHTML = `Autonomia da Bateria: <br>${arrayTablet[0].bateriaTempoRestante}`;
 
-                        if (arrayTablet[0].exibirAutonomia < 0) {
-                            console.log("Bateria na fonte de alimentação...");
+                        if (arrayTablet[0].bateriaTempoRestante < 0) {
+                            divAutonomia.classList.add("verde")
+                            divAutonomia.innerHTML = "Bateria na fonte de alimentação...";
                         } else {
-                            var horas_restantes = Math.floor(arrayTablet[0].exibirAutonomia / 3600);
-                            var minutos_restantes = Math.floor((arrayTablet[0].exibirAutonomia % 3600) / 60);
-                            console.log(`Tempo restante de duração da bateria: ${horas_restantes} h e ${minutos_restantes} min`);
+                            divAutonomia.classList.remove("verde")
+                            var horas_restantes = Math.floor(arrayTablet[0].bateriaTempoRestante / 3600);
+                            var minutos_restantes = Math.floor((arrayTablet[0].bateriaTempoRestante % 3600) / 60);
+                            divAutonomia.innerHTML = `Autonia da bateria:<br> ${horas_restantes} h e ${minutos_restantes} min`;
                         }
                     });
                 } else {
@@ -588,7 +590,7 @@
                 console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
             });
         return false;
-    }
+    } setInterval(exibirAutonomia , 2000)
 
     function exibirCPU() {
         fetch(`/tablet/exibirCPU`)

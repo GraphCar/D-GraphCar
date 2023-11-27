@@ -4,12 +4,14 @@ html,
 body {
     min-height: 100%;
     font-family: 'Krona One', sans-serif;
-    margin: auto;
-}
+      height: 100%;
+      margin: 0;
+  }
+
 
 header{
     display: flex;
-    min-height: 100%;
+    min-height: 10%;
     flex-direction: row;
     align-items: center;
     border-bottom: 1px red solid;
@@ -310,7 +312,7 @@ h4 {
     padding-top: 30px;
     font-size: 24px;
     width: 35%;
-    height: 660px;
+    height: 90vh;
     border-right: solid 2px red;
     align-items: center;
     justify-content: center;
@@ -337,9 +339,11 @@ h4 {
 
 .divTeslaTelemetria{
     background-image: url(../../../../assets/img/teslaTelemetria.png);
-    background-size: 176px;
+    background-size: 174px;
     background-position: center;
-    height: 500px;
+    height: 100vh;
+    margin-top: 0px;
+    margin-bottom: 0px;
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
@@ -351,7 +355,6 @@ h4 {
     width: 340px;
     flex-direction: row;
     margin-top: 70px;
-    margin-bottom: 50px;
     align-items: center;
     justify-content: space-between;
 }
@@ -360,7 +363,7 @@ h4 {
     display: flex;
     flex-direction: row;
     width: 340px;
-    margin-top: 40px;
+    margin-top: 70px;
     align-items: center;
     justify-content: space-between;
 }
@@ -479,7 +482,7 @@ h4 {
 }
 
 .amarelo{
-  color: yellow;
+  color: goldenrod;
 }
 
 .verde{
