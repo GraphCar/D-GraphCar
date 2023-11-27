@@ -1,5 +1,3 @@
-const { json } = require("express");
-
 function carregarDados() {
   fetch("/Dados/alertasGerais", {
     method: "GET",
@@ -412,7 +410,12 @@ function exibirTabelaDeCarros() {
           tdOcorrenciaBateria.innerHTML = ocorrenciasBateria
           tdOcorrenciaTotal.innerHTML = OcorrenciaTotal
 
-          linha.appendChild(tdIdCarro, tdOcorrenciaCPU, tdOcorrenciaGPU, tdOcorrenciaBateria,tdOcorrenciaTotal)
+          linha.appendChild(tdIdCarro)
+          linha.appendChild(tdOcorrenciaCPU)
+          linha.appendChild(tdOcorrenciaGPU)
+          linha.appendChild(tdOcorrenciaBateria)
+          linha.appendChild(tdOcorrenciaTotal)
+
           corpo.append(linha)
         }
       })
@@ -435,7 +438,7 @@ span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0
 var grafico_atual = "todos";
 buscarModelos();
 carregarDados();
-carregarDadosCarro();
+
 atualizarNotificacoes();
 
 function mudarDadosGrafico(parametro) {
