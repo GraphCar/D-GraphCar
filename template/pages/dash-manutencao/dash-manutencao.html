@@ -16,14 +16,15 @@
   <link rel="shortcut icon" href="../../../../assets/img/graph.png" />
 </head>
 <!-- onload="validarSessao()" -->
+
 <body onload="validarSessao()">
   <div class="container-scroller">
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
         <a class="sidebar-brand brand-logo" href="index.html"><img src="../../../../assets/img/logo-preto2.png"
             alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img src="../../../../assets/img/logo-preto.png"
-            alt="logo" /></a>
+        <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img
+            src="../../../../assets/img/logo-preto.png" alt="logo" /></a>
       </div>
       <ul class="nav">
         <li class="nav-item nav-profile">
@@ -204,53 +205,53 @@
                       <div class="card mb-3 mb-sm-0" id="div_card_gpu" onclick="mudarDadosGrafico('gpu')"
                         style="cursor: pointer">
                         <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Ocorrências com GPU</p>
-                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                              <div>
-                                <h3 class="m-0 survey-value">
-                                  <span id="span_ocorrencia_gpu_carro">0</span>
-                                </h3>
-                                <!-- <p class="text-success m-0">2</p> -->
-                              </div>
-                              <!-- <div id="earningChart" class="flot-chart"></div> -->
+                          <p class="m-0 survey-head">Ocorrências com GPU</p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_ocorrencia_gpu_carro">0</span>
+                              </h3>
+                              <!-- <p class="text-success m-0">2</p> -->
                             </div>
-                            <p class="m-0 survey-head">
-                              GPU Atual
-                            </p>
-                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                              <div>
-                                <h3 class="m-0 survey-value">
-                                  <span id="span_gpu_atual">0</span>
-                                </h3>
-                              </div>
+                            <!-- <div id="earningChart" class="flot-chart"></div> -->
+                          </div>
+                          <p class="m-0 survey-head">
+                            GPU Atual
+                          </p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_gpu_atual">0</span>
+                              </h3>
                             </div>
                           </div>
+                        </div>
                       </div>
                     </div>
                     <div class="col-sm-4">
                       <div class="card" id="div_card_bat" style="cursor: pointer" onclick="mudarDadosGrafico('bat')">
                         <div class="card-body py-3 px-4">
-                            <p class="m-0 survey-head">Ocorrências com Bateria</p>
-                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                              <div>
-                                <h3 class="m-0 survey-value">
-                                  <span id="span_ocorrencia_bateria_carro">0</span>
-                                </h3>
-                                <!-- <p class="text-success m-0">2</p> -->
-                              </div>
-                              <!-- <div id="earningChart" class="flot-chart"></div> -->
+                          <p class="m-0 survey-head">Ocorrências com Bateria</p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_ocorrencia_bateria_carro">0</span>
+                              </h3>
+                              <!-- <p class="text-success m-0">2</p> -->
                             </div>
-                            <p class="m-0 survey-head">
-                                Bateria Atual
-                            </p>
-                            <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
-                              <div>
-                                <h3 class="m-0 survey-value">
-                                  <span id="span_bateria_atual">0</span>
-                                </h3>
-                              </div>
+                            <!-- <div id="earningChart" class="flot-chart"></div> -->
+                          </div>
+                          <p class="m-0 survey-head">
+                            Bateria Atual
+                          </p>
+                          <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
+                            <div>
+                              <h3 class="m-0 survey-value">
+                                <span id="span_bateria_atual">0</span>
+                              </h3>
                             </div>
                           </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -316,7 +317,7 @@
   <script src="../../assets/js/misc.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page -->
-  <script src="../../assets/js/dashboard.js"></script>
+  <script src="../../assets/js/dashboard_manutencao.js"></script>
   <!-- End custom js for this page -->
 </body>
 
@@ -325,18 +326,17 @@
 <script>
   var idUsuario = sessionStorage.ID_USUARIO;
   var idModelo = sessionStorage.ID_MODELO;
+
   var fkCarro = sessionStorage.FK_CARRO;
-
-  if (fkCarro == undefined){
+  if (fkCarro == undefined) {
     window.location = "index.html"
-  }else{
-    capturarDadosCarro();
+  } else {
+    carregarDadosCarro(fkCarro)
   }
-
   if (idUsuario == undefined || idModelo == undefined) {
     window.location = "../../../../login.html";
   } else {
-    
+
     function sair() {
       delete sessionStorage.ID_USUARIO;
       delete sessionStorage.ID_MODELO;
@@ -346,40 +346,4 @@
       window.location = "index.html";
     }
   }
-</script>
-
-<script>
-  let intervalID;
-
-  function reloadPage() {
-    location.reload();
-    updateLastUpdate();
-  }
-
-  function updateLastUpdate() {
-    const now = new Date();
-    const lastUpdateElement = document.getElementById('lastUpdate');
-    lastUpdateElement.textContent = 'Última atualização: ' + now.toLocaleString();
-  }
-
-  function startInterval() {
-    const selectElement = document.getElementById('refreshInterval');
-    const selectedValue = selectElement.value;
-
-    if (intervalID) {
-      clearInterval(intervalID);
-    }
-
-    intervalID = setInterval(reloadPage, selectedValue);
-    updateLastUpdate();
-  }
-
-  document.getElementById('reloadButton').addEventListener('click', reloadPage);
-
-  document.getElementById('refreshInterval').addEventListener('change', startInterval);
-
-  startInterval();
-
-  var arrayTablet = [];
-
 </script>

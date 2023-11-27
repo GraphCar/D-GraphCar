@@ -17,7 +17,7 @@
 </head>
 <!-- onload="validarSessao()" -->
 
-<body onload="exibirTabelaDeCarros()">
+<body onload="exibirTabelaDeCarros(), exibirTabelaDeCarros()">
     <div class="container-scroller">
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
@@ -159,15 +159,15 @@
                                             <input type="number" id="fkCarro" class="ml-3">
                                         </label>
                                         <button type="button" onclick="pesquisarId()"  class="btn btn-sm ml-3 btn-success">
-                                            <span id="btn_pesquisar_id">Pesquisar</span>
+                                            <span><a id="btn_pesquisar_id">Pesquisar</a></span>
                                         </button>
                                     </div>
 
-                                    <div class="row d-flex justify-content-center">
+                                    <div class="row card-table d-flex justify-content-left">
                                         <div class="col-lg-6 grid-margin stretch-card">
-                                            <div class="card">
+                                            <div class="card ">
                                                 <div class="card-body">
-                                                    <h4 class="card-title">Basic Table</h4>
+                                                    <h4 class="card-title">Tabela </h4>
                                                     </p>
                                                     <div class="table-responsive">
                                                         <table class="table">
@@ -181,13 +181,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tabela-corpo">
-                                                                <tr>
-                                                                    <td>Jacob</td>
-                                                                    <td>53275531</td>
-                                                                    <td>12 May 2017</td>
-                                                                    <td></td>
-                                                                    <td></td>
-                                                                </tr>
+
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -241,7 +235,7 @@
     <script src="../../assets/js/misc.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    <script src="../../assets/js/dashboard.js"></script>
+  <script src="../../assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
 </body>
 
