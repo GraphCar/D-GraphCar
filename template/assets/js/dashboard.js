@@ -363,6 +363,15 @@ function carregarDadosCarro() {
       resposta.json().then(function (response) {
         console.log(response);
 
+        dados_graph_carro = {'cpu': [], 'gpu': [], 'bateria': []}
+
+        for (let i = 0; i < response.length; i++){
+          labels_graph_carro.push(response[i].dateDado)
+          dados_graph_carro.cpu.push(response[i].cpuUso)
+          dados_graph_carro.gpu.push(response[i].gpuUso)
+          dados_graph_carro.bateria.push(response[i].bateriaNivel)
+        }
+
         span_cpu_atual.innerHTML = Number(response[0].cpuUso)
         span_gpu_atual.innerHTML = Number(response[0].gpuUso)
         span_bateria_atual.innerHTML = Number(response[0].bateriaNivel)
@@ -414,8 +423,11 @@ function exibirTabelaDeCarros() {
 var flotPlot;
 var dashDataCrit;
 var dashDataAlerta
+var dashDataValor;
 var dados_graph = [];
 var labels_graph = [];
+var dados_graph_carro = [];
+var labels_graph_carro = [];
 var dados_kpis = {};
 var tickData = [];
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
@@ -2845,41 +2857,30 @@ function exibirGraficosPorCarro() {
         dashDataCrit = { "cpu": [], "gpu": [], "bat": [], "total": [] };
         dashDataAlerta = { "cpu": [], "gpu": [], "bat": [], "total": [] };
         tickData = [];
-
+        dashDataValor = {"cpu": [], "gpu": [], "bat": []}
 
         let cont = 0;
         for (let i = 0; i < 30; i++) {
-          tickData.push([i, labels_graph[i]]);
-          let index = dados_graph.findIndex((x) => x.dia == labels_graph[i]);
+          tickData.push([i, labels_graph_carro[i]]);
+          let index = dados_graph_carro.findIndex((x) => x.dia == labels_graph_carro[i]);
           if (index > -1) {
 
-            let dado = dados_graph[index];
+            let dado = dados_graph_carro[index];
 
-            dashDataAlerta.cpu.push([i, Number(dado.cpuAlerta)]);
-            dashDataAlerta.gpu.push([i, Number(dado.gpuAlerta)]);
-            dashDataAlerta.bat.push([i, Number(dado.batAlerta)]);
-            dashDataAlerta.total.push([i, Number(dado.cpuAlerta) + Number(dado.gpuAlerta) + Number(dado.batAlerta)]);
+            dashDataValor.cpu.push([i, Number(dado.cpuUso)]);
+            dashDataValor.gpu.push([i, Number(dado.gpuUso)]);
+            dashDataValor.bat.push([i, Number(dado.bateriaNivel)]);
 
-            dashDataCrit.cpu.push([i, Number(dado.cpuCritico)]);
-            dashDataCrit.gpu.push([i, Number(dado.gpuCritico)]);
-            dashDataCrit.bat.push([i, Number(dado.batCritico)]);
-            dashDataCrit.total.push([i, Number(dado.cpuCritico) + Number(dado.gpuCritico) + Number(dado.batCritico)]);
           } else {
-            dashDataAlerta.cpu.push([i, 0]);
-            dashDataAlerta.gpu.push([i, 0]);
-            dashDataAlerta.bat.push([i, 0]);
-            dashDataAlerta.total.push([i, 0]);
-
-            dashDataCrit.cpu.push([i, 0]);
-            dashDataCrit.gpu.push([i, 0]);
-            dashDataCrit.bat.push([i, 0]);
-            dashDataCrit.total.push([i, 0]);
+            dashDataValor.cpu.push([i, 0]);
+            dashDataValor.gpu.push([i, 0]);
+            dashDataValor.bat.push([i, 0]);
           }
 
 
         }
         console.log(tickData)
-        console.log(dashDataAlerta)
+        console.log(dashDataValor)
 
         function bgFlotData(num, val) {
           var data = [];
@@ -2902,19 +2903,24 @@ function exibirGraficosPorCarro() {
           [
             {
               label: "CPU",
-              data: dashDataAlerta.total,
+              data: dashDataValor.cpu,
               color: "rgba(253, 127, 99, 0.5)",
               lines: {
                 fillColor: "rgba(253, 127, 99, 0.5)",
               },
             },
             {
-              label: "Estado Crítico",
-              data: dashDataCrit.total,
+              label: "GPU",
+              data: dashDataValor.gpu,
               color: "rgba(204, 22, 22, 0.6)",
               lines: {
                 fillColor: "rgba(204, 22, 22, 0.6)",
               },
+            },
+            {
+              label: "Bateria",
+              data: dashDataValor.bat,
+              color: "rgba(204, 22, 22, 0.4)"
             },
           ],
           {
