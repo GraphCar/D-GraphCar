@@ -11,16 +11,20 @@ function carregarChamados() {
         console.log("Batata");
         console.log(response);
 
-        markings_total = 
+        markings_total = {'cpu': [], 'ram': [], 'disco': []}
         labels_graph = [];
         dados_graph = {'cpu': [], 'ram': [], 'disco': []};
 
         for (let i = 0; i < response.length; i ++) {
-          labels_graph.push([labels_graph.length, response[i].dataFormatada]);
-          dados_graph.cpu.push([dados_graph.cpu.length, response[i].cpuUso]);
-          dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
-          dados_graph.disco.push([dados_graph.disco.length, response[i].disco]);
+          if (response[i].fkComponente == 1) {
+            markings_total.cpu.push([response[i].dataAbertura, response[i].dataFechamento]);
+          } else if (response[i].fkComponente == 2) {
+            markings_total.ram.push([response[i].dataAbertura, response[i].dataFechamento]);
+          } else {
+            markings_total.disco.push([response[i].dataAbertura, response[i].dataFechamento]);
+          }
         }
+        console.log(markings_total)
 
         carregarDados();
       });
@@ -88,15 +92,66 @@ function carregarDados() {
       resposta.json().then((response) => {
         console.log("Batata");
         console.log(response);
-
+        console.log(markings_total);
         labels_graph = [];
+        markings_graph = {'cpu': [], 'ram': [], 'disco': []};
         dados_graph = {'cpu': [], 'ram': [], 'disco': []};
+        curCpu = null;
+        curRam = null;
+        curDisco = null;
+
+        // { xaxis: { from: 200, to: 245 }, color: "#FFBBBB" }
+
 
         for (let i = 0; i < response.length; i ++) {
           labels_graph.push([labels_graph.length, response[i].dataFormatada]);
           dados_graph.cpu.push([dados_graph.cpu.length, response[i].cpuUso]);
+
+          if (markings_total.cpu.length > 0) {
+            if (curCpu != null) {
+              if (i == response.length - 1 || curCpu[1] <= response[i].minDateDado) {
+                markings_graph.cpu[markings_graph.length -1].xaxis.from = i;
+              }
+              curCpu = null;
+            } 
+            if (markings_total.cpu[0][0] <= response[i].minDateDado) {
+              curCpu = markings_total.cpu.splice(0, 1);
+              markings_graph.cpu.push({ xaxis: { from: 0, to: i }, color: "#FFBBBB"});
+            }
+          
+          }
+
           dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
+
+          if (markings_total.ram.length > 0) {
+            if (curRam != null) {
+              if (i == response.length - 1 || curRam[1] <= response[i].minDateDado) {
+              markings_graph.ram[markings_graph.length -1].xaxis.from = i;
+            }
+            curRam = null;
+            } 
+            if (markings_total.ram[0][0] <= response[i].minDateDado) {
+              curRam = markings_total.ram.splice(0, 1);
+              markings_graph.ram.push({ xaxis: { from: 0, to: i }, color: "#FFBBBB"});
+            }
+          }
+          
           dados_graph.disco.push([dados_graph.disco.length, response[i].disco]);
+
+          if (markings_total.disco.length > 0) {
+            if (curDisco != null) {
+              if (i == response.length - 1 || curDisco[1] <= response[i].minDateDado) {
+                markings_graph.disco[markings_graph.length -1].xaxis.from = i;
+              }
+              curDisco = null;
+            } 
+            if (markings_total.disco[0][0] <= response[i].minDateDado) {
+              curDisco = markings_total.disco.splice(0, 1);
+              markings_graph.disco.push({ xaxis: { from: 0, to: i }, color: "#FFBBBB"});
+            }
+
+          }
+
         }
 
         obterMetricas();
@@ -219,7 +274,7 @@ function obterMetricas() {
             span_ocorrencia_cpu.innerHTML = response[i].qtdeChamados;
 
             p_cpu_real.innerHTML = `${response[i].tempoPorcent} %`;
-            if (response[i].tempoPorcent > 10) {
+            if (response[i].tempoPorcent > 5) {
               p_cpu_real.style = "color: red";
             } else {
               p_cpu_real.style = "color: green";
@@ -236,7 +291,7 @@ function obterMetricas() {
           } else {
             span_ocorrencia_disco.innerHTML = response[i].qtdeChamados;
             p_disco_real.innerHTML = `${response[i].tempoPorcent} %`;
-            if (response[i].tempoPorcent > 10) {
+            if (response[i].tempoPorcent > 5) {
               p_disco_real.style = "color: red";
             } else {
               p_disco_real.style = "color: green";
@@ -261,15 +316,13 @@ var dashDataUso;
 var dados_graph = [];
 var labels_graph = [];
 var markings_total = [];
-var markings_graph = [
-  { xaxis: { from: 200, to: 245 }, color: "#FFBBBB" }
-];
+var markings_graph = [];
 var dados_kpis = {};
 var tickData = [];
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0];
 var grafico_atual = "";
-carregarDados();
+carregarChamados();
 atualizarNotificacoes();
 
 function mudarDadosGrafico(parametro) {
@@ -1403,7 +1456,7 @@ function exibirGraficos() {
             grid: {
               borderWidth: 0,
               labelMargin: 4,
-              markings: markings_graph,
+              markings: markings_graph.cpu,
             },
             yaxis: {
               show: true,
