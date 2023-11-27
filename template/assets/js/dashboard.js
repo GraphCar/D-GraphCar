@@ -1,3 +1,5 @@
+const { json } = require("express");
+
 function carregarDados() {
   fetch("/Dados/alertasGerais", {
     method: "GET",
@@ -338,14 +340,72 @@ function buscarModelos() {
   });
 }
 
-function capturarDadosCarro() {
+function carregarDadosCarro() {
+
+  fkCarro = sessionStorage.FK_CARRO;
+
+  fetch(`/Dados/alertasCarro/:${fkCarro}`).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then(function (response) {
+        console.log(response)
+        span_ocorrencia_cpu_carro.innerHTML = Number(response[0].cpuAlerta) + Number(response[0].cpuCritico)
+        span_ocorrencia_gpu_carro.innerHTML = Number(response[0].gpuAlerta) + Number(response[0].gpuCritico)
+        span_ocorrencia_bateria_carro.innerHTML = Number(response[0].bateriaAlerta) + Number(response[0].bateriaCritico)
+
+      });
+    } else {
+      throw ('Houve um erro na API')
+    }
+  });
+
   fetch(`/Dados/capturarDadosCarro/:${fkCarro}`).then(function (resposta) {
     if (resposta.ok) {
       resposta.json().then(function (response) {
         console.log(response);
 
-        exibirGraficosPorCarro();
+        span_cpu_atual.innerHTML = Number(response[0].cpuUso)
+        span_gpu_atual.innerHTML = Number(response[0].gpuUso)
+        span_bateria_atual.innerHTML = Number(response[0].bateriaNivel)
 
+        exibirGraficosPorCarro();
+      });
+    } else {
+      throw ('Houve um erro na API')
+    }
+  });
+}
+
+function exibirTabelaDeCarros() {
+  fetch(`/Dados/exibirTabelaDeCarros`).then(function (resposta) {
+    if (resposta.ok) {
+
+      resposta.json().then(function (response) {
+        console.log(response);
+        var corpo = document.getElementById("tabela-corpo")
+        
+
+        for (let index = 0; index < response.length; index++) {
+          let linha = document.createElement("tr")
+          let tdIdCarro = document.createElement("td")
+          let tdOcorrenciaCPU = document.createElement("td")
+          let tdOcorrenciaGPU = document.createElement("td")
+          let tdOcorrenciaBateria = document.createElement("td")
+          let tdOcorrenciaTotal = document.createElement("td")
+
+          let ocorrenciaCPU = Number(response[index].cpuAlerta) + Number(response[index].cpuCritico)
+          let ocorrenciaGPU = Number(response[index].gpuAlerta) + Number(response[index].gpuCritico)
+          let ocorrenciasBateria = Number(response[index].bateriaAlerta) + Number(response[index].bateriaCritico)
+          let OcorrenciaTotal = ocorrenciaCPU + ocorrenciaGPU + ocorrenciasBateria
+
+          tdIdCarro.innerHTML = Number(response[index].fkCarro)
+          tdOcorrenciaCPU.innerHTML = ocorrenciaCPU          
+          tdOcorrenciaGPU.innerHTML = ocorrenciaGPU          
+          tdOcorrenciaBateria.innerHTML = ocorrenciasBateria
+          tdOcorrenciaTotal.innerHTML = OcorrenciaTotal
+
+          linha.appendChild(tdIdCarro, tdOcorrenciaCPU, tdOcorrenciaGPU, tdOcorrenciaBateria,tdOcorrenciaTotal)
+          corpo.append(linha)
+        }
       })
     }
   })
@@ -363,6 +423,7 @@ span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0
 var grafico_atual = "todos";
 buscarModelos();
 carregarDados();
+carregarDadosCarro();
 atualizarNotificacoes();
 
 function mudarDadosGrafico(parametro) {
@@ -2938,5 +2999,3 @@ function download() {
 
   URL.revokeObjectURL(url);
 }
-
-

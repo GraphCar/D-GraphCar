@@ -16,13 +16,12 @@ function carregarDados() {
         dados_graph = {'cpu': [], 'ram': [], 'disco': []};
 
         for (let i = 0; i < response.length; i ++) {
-          labels_graph.push(response[i].dataFormatada);
-          dados_graph.cpu.push(response[i].cpuUso);
-          dados_graph.ram.push(response[i].memoria);
-          dados_graph.disco.push(response[i].disco);
+          labels_graph.push([labels_graph.length, response[i].dataFormatada]);
+          dados_graph.cpu.push([dados_graph.cpu.length, response[i].cpuUso]);
+          dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
+          dados_graph.disco.push([dados_graph.disco.length, response[i].disco]);
         }
 
-        //extrairDadosGraficos(jsonAlertas);
         obterMetricas();
         exibirGraficos();
       });
@@ -39,7 +38,7 @@ function carregarDados() {
 }
 
 function atualizarNotificacoes() {
-  fetch("/Dados/listarNotificacoes").then(function (resposta) {
+  fetch("/Servidor/listarAlertas/-").then(function (resposta) {
     if (resposta.ok) {
       if (resposta.status == 204) {
         var notificacoes = document.getElementById("div_lista_alertas");
@@ -55,74 +54,10 @@ function atualizarNotificacoes() {
       resposta.json().then(function (resposta) {
         console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-        
-        var nomeNotificacoes = []
-        var mensagens = []
         var notificacoes = document.getElementById("div_lista_alertas");
-        var alertas = {
-          cpuAlerta: 0,
-          cpuCritico: 0,
-          gpuAlerta: 0,
-          gpuCritico: 0,
-          bateriaAlerta: 0,
-          bateriaCritico: 0
-        }
-        console.log("alertas");
-        console.log(resposta);
 
         notificacoes.innerHTML = '<h6 class="p-3 mb-0">Mensagens</h6>';
-        for (let i = 0; i < resposta.length; i++) {
-          var publicacao = resposta[i];
-          if (publicacao.cpuUso > 70) {
-            alertas.cpuAlerta++;
-          } else if (publicacao.cpuUso > 90) {
-            alertas.cpuCritico++;
-          }
-          if (publicacao.gpuUso > 70) {
-            alertas.gpuAlerta++;
-          } else if (publicacao.gpuUso > 90) {
-            alertas.gpuCritico++;
-          }
-          if (publicacao.bateriaNivel < 5) {
-            alertas.bateriaCritico++;
-          } else if (publicacao.bateriaNivel < 20) {
-            alertas.bateriaAlerta++;
-          }
-        }
-        let totalAlertas = 0;
-
-        if (alertas.cpuAlerta != 0) {
-          nomeNotificacoes.push("Alerta de CPU");
-          mensagens.push("Existem " + alertas.cpuAlerta + " alertas de CPU nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.cpuCritico != 0) {
-          nomeNotificacoes.push("Nível Crítico de CPU");
-          mensagens.push("Existem " + alertas.cpuAlerta + " CPUs em nível CRÍTICO nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.gpuAlerta != 0) {
-          nomeNotificacoes.push("Alerta de GPU");
-          mensagens.push("Existem " + alertas.gpuAlerta + " alertas de GPU nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.gpuCritico != 0) {
-          nomeNotificacoes.push("Nível Crítico de GPU");
-          mensagens.push("Existem " + alertas.gpuCritico + " GPUs em nível CRÍTICO nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.bateriaAlerta != 0) {
-          nomeNotificacoes.push("Alerta de Bateria");
-          mensagens.push("Existem " + alertas.bateriaAlerta + " alertas de bateria nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.bateriaCritico != 0) {
-          nomeNotificacoes.push("Nível Crítico de Bateria");
-          mensagens.push("Existem " + alertas.bateriaCritico + " baterias em nível CRÍTICO nos últimos 15 minutos");
-          totalAlertas++;
-        }
-      
-        if (totalAlertas == 0) {
+        if (resposta.length == 0) {
           span_qtde_alertas.classList.add("invisible");
           let aDropDown = document.createElement("a");
           let divConteudo = document.createElement("div");
@@ -132,32 +67,45 @@ function atualizarNotificacoes() {
           divConteudo.classList.add("preview-item-content", "flex-grow");
           pMensagem.classList.add("text-small", "text-muted", "ellipsis", "mb-0");
 
-          pMensagem.innerHTML = "Não há alertas no momento!";
+          pMensagem.innerHTML = "Não há chamados no momento!";
 
           divConteudo.appendChild(pMensagem);
           aDropDown.appendChild(divConteudo);
           notificacoes.appendChild(aDropDown);
 
         } else {
-          for (i = 0; i < nomeNotificacoes.length; i++) {
+          for (let i = 0; i < resposta.length; i++) {
+  
             let aDropDown = document.createElement("a");
             let divConteudo = document.createElement("div");
             let spanTitulo = document.createElement("span");
             let pMensagem = document.createElement("p");
+    
+            let componente = "";
+            if (resposta[i].fkComponente == 1) {
+              componente = "CPU";
+            } else if (resposta[i].fkComponente == 2) {
+              componente = "RAM";
+            } else {
+              componente = "Disco";
+            }
   
-            spanTitulo.innerHTML = nomeNotificacoes[i];
-            pMensagem.innerHTML = mensagens[i];
-  
+            spanTitulo.innerHTML = resposta[i].chaveJira;
+            aDropDown.href = `https://graphcar-servers.atlassian.net/browse/${resposta[i].chaveJira}`;
+            pMensagem.innerHTML = `Componente: ${componente}<br>
+                Status: ${resposta[i].status}<br>
+                Data Abertura: ${resposta[i].dataAbertura}`;
+    
             aDropDown.classList.add("dropdown-item", "preview-item");
             divConteudo.classList.add("preview-item-content", "flex-grow");
             spanTitulo.classList.add("badge", "badge-pill");
-
-            if (nomeNotificacoes[i].includes("Alerta")) {
+  
+            if (resposta[i].critico == 0) {
               spanTitulo.classList.add("badge-warning");
             } else {
               spanTitulo.classList.add("badge-danger");
             }
-
+  
             pMensagem.classList.add("text-small", "text-muted", "ellipsis", "mb-0");
   
             divConteudo.appendChild(spanTitulo);
@@ -168,9 +116,6 @@ function atualizarNotificacoes() {
           span_qtde_alertas.innerHTML = "!";
           span_qtde_alertas.classList.remove("invisible");
         }
-
-        
-
       });
     } else {
       throw ('Houve um erro na API!');
@@ -396,13 +341,13 @@ function extrairDadosConcatenados(response) {
       if (gpuState == 0 && arrayGpu[j] == '1') {
         jsonAlertas[dia]['gpuAlerta'] += 1;
         gpuState = 1;
-        dados_kpis.gpu.carros.add(carro)
+        dados_kpis.gpu.carros.add(carro);
         dados_kpis.gpu.alerta += 1;
       } else if ((gpuState == 0 || gpuState == 1) && arrayGpu[j] == '2') {
         jsonAlertas[dia]['gpuCritico'] += 1;
         jsonAlertas[dia]['gpuAlerta'] += 1;
         gpuState = 2;
-        dados_kpis.gpu.carros.add(carro)
+        dados_kpis.gpu.carros.add(carro);
         dados_kpis.gpu.alerta += 1;
         dados_kpis.gpu.critico += 1;
       } else if (gpuState == 2 && arrayGpu[j] == '1') {
