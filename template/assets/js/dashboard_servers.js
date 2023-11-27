@@ -12,8 +12,18 @@ function carregarDados() {
         console.log("Batata");
         console.log(response);
 
-        extrairDadosGraficos(jsonAlertas);
+        labels_graph = [];
+        dados_graph = {'cpu': [], 'ram': [], 'disco': []};
 
+        for (let i = 0; i < response.length; i ++) {
+          labels_graph.push(response[i].dataFormatada);
+          dados_graph.cpu.push(response[i].cpuUso);
+          dados_graph.ram.push(response[i].memoria);
+          dados_graph.disco.push(response[i].disco);
+        }
+
+        //extrairDadosGraficos(jsonAlertas);
+        obterMetricas();
         exibirGraficos();
       });
     } else {
@@ -170,33 +180,8 @@ function atualizarNotificacoes() {
   });
 }
 
-function obterQuantidadeCarros() {
-  fetch(`/Dados/quantidadeCarros/${sel_modelo_carro.value || "-"}`, {
-    method: "GET",
-    cache: "no-store",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(function (resposta) {
-    if (resposta.ok) {
-      resposta.json().then((response) => {
-        span_total_carros.innerHTML = response[0].count_carro;
-        obterMetricas();
-      });
-    } else {
-      console.log(resposta)
-      console.log("Houve um erro ao tentar recuperar os dados!");
-
-      resposta.text().then(texto => {
-        console.error(texto);
-        alert("Houve um erro ao tentar recuperar os dados!");
-      });
-    }
-  });
-}
-
 function obterMetricas() {
-  fetch("/Dados/metasDashboard", {
+  fetch("/Servidor/listarTempoOcorrencias", {
     method: "GET",
     cache: "no-store",
     headers: {
@@ -205,52 +190,35 @@ function obterMetricas() {
   }).then(function (resposta) {
     if (resposta.ok) {
       resposta.json().then((response) => {
-        response[0].meta_cpu = Number(response[0].meta_cpu);
-        response[0].meta_gpu = Number(response[0].meta_gpu);
-        response[0].meta_bat = Number(response[0].meta_bat);
+        for (let i = 0; i < response.length; i++) {
+          if (response[i].idComponente == 1) {
+            span_ocorrencia_cpu.innerHTML = response[i].qtdeChamados;
 
-        let total_carros = Number(span_total_carros.innerHTML);
+            p_cpu_real.innerHTML = `${response[i].tempoPorcent} %`;
+            if (response[i].tempoPorcent > 10) {
+              p_cpu_real.style = "color: red";
+            } else {
+              p_cpu_real.style = "color: green";
+            }
+          } else if (response[i].idComponente == 2) {
+            span_ocorrencia_ram.innerHTML = response[i].qtdeChamados;
 
-        span_ocorrencia_cpu.innerHTML = dados_kpis.cpu.alerta;
-        span_ocorrencia_cpu_carros.innerHTML = dados_kpis.cpu.carros.size;
-        p_cpu_meta.innerHTML = `< ${response[0].meta_cpu} %`;
-        p_cpu_meta.style = "color: black";
-        let ocorrenciasCpuAtual = Math.round(dados_kpis.cpu.carros.size * 100 / total_carros,1);
-        console.log(ocorrenciasCpuAtual);
-        console.log(response[0].meta_cpu);
-        console.log(ocorrenciasCpuAtual < response[0].meta_cpu);
-        if (ocorrenciasCpuAtual < response[0].meta_cpu) {
-          p_cpu_atual.style="color: green;";
-        } else {
-          p_cpu_atual.style="color: red;";
+            p_ram_real.innerHTML = `${response[i].tempoPorcent} %`;
+            if (response[i].tempoPorcent > 10) {
+              p_ram_real.style = "color: red";
+            } else {
+              p_ram_real.style = "color: green";
+            }
+          } else {
+            span_ocorrencia_disco.innerHTML = response[i].qtdeChamados;
+            p_disco_real.innerHTML = `${response[i].tempoPorcent} %`;
+            if (response[i].tempoPorcent > 10) {
+              p_disco_real.style = "color: red";
+            } else {
+              p_disco_real.style = "color: green";
+            }
+          }
         }
-        p_cpu_atual.innerHTML = `${ocorrenciasCpuAtual} %`;
-        
-      
-        span_ocorrencia_gpu.innerHTML = dados_kpis.gpu.alerta;
-        span_ocorrencia_gpu_carros.innerHTML = dados_kpis.gpu.carros.size;
-        p_gpu_meta.innerHTML = `< ${response[0].meta_gpu} %`;
-        p_gpu_meta.style = "color: black";
-        let ocorrenciasGpuAtual = Math.round(dados_kpis.gpu.carros.size * 100 / total_carros,1);
-        if (ocorrenciasGpuAtual < response[0].meta_gpu) {
-          p_gpu_atual.style="color: green;";
-        } else {
-          p_gpu_atual.style="color: red;";
-        }
-        p_gpu_atual.innerHTML = `${ocorrenciasGpuAtual} %`;
-      
-        span_ocorrencia_bat.innerHTML = dados_kpis.bat.alerta;
-        span_ocorrencia_bat_carros.innerHTML = dados_kpis.bat.carros.size;
-        p_bat_meta.innerHTML = `< ${response[0].meta_bat} %`;
-        p_bat_meta.style = "color: black";
-        let ocorrenciasBatAtual = Math.round(dados_kpis.bat.carros.size * 100 / total_carros,1);
-        if (ocorrenciasBatAtual < response[0].meta_bat) {
-          p_bat_atual.style = "color: green";
-        } else {
-          p_bat_atual.style = "color: red";
-        }
-        p_bat_atual.innerHTML = `${ocorrenciasBatAtual} %`;
-
       });
     } else {
       console.log(resposta)
@@ -1531,44 +1499,44 @@ function exibirGraficos() {
       $(function () {
         "use strict";
 
-        var dashData2 = [];
-        dashDataUso = { "cpu": [], "gpu": [], "bat": [], "total": [] };
-        dashDataAlerta = { "cpu": [], "gpu": [], "bat": [], "total": [] };
-        tickData = [];
+        // var dashData2 = [];
+        // dashDataUso = { "cpu": [], "gpu": [], "bat": [], "total": [] };
+        // dashDataAlerta = { "cpu": [], "gpu": [], "bat": [], "total": [] };
+        // tickData = [];
 
-        let cont = 0;
-        for (let i = 0; i < 30; i++) {
-          tickData.push([i, labels_graph[i]]);
-          let index = dados_graph.findIndex((x) => x.dia == labels_graph[i]);
-          if (index > -1) {
+        // let cont = 0;
+        // for (let i = 0; i < 30; i++) {
+        //   tickData.push([i, labels_graph[i]]);
+        //   let index = dados_graph.findIndex((x) => x.dia == labels_graph[i]);
+        //   if (index > -1) {
 
-            let dado = dados_graph[index];
+        //     let dado = dados_graph[index];
             
-            dashDataAlerta.cpu.push([i, Number(dado.cpuAlerta)]);
-            dashDataAlerta.gpu.push([i, Number(dado.gpuAlerta)]);
-            dashDataAlerta.bat.push([i, Number(dado.batAlerta)]);
-            dashDataAlerta.total.push([i, Number(dado.cpuAlerta) + Number(dado.gpuAlerta) + Number(dado.batAlerta)]);
+        //     dashDataAlerta.cpu.push([i, Number(dado.cpuAlerta)]);
+        //     dashDataAlerta.gpu.push([i, Number(dado.gpuAlerta)]);
+        //     dashDataAlerta.bat.push([i, Number(dado.batAlerta)]);
+        //     dashDataAlerta.total.push([i, Number(dado.cpuAlerta) + Number(dado.gpuAlerta) + Number(dado.batAlerta)]);
             
-            dashDataUso.cpu.push([i, Number(dado.cpuCritico)]);
-            dashDataUso.gpu.push([i, Number(dado.gpuCritico)]);
-            dashDataUso.bat.push([i, Number(dado.batCritico)]);
-            dashDataUso.total.push([i, Number(dado.cpuCritico) + Number(dado.gpuCritico) + Number(dado.batCritico)]);
-          } else {
-            dashDataAlerta.cpu.push([i, 0]);
-            dashDataAlerta.gpu.push([i, 0]);
-            dashDataAlerta.bat.push([i, 0]);
-            dashDataAlerta.total.push([i, 0]);
+        //     dashDataUso.cpu.push([i, Number(dado.cpuCritico)]);
+        //     dashDataUso.gpu.push([i, Number(dado.gpuCritico)]);
+        //     dashDataUso.bat.push([i, Number(dado.batCritico)]);
+        //     dashDataUso.total.push([i, Number(dado.cpuCritico) + Number(dado.gpuCritico) + Number(dado.batCritico)]);
+        //   } else {
+        //     dashDataAlerta.cpu.push([i, 0]);
+        //     dashDataAlerta.gpu.push([i, 0]);
+        //     dashDataAlerta.bat.push([i, 0]);
+        //     dashDataAlerta.total.push([i, 0]);
             
-            dashDataUso.cpu.push([i, 0]);
-            dashDataUso.gpu.push([i, 0]);
-            dashDataUso.bat.push([i, 0]);
-            dashDataUso.total.push([i, 0]);
-          }
+        //     dashDataUso.cpu.push([i, 0]);
+        //     dashDataUso.gpu.push([i, 0]);
+        //     dashDataUso.bat.push([i, 0]);
+        //     dashDataUso.total.push([i, 0]);
+        //   }
 
           
-        }
-        console.log(tickData)
-        console.log(dashDataAlerta)
+        // }
+        // console.log(tickData)
+        // console.log(dashDataAlerta)
 
         function bgFlotData(num, val) {
           var data = [];
@@ -1591,7 +1559,7 @@ function exibirGraficos() {
           [
             {
               label: "Estado de Alerta",
-              data: dashDataAlerta.total,
+              data: dados_graph.cpu,
               color: "rgba(253, 127, 99, 0.5)",
               lines: {
                 fillColor: "rgba(253, 127, 99, 0.5)",
@@ -1599,7 +1567,7 @@ function exibirGraficos() {
             },
             {
               label: "Estado Crítico",
-              data: dashDataUso.total,
+              data: dados_graph.ram,
               color: "rgba(204, 22, 22, 0.6)",
               lines: {
                 fillColor: "rgba(204, 22, 22, 0.6)",
@@ -1638,7 +1606,7 @@ function exibirGraficos() {
               show: true,
               color: "#fff",
               tickColor: "#eee",
-              ticks: tickData, /*[
+              ticks: labels_graph, /*[
               [0, "2000"],
               [10, "2500"],
               [20, "3000"],
