@@ -23,7 +23,7 @@ function exibirCPU() {
         console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
       });
     return false;
-} setInterval(exibirCPU,7000)
+} setInterval(exibirCPU,1000)
 
 function temperaturaCPU(taxaTemperaturaCPU) {
   var degrees = rateToDegrees(taxaTemperaturaCPU);
@@ -35,6 +35,10 @@ function temperaturaCPU(taxaTemperaturaCPU) {
   valueText.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
 
   frame3 = frame1 * 4;
+
+  if (frame3 > 100) {
+    frame3 = 60.4;
+  }
 
   var divElement = document.getElementById('exibirAlertaDados');
 
@@ -58,7 +62,7 @@ function temperaturaCPU(taxaTemperaturaCPU) {
 
     CPU(frame3);
 
-} 
+} setInterval(exibirGPU,1000)
 
 function rateToDegrees(taxaTemperaturaCPU) {
     var degrees = taxaTemperaturaCPU * 180 / 100 - 90;
@@ -118,7 +122,7 @@ function temperaturaGPU(taxaTemperaturaGPU) {
   frame4 = frame2 * 1.3;
     GPU(frame4);
   
-  valueTextGpu.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
+  valueTextGpu.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "ºC";
 } 
 
 function rateToDegrees(taxaTemperaturaGPU) {
@@ -159,7 +163,7 @@ function GPU(taxaGPU) {
 
   var formattedRate = parseFloat(frame4).toFixed(1);
   
-  valueText_GPU.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
+  valueText_GPU.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "ºC";
 } 
 
 function rateToDegrees(taxaGPU) {
