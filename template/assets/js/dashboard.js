@@ -203,17 +203,10 @@ function atualizarNotificacoes() {
 }
 
 function pesquisarId() {
-  fetch(`/Dados/pesquisarId/${fkCarro.value}`, {
-    method: "GET",
-    cache: "no-store",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then(function (resposta) {
+  fetch(`/Dados/pesquisarId/${fkCarro.value}`).then(function (resposta) {
     if (resposta.ok) {
-
+    
       resposta.json().then((response) => {
-
         sessionStorage.FK_CARRO = fkCarro.value
 
         window.location = "../../pages/dash-manutencao/dash-manutencao.html"
