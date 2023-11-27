@@ -181,7 +181,7 @@
                           <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                             <div>
                               <h3 class="m-0 survey-value">
-                                <span id="span_ocorrencia_cpu">0</span>
+                                <span id="span_ocorrencia_cpu_carro">0</span>
                               </h3>
                               <!-- <p class="text-success m-0">2</p> -->
                             </div>
@@ -208,7 +208,7 @@
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
                                 <h3 class="m-0 survey-value">
-                                  <span id="span_ocorrencia_gpu">0</span>
+                                  <span id="span_ocorrencia_gpu_carro">0</span>
                                 </h3>
                                 <!-- <p class="text-success m-0">2</p> -->
                               </div>
@@ -234,7 +234,7 @@
                             <div class="d-flex justify-content-between align-items-end flot-bar-wrapper">
                               <div>
                                 <h3 class="m-0 survey-value">
-                                  <span id="span_ocorrencia_bateria">0</span>
+                                  <span id="span_ocorrencia_bateria_carro">0</span>
                                 </h3>
                                 <!-- <p class="text-success m-0">2</p> -->
                               </div>
@@ -325,17 +325,18 @@
 <script>
   var idUsuario = sessionStorage.ID_USUARIO;
   var idModelo = sessionStorage.ID_MODELO;
+  var fkCarro = sessionStorage.FK_CARRO;
+
+  if (fkCarro == undefined){
+    window.location = "index.html"
+  }else{
+    capturarDadosCarro();
+  }
 
   if (idUsuario == undefined || idModelo == undefined) {
     window.location = "../../../../login.html";
   } else {
-    date = new Date();
-    year = date.getFullYear();
-    month = date.getMonth() + 1;
-    day = date.getDate();
-    // document.getElementById("current_date").innerHTML =
-    //   "<h3>" + day + "/" + month + "/" + year + "</h3>";
-
+    
     function sair() {
       delete sessionStorage.ID_USUARIO;
       delete sessionStorage.ID_MODELO;

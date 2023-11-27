@@ -84,16 +84,16 @@
             </div>
             <div class="divLegenda">
                 <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgResumo">
-                Eixo
+                <span id="spanEixo">Eixo</span>
                 <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgResumo">
-                Freio
+                <span id="spanFreio">Freio</span>
                 <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgResumo">
-                Pneu
+                <span id="spanPneu">Pneu</span>
             </div>
         </div>
         <div class="divDireita">
             <div class="divSuperior">
-                <div class="divKpi">
+                <div class="divKpi" id="divAutonomia">
                     Autonomia da bateria: <br>
                     2 h 34 min <br><br>
                 </div>
@@ -140,27 +140,320 @@
 <script>
 
     function simularDados() {
-        const temperaturaEixo = Math.floor(Math.random() * (131 - 100) + 100);
-        const temperaturaFreio = Math.floor(Math.random() * 100) + 80;
-        const temperaturaPneu = Math.floor(Math.random() * (131 - 100) + 100);
+        const temperaturaEixo = Math.floor(Math.random() * (161 - 100) + 100);
+        const temperaturaFreio = Math.floor(Math.random() * 250) + 50;
+        const temperaturaPneu = Math.floor(Math.random() * (181 - 100) + 100);
 
-        // Atualize os textos com as temperaturas simuladas e aplique as classes de cor
-        document.getElementById("eixo1").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("eixo2").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("eixo3").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("eixo4").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        var freio1 = document.getElementById("freio1");
+        var freio2 = document.getElementById("freio2");
+        var freio3 = document.getElementById("freio3");
+        var freio4 = document.getElementById("freio4");
 
-        document.getElementById("freio1").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("freio2").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("freio3").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("freio4").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        var eixo1 = document.getElementById("eixo1");
+        var eixo2 = document.getElementById("eixo2");
+        var eixo3 = document.getElementById("eixo3");
+        var eixo4 = document.getElementById("eixo4");
 
-        document.getElementById("pneu1").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("pneu2").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("pneu3").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
-        document.getElementById("pneu4").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+        var pneu1 = document.getElementById("pneu1");
+        var pneu2 = document.getElementById("pneu2");
+        var pneu3 = document.getElementById("pneu3");
+        var pneu4 = document.getElementById("pneu4");
+
+        if (temperaturaFreio > 250) {
+
+            freio1.classList.remove("vermelho");
+            freio2.classList.remove("vermelho");
+            freio3.classList.remove("vermelho");
+            freio4.classList.remove("vermelho");
+            spanFreio.classList.remove("vermelho");
+
+            freio1.classList.remove("amarelo");
+            freio2.classList.remove("amarelo");
+            freio3.classList.remove("amarelo");
+            freio4.classList.remove("amarelo");
+            spanFreio.classList.remove("amarelo");
+
+            freio1.classList.remove("verde");
+            freio2.classList.remove("verde");
+            freio3.classList.remove("verde");
+            freio4.classList.remove("verde");
+            spanFreio.classList.remove("verde");
+
+            document.getElementById("freio1").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio2").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio3").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio4").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+
+            freio1.classList.add("vermelho");
+            freio2.classList.add("vermelho");
+            freio3.classList.add("vermelho");
+            freio4.classList.add("vermelho");
+            spanFreio.classList.add("vermelho");
+
+        } else if (temperaturaFreio < 150) {
+
+            freio1.classList.remove("vermelho");
+            freio2.classList.remove("vermelho");
+            freio3.classList.remove("vermelho");
+            freio4.classList.remove("vermelho");
+            spanFreio.classList.remove("vermelho");
+
+            freio1.classList.remove("amarelo");
+            freio2.classList.remove("amarelo");
+            freio3.classList.remove("amarelo");
+            freio4.classList.remove("amarelo");
+            spanFreio.classList.remove("amarelo");
+
+            freio1.classList.remove("verde");
+            freio2.classList.remove("verde");
+            freio3.classList.remove("verde");
+            freio4.classList.remove("verde");
+            spanFreio.classList.remove("verde");
+
+            document.getElementById("freio1").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio2").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio3").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio4").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+
+            freio1.classList.add("verde");
+            freio2.classList.add("verde");
+            freio3.classList.add("verde");
+            freio4.classList.add("verde");
+            spanFreio.classList.add("verde");
+
+        } else {
+            freio1.classList.remove("vermelho");
+            freio2.classList.remove("vermelho");
+            freio3.classList.remove("vermelho");
+            freio4.classList.remove("vermelho");
+            spanFreio.classList.remove("vermelho");
+
+            freio1.classList.remove("amarelo");
+            freio2.classList.remove("amarelo");
+            freio3.classList.remove("amarelo");
+            freio4.classList.remove("amarelo");
+            spanFreio.classList.remove("amarelo");
+
+            freio1.classList.remove("verde");
+            freio2.classList.remove("verde");
+            freio3.classList.remove("verde");
+            freio4.classList.remove("verde");
+            spanFreio.classList.remove("verde");
+
+            document.getElementById("freio1").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio2").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio3").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("freio4").innerHTML = `${temperaturaFreio}°C <img src="../../../../assets/img/freioTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+
+            freio1.classList.add("amarelo");
+            freio2.classList.add("amarelo");
+            freio3.classList.add("amarelo");
+            freio4.classList.add("amarelo");
+            spanFreio.classList.add("amarelo");
+        }
+
+
+        if (temperaturaEixo > 250) {
+
+            spanEixo.classList.remove("vermelho");
+            spanEixo.classList.remove("amarelo");
+            spanEixo.classList.remove("verde");
+
+            eixo1.classList.remove("vermelho");
+            eixo2.classList.remove("vermelho");
+            eixo3.classList.remove("vermelho");
+            eixo4.classList.remove("vermelho");
+
+            eixo1.classList.remove("amarelo");
+            eixo2.classList.remove("amarelo");
+            eixo3.classList.remove("amarelo");
+            eixo4.classList.remove("amarelo");
+
+            eixo1.classList.remove("verde");
+            eixo2.classList.remove("verde");
+            eixo3.classList.remove("verde");
+            eixo4.classList.remove("verde");
+
+            document.getElementById("eixo1").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo2").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo3").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo4").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+            eixo1.classList.add("vermelho");
+            eixo2.classList.add("vermelho");
+            eixo3.classList.add("vermelho");
+            eixo4.classList.add("vermelho");
+            spanEixo.classList.add("vermelho");
+
+        } else if (temperaturaEixo < 150) {
+
+            spanEixo.classList.remove("vermelho");
+            spanEixo.classList.remove("amarelo");
+            spanEixo.classList.remove("verde");
+
+            eixo1.classList.remove("vermelho");
+            eixo2.classList.remove("vermelho");
+            eixo3.classList.remove("vermelho");
+            eixo4.classList.remove("vermelho");
+
+            eixo1.classList.remove("amarelo");
+            eixo2.classList.remove("amarelo");
+            eixo3.classList.remove("amarelo");
+            eixo4.classList.remove("amarelo");
+
+            eixo1.classList.remove("verde");
+            eixo2.classList.remove("verde");
+            eixo3.classList.remove("verde");
+            eixo4.classList.remove("verde");
+
+            document.getElementById("eixo1").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo2").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo3").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo4").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+            eixo1.classList.add("verde");
+            eixo2.classList.add("verde");
+            eixo3.classList.add("verde");
+            eixo4.classList.add("verde");
+            spanEixo.classList.add("verde");
+
+        } else {
+
+            spanEixo.classList.remove("vermelho");
+            spanEixo.classList.remove("amarelo");
+            spanEixo.classList.remove("verde");
+
+            eixo1.classList.remove("vermelho");
+            eixo2.classList.remove("vermelho");
+            eixo3.classList.remove("vermelho");
+            eixo4.classList.remove("vermelho");
+
+            eixo1.classList.remove("amarelo");
+            eixo2.classList.remove("amarelo");
+            eixo3.classList.remove("amarelo");
+            eixo4.classList.remove("amarelo");
+
+            eixo1.classList.remove("verde");
+            eixo2.classList.remove("verde");
+            eixo3.classList.remove("verde");
+            eixo4.classList.remove("verde");
+
+            document.getElementById("eixo1").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo2").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo3").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("eixo4").innerHTML = `${temperaturaEixo}°C <img src="../../../../assets/img/eixoTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+
+            eixo1.classList.add("amarelo");
+            eixo2.classList.add("amarelo");
+            eixo3.classList.add("amarelo");
+            eixo4.classList.add("amarelo");
+            spanEixo.classList.add("amarelo");
+        }
+
+        if (temperaturaPneu > 250) {
+
+            spanPneu.classList.remove("vermelho");
+            spanPneu.classList.remove("amarelo");
+            spanPneu.classList.remove("verde");
+
+            pneu1.classList.remove("vermelho");
+            pneu2.classList.remove("vermelho");
+            pneu3.classList.remove("vermelho");
+            pneu4.classList.remove("vermelho");
+
+            pneu1.classList.remove("amarelo");
+            pneu2.classList.remove("amarelo");
+            pneu3.classList.remove("amarelo");
+            pneu4.classList.remove("amarelo");
+
+            pneu1.classList.remove("verde");
+            pneu2.classList.remove("verde");
+            pneu3.classList.remove("verde");
+            pneu4.classList.remove("verde");
+
+            document.getElementById("pneu1").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu2").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu3").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu4").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+            pneu1.classList.add("vermelho");
+            pneu2.classList.add("vermelho");
+            pneu3.classList.add("vermelho");
+            pneu4.classList.add("vermelho");
+            spanPneu.classList.add("vermelho");
+
+        } else if (temperaturaPneu < 150) {
+
+            spanPneu.classList.remove("vermelho");
+            spanPneu.classList.remove("amarelo");
+            spanPneu.classList.remove("verde");
+
+            pneu1.classList.remove("vermelho");
+            pneu2.classList.remove("vermelho");
+            pneu3.classList.remove("vermelho");
+            pneu4.classList.remove("vermelho");
+
+            pneu1.classList.remove("amarelo");
+            pneu2.classList.remove("amarelo");
+            pneu3.classList.remove("amarelo");
+            pneu4.classList.remove("amarelo");
+
+            pneu1.classList.remove("verde");
+            pneu2.classList.remove("verde");
+            pneu3.classList.remove("verde");
+            pneu4.classList.remove("verde");
+
+            document.getElementById("pneu1").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu2").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu3").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu4").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+            pneu1.classList.add("verde");
+            pneu2.classList.add("verde");
+            pneu3.classList.add("verde");
+            pneu4.classList.add("verde");
+            spanPneu.classList.add("verde");
+
+        } else {
+
+            spanPneu.classList.remove("vermelho");
+            spanPneu.classList.remove("amarelo");
+            spanPneu.classList.remove("verde");
+
+            pneu1.classList.remove("vermelho");
+            pneu2.classList.remove("vermelho");
+            pneu3.classList.remove("vermelho");
+            pneu4.classList.remove("vermelho");
+
+            pneu1.classList.remove("amarelo");
+            pneu2.classList.remove("amarelo");
+            pneu3.classList.remove("amarelo");
+            pneu4.classList.remove("amarelo");
+
+            pneu1.classList.remove("verde");
+            pneu2.classList.remove("verde");
+            pneu3.classList.remove("verde");
+            pneu4.classList.remove("verde");
+
+            document.getElementById("pneu1").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu2").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu3").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+            document.getElementById("pneu4").innerHTML = `${temperaturaPneu}°C <img src="../../../../assets/img/pneuTelemetria.png" alt="" class="imgTelemetriaComponente"><br>`;
+
+
+            pneu1.classList.add("amarelo");
+            pneu2.classList.add("amarelo");
+            pneu3.classList.add("amarelo");
+            pneu4.classList.add("amarelo");
+            spanPneu.classList.add("amarelo");
+        }
+
     }
-    setInterval(simularDados, 2000);
+    setInterval(simularDados, 3000);
 
     let isRunning = false;
     let isPaused = false;
@@ -277,6 +570,17 @@
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos autonomia: ${JSON.stringify(resposta)}`);
                         arrayTablet = resposta;
+                        divAutonomia.innerHTML = `Autonomia da Bateria: <br>${arrayTablet[0].bateriaTempoRestante}`;
+
+                        if (arrayTablet[0].bateriaTempoRestante < 0) {
+                            divAutonomia.classList.add("verde")
+                            divAutonomia.innerHTML = "Bateria na fonte de alimentação...";
+                        } else {
+                            divAutonomia.classList.remove("verde")
+                            var horas_restantes = Math.floor(arrayTablet[0].bateriaTempoRestante / 3600);
+                            var minutos_restantes = Math.floor((arrayTablet[0].bateriaTempoRestante % 3600) / 60);
+                            divAutonomia.innerHTML = `Autonia da bateria:<br> ${horas_restantes} h e ${minutos_restantes} min`;
+                        }
                     });
                 } else {
                     console.error("Nenhum dado encontrado ou erro na API");
@@ -286,7 +590,7 @@
                 console.error(`Erro na obtenção dos dados p/ idEmpresa: ${error.message}`);
             });
         return false;
-    }
+    } setInterval(exibirAutonomia , 2000)
 
     function exibirCPU() {
         fetch(`/tablet/exibirCPU`)
@@ -310,7 +614,7 @@
             });
         return false;
         atualizarGrafico();
-    } setInterval(exibirCPU, 7000)
+    } setInterval(exibirCPU, 3000)
 
     function atualizarGrafico(dados) {
         // Recupere o contexto do canvas onde o gráfico está renderizado
@@ -430,17 +734,3 @@
     }
 
 </script>
-
-<style>
-    .verde {
-        color: green;
-    }
-
-    .amarelo {
-        color: yellow;
-    }
-
-    .vermelho {
-        color: red;
-    }
-</style>

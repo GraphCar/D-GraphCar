@@ -1,30 +1,32 @@
+const { json } = require("express");
+
 function carregarDados() {
-   fetch("/Dados/alertasGerais", {
-      method: "GET",
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(function (resposta) {
-      if (resposta.ok) {
-        resposta.json().then((response) => {
-          // span_alerta_cpu.innerHTML = response[0].cpuCritico;
-          // span_alerta_gpu.innerHTML = response[0].gpuCritico;
-          // span_alerta_bat.innerHTML = response[0].bateriaCritico;
-          span_ocorrencia_cpu.innerHTML = Number(response[0].cpuAlerta) + Number(response[0].cpuCritico);
-          span_ocorrencia_gpu.innerHTML = Number(response[0].gpuAlerta) + Number(response[0].gpuCritico);
-          span_ocorrencia_bat.innerHTML = Number(response[0].bateriaAlerta) + Number(response[0].bateriaCritico);
-        });
-      } else {
-        console.log(resposta)
-        console.log("Houve um erro ao tentar recuperar os dados!");
-  
-        resposta.text().then(texto => {
-          console.error(texto);
-          alert("Houve um erro ao tentar recuperar os dados!");
-        });
-      }
-    });
+  fetch("/Dados/alertasGerais", {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then((response) => {
+        // span_alerta_cpu.innerHTML = response[0].cpuCritico;
+        // span_alerta_gpu.innerHTML = response[0].gpuCritico;
+        // span_alerta_bat.innerHTML = response[0].bateriaCritico;
+        span_ocorrencia_cpu.innerHTML = Number(response[0].cpuAlerta) + Number(response[0].cpuCritico);
+        span_ocorrencia_gpu.innerHTML = Number(response[0].gpuAlerta) + Number(response[0].gpuCritico);
+        span_ocorrencia_bat.innerHTML = Number(response[0].bateriaAlerta) + Number(response[0].bateriaCritico);
+      });
+    } else {
+      console.log(resposta)
+      console.log("Houve um erro ao tentar recuperar os dados!");
+
+      resposta.text().then(texto => {
+        console.error(texto);
+        alert("Houve um erro ao tentar recuperar os dados!");
+      });
+    }
+  });
   console.log("abc: " + sel_modelo_carro.value);
   fetch(`/Dados/alertasConcatenados/${sel_modelo_carro.value || "-"}`, {
     method: "GET",
@@ -205,7 +207,7 @@ function atualizarNotificacoes() {
 function pesquisarId() {
   fetch(`/Dados/pesquisarId/${fkCarro.value}`).then(function (resposta) {
     if (resposta.ok) {
-    
+
       resposta.json().then((response) => {
         sessionStorage.FK_CARRO = fkCarro.value
 
@@ -338,12 +340,94 @@ function buscarModelos() {
   });
 }
 
+function carregarDadosCarro() {
+
+  fkCarro = sessionStorage.FK_CARRO;
+
+  fetch(`/Dados/alertasCarro/:${fkCarro}`).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then(function (response) {
+        console.log(response)
+        span_ocorrencia_cpu_carro.innerHTML = Number(response[0].cpuAlerta) + Number(response[0].cpuCritico)
+        span_ocorrencia_gpu_carro.innerHTML = Number(response[0].gpuAlerta) + Number(response[0].gpuCritico)
+        span_ocorrencia_bateria_carro.innerHTML = Number(response[0].bateriaAlerta) + Number(response[0].bateriaCritico)
+
+      });
+    } else {
+      throw ('Houve um erro na API')
+    }
+  });
+
+  fetch(`/Dados/capturarDadosCarro/:${fkCarro}`).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then(function (response) {
+        console.log(response);
+
+        dados_graph_carro = {'cpu': [], 'gpu': [], 'bateria': []}
+
+        for (let i = 0; i < response.length; i++){
+          labels_graph_carro.push(response[i].dateDado)
+          dados_graph_carro.cpu.push(response[i].cpuUso)
+          dados_graph_carro.gpu.push(response[i].gpuUso)
+          dados_graph_carro.bateria.push(response[i].bateriaNivel)
+        }
+
+        span_cpu_atual.innerHTML = Number(response[0].cpuUso)
+        span_gpu_atual.innerHTML = Number(response[0].gpuUso)
+        span_bateria_atual.innerHTML = Number(response[0].bateriaNivel)
+
+        exibirGraficosPorCarro();
+      });
+    } else {
+      throw ('Houve um erro na API')
+    }
+  });
+}
+
+function exibirTabelaDeCarros() {
+  fetch(`/Dados/exibirTabelaDeCarros`).then(function (resposta) {
+    if (resposta.ok) {
+
+      resposta.json().then(function (response) {
+        console.log(response);
+        var corpo = document.getElementById("tabela-corpo")
+        
+
+        for (let index = 0; index < response.length; index++) {
+          let linha = document.createElement("tr")
+          let tdIdCarro = document.createElement("td")
+          let tdOcorrenciaCPU = document.createElement("td")
+          let tdOcorrenciaGPU = document.createElement("td")
+          let tdOcorrenciaBateria = document.createElement("td")
+          let tdOcorrenciaTotal = document.createElement("td")
+
+          let ocorrenciaCPU = Number(response[index].cpuAlerta) + Number(response[index].cpuCritico)
+          let ocorrenciaGPU = Number(response[index].gpuAlerta) + Number(response[index].gpuCritico)
+          let ocorrenciasBateria = Number(response[index].bateriaAlerta) + Number(response[index].bateriaCritico)
+          let OcorrenciaTotal = ocorrenciaCPU + ocorrenciaGPU + ocorrenciasBateria
+
+          tdIdCarro.innerHTML = Number(response[index].fkCarro)
+          tdOcorrenciaCPU.innerHTML = ocorrenciaCPU          
+          tdOcorrenciaGPU.innerHTML = ocorrenciaGPU          
+          tdOcorrenciaBateria.innerHTML = ocorrenciasBateria
+          tdOcorrenciaTotal.innerHTML = OcorrenciaTotal
+
+          linha.appendChild(tdIdCarro, tdOcorrenciaCPU, tdOcorrenciaGPU, tdOcorrenciaBateria,tdOcorrenciaTotal)
+          corpo.append(linha)
+        }
+      })
+    }
+  })
+}
 
 var flotPlot;
 var dashDataCrit;
 var dashDataAlerta
+var dashDataValor;
 var dados_graph = [];
 var labels_graph = [];
+var dados_graph_carro = [];
+var labels_graph_carro = [];
 var dados_kpis = {};
 var tickData = [];
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
@@ -351,6 +435,7 @@ span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0
 var grafico_atual = "todos";
 buscarModelos();
 carregarDados();
+carregarDadosCarro();
 atualizarNotificacoes();
 
 function mudarDadosGrafico(parametro) {
@@ -2772,40 +2857,30 @@ function exibirGraficosPorCarro() {
         dashDataCrit = { "cpu": [], "gpu": [], "bat": [], "total": [] };
         dashDataAlerta = { "cpu": [], "gpu": [], "bat": [], "total": [] };
         tickData = [];
+        dashDataValor = {"cpu": [], "gpu": [], "bat": []}
 
         let cont = 0;
         for (let i = 0; i < 30; i++) {
-          tickData.push([i, labels_graph[i]]);
-          let index = dados_graph.findIndex((x) => x.dia == labels_graph[i]);
+          tickData.push([i, labels_graph_carro[i]]);
+          let index = dados_graph_carro.findIndex((x) => x.dia == labels_graph_carro[i]);
           if (index > -1) {
 
-            let dado = dados_graph[index];
+            let dado = dados_graph_carro[index];
 
-            dashDataAlerta.cpu.push([i, Number(dado.cpuAlerta)]);
-            dashDataAlerta.gpu.push([i, Number(dado.gpuAlerta)]);
-            dashDataAlerta.bat.push([i, Number(dado.batAlerta)]);
-            dashDataAlerta.total.push([i, Number(dado.cpuAlerta) + Number(dado.gpuAlerta) + Number(dado.batAlerta)]);
+            dashDataValor.cpu.push([i, Number(dado.cpuUso)]);
+            dashDataValor.gpu.push([i, Number(dado.gpuUso)]);
+            dashDataValor.bat.push([i, Number(dado.bateriaNivel)]);
 
-            dashDataCrit.cpu.push([i, Number(dado.cpuCritico)]);
-            dashDataCrit.gpu.push([i, Number(dado.gpuCritico)]);
-            dashDataCrit.bat.push([i, Number(dado.batCritico)]);
-            dashDataCrit.total.push([i, Number(dado.cpuCritico) + Number(dado.gpuCritico) + Number(dado.batCritico)]);
           } else {
-            dashDataAlerta.cpu.push([i, 0]);
-            dashDataAlerta.gpu.push([i, 0]);
-            dashDataAlerta.bat.push([i, 0]);
-            dashDataAlerta.total.push([i, 0]);
-
-            dashDataCrit.cpu.push([i, 0]);
-            dashDataCrit.gpu.push([i, 0]);
-            dashDataCrit.bat.push([i, 0]);
-            dashDataCrit.total.push([i, 0]);
+            dashDataValor.cpu.push([i, 0]);
+            dashDataValor.gpu.push([i, 0]);
+            dashDataValor.bat.push([i, 0]);
           }
 
 
         }
         console.log(tickData)
-        console.log(dashDataAlerta)
+        console.log(dashDataValor)
 
         function bgFlotData(num, val) {
           var data = [];
@@ -2827,20 +2902,25 @@ function exibirGraficosPorCarro() {
           "#flotChartId",
           [
             {
-              label: "Estado de Alerta",
-              data: dashDataAlerta.total,
+              label: "CPU",
+              data: dashDataValor.cpu,
               color: "rgba(253, 127, 99, 0.5)",
               lines: {
                 fillColor: "rgba(253, 127, 99, 0.5)",
               },
             },
             {
-              label: "Estado Crítico",
-              data: dashDataCrit.total,
+              label: "GPU",
+              data: dashDataValor.gpu,
               color: "rgba(204, 22, 22, 0.6)",
               lines: {
                 fillColor: "rgba(204, 22, 22, 0.6)",
               },
+            },
+            {
+              label: "Bateria",
+              data: dashDataValor.bat,
+              color: "rgba(204, 22, 22, 0.4)"
             },
           ],
           {
@@ -2925,5 +3005,3 @@ function download() {
 
   URL.revokeObjectURL(url);
 }
-
-

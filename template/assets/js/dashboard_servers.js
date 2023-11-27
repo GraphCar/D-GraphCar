@@ -1,6 +1,83 @@
-function carregarDados() {
+function carregarChamados() {
+  fetch(`/Servidor/listarPeriodosChamados/-`, {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then((response) => {
+        console.log("Batata");
+        console.log(response);
 
-  fetch(`/Servidor/listarDados/MONTH`, {
+        markings_total = 
+        labels_graph = [];
+        dados_graph = {'cpu': [], 'ram': [], 'disco': []};
+
+        for (let i = 0; i < response.length; i ++) {
+          labels_graph.push([labels_graph.length, response[i].dataFormatada]);
+          dados_graph.cpu.push([dados_graph.cpu.length, response[i].cpuUso]);
+          dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
+          dados_graph.disco.push([dados_graph.disco.length, response[i].disco]);
+        }
+
+        carregarDados();
+      });
+    } else {
+      console.log(resposta)
+      console.log("Houve um erro ao tentar recuperar os dados!");
+
+      resposta.text().then(texto => {
+        console.error(texto);
+        alert("Houve um erro ao tentar recuperar os dados!");
+      });
+    }
+  });
+}
+
+function carregarDados() {
+  let periodo = sel_periodo.value;
+  let grupo = sel_grupo.value;
+  if (periodo == "YEAR") {
+    if (grupo == "hora" || grupo == "minuto") {
+      grupo = "dia";
+      sel_grupo.value = "dia";
+    }
+    opt_grupo_1.disabled = false;
+    opt_grupo_2.disabled = false;
+    opt_grupo_3.disabled = true;
+    opt_grupo_4.disabled = true;
+  } else if (periodo == "MONTH") {
+    if (grupo == "mes" || grupo == "minuto") {
+      grupo = "dia";
+      sel_grupo.value = "dia";
+    }
+    opt_grupo_1.disabled = true;
+    opt_grupo_2.disabled = false;
+    opt_grupo_3.disabled = false;
+    opt_grupo_4.disabled = true;
+  } else if (periodo == "WEEK") {
+    if (grupo == "mes") {
+      grupo = "dia";
+      sel_grupo.value = "dia";
+    }
+    opt_grupo_1.disabled = true;
+    opt_grupo_2.disabled = false;
+    opt_grupo_3.disabled = false;
+    opt_grupo_4.disabled = true;
+  } else {
+    if (grupo == "mes" || grupo == "dia") {
+      grupo = "hora";
+      sel_grupo.value = "hora";
+    }
+    opt_grupo_1.disabled = true;
+    opt_grupo_2.disabled = true;
+    opt_grupo_3.disabled = false;
+    opt_grupo_4.disabled = false;
+  }
+
+  fetch(`/Servidor/listarDados/${periodo}-${grupo}`, {
     method: "GET",
     cache: "no-store",
     headers: {
@@ -16,15 +93,16 @@ function carregarDados() {
         dados_graph = {'cpu': [], 'ram': [], 'disco': []};
 
         for (let i = 0; i < response.length; i ++) {
-          labels_graph.push(response[i].dataFormatada);
-          dados_graph.cpu.push(response[i].cpuUso);
-          dados_graph.ram.push(response[i].memoria);
-          dados_graph.disco.push(response[i].disco);
+          labels_graph.push([labels_graph.length, response[i].dataFormatada]);
+          dados_graph.cpu.push([dados_graph.cpu.length, response[i].cpuUso]);
+          dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
+          dados_graph.disco.push([dados_graph.disco.length, response[i].disco]);
         }
 
-        //extrairDadosGraficos(jsonAlertas);
         obterMetricas();
         exibirGraficos();
+        
+        mudarDadosGrafico("cpu");
       });
     } else {
       console.log(resposta)
@@ -39,7 +117,7 @@ function carregarDados() {
 }
 
 function atualizarNotificacoes() {
-  fetch("/Dados/listarNotificacoes").then(function (resposta) {
+  fetch("/Servidor/listarAlertas/-").then(function (resposta) {
     if (resposta.ok) {
       if (resposta.status == 204) {
         var notificacoes = document.getElementById("div_lista_alertas");
@@ -55,74 +133,10 @@ function atualizarNotificacoes() {
       resposta.json().then(function (resposta) {
         console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-        
-        var nomeNotificacoes = []
-        var mensagens = []
         var notificacoes = document.getElementById("div_lista_alertas");
-        var alertas = {
-          cpuAlerta: 0,
-          cpuCritico: 0,
-          gpuAlerta: 0,
-          gpuCritico: 0,
-          bateriaAlerta: 0,
-          bateriaCritico: 0
-        }
-        console.log("alertas");
-        console.log(resposta);
 
         notificacoes.innerHTML = '<h6 class="p-3 mb-0">Mensagens</h6>';
-        for (let i = 0; i < resposta.length; i++) {
-          var publicacao = resposta[i];
-          if (publicacao.cpuUso > 70) {
-            alertas.cpuAlerta++;
-          } else if (publicacao.cpuUso > 90) {
-            alertas.cpuCritico++;
-          }
-          if (publicacao.gpuUso > 70) {
-            alertas.gpuAlerta++;
-          } else if (publicacao.gpuUso > 90) {
-            alertas.gpuCritico++;
-          }
-          if (publicacao.bateriaNivel < 5) {
-            alertas.bateriaCritico++;
-          } else if (publicacao.bateriaNivel < 20) {
-            alertas.bateriaAlerta++;
-          }
-        }
-        let totalAlertas = 0;
-
-        if (alertas.cpuAlerta != 0) {
-          nomeNotificacoes.push("Alerta de CPU");
-          mensagens.push("Existem " + alertas.cpuAlerta + " alertas de CPU nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.cpuCritico != 0) {
-          nomeNotificacoes.push("Nível Crítico de CPU");
-          mensagens.push("Existem " + alertas.cpuAlerta + " CPUs em nível CRÍTICO nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.gpuAlerta != 0) {
-          nomeNotificacoes.push("Alerta de GPU");
-          mensagens.push("Existem " + alertas.gpuAlerta + " alertas de GPU nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.gpuCritico != 0) {
-          nomeNotificacoes.push("Nível Crítico de GPU");
-          mensagens.push("Existem " + alertas.gpuCritico + " GPUs em nível CRÍTICO nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.bateriaAlerta != 0) {
-          nomeNotificacoes.push("Alerta de Bateria");
-          mensagens.push("Existem " + alertas.bateriaAlerta + " alertas de bateria nos últimos 15 minutos");
-          totalAlertas++;
-        }
-        if (alertas.bateriaCritico != 0) {
-          nomeNotificacoes.push("Nível Crítico de Bateria");
-          mensagens.push("Existem " + alertas.bateriaCritico + " baterias em nível CRÍTICO nos últimos 15 minutos");
-          totalAlertas++;
-        }
-      
-        if (totalAlertas == 0) {
+        if (resposta.length == 0) {
           span_qtde_alertas.classList.add("invisible");
           let aDropDown = document.createElement("a");
           let divConteudo = document.createElement("div");
@@ -132,32 +146,45 @@ function atualizarNotificacoes() {
           divConteudo.classList.add("preview-item-content", "flex-grow");
           pMensagem.classList.add("text-small", "text-muted", "ellipsis", "mb-0");
 
-          pMensagem.innerHTML = "Não há alertas no momento!";
+          pMensagem.innerHTML = "Não há chamados no momento!";
 
           divConteudo.appendChild(pMensagem);
           aDropDown.appendChild(divConteudo);
           notificacoes.appendChild(aDropDown);
 
         } else {
-          for (i = 0; i < nomeNotificacoes.length; i++) {
+          for (let i = 0; i < resposta.length; i++) {
+  
             let aDropDown = document.createElement("a");
             let divConteudo = document.createElement("div");
             let spanTitulo = document.createElement("span");
             let pMensagem = document.createElement("p");
+    
+            let componente = "";
+            if (resposta[i].fkComponente == 1) {
+              componente = "CPU";
+            } else if (resposta[i].fkComponente == 2) {
+              componente = "RAM";
+            } else {
+              componente = "Disco";
+            }
   
-            spanTitulo.innerHTML = nomeNotificacoes[i];
-            pMensagem.innerHTML = mensagens[i];
-  
+            spanTitulo.innerHTML = resposta[i].chaveJira;
+            aDropDown.href = `https://graphcar-servers.atlassian.net/browse/${resposta[i].chaveJira}`;
+            pMensagem.innerHTML = `Componente: ${componente}<br>
+                Status: ${resposta[i].status}<br>
+                Data Abertura: ${resposta[i].dataAbertura}`;
+    
             aDropDown.classList.add("dropdown-item", "preview-item");
             divConteudo.classList.add("preview-item-content", "flex-grow");
             spanTitulo.classList.add("badge", "badge-pill");
-
-            if (nomeNotificacoes[i].includes("Alerta")) {
+  
+            if (resposta[i].critico == 0) {
               spanTitulo.classList.add("badge-warning");
             } else {
               spanTitulo.classList.add("badge-danger");
             }
-
+  
             pMensagem.classList.add("text-small", "text-muted", "ellipsis", "mb-0");
   
             divConteudo.appendChild(spanTitulo);
@@ -168,9 +195,6 @@ function atualizarNotificacoes() {
           span_qtde_alertas.innerHTML = "!";
           span_qtde_alertas.classList.remove("invisible");
         }
-
-        
-
       });
     } else {
       throw ('Houve um erro na API!');
@@ -236,233 +260,68 @@ var flotPlot;
 var dashDataUso;
 var dados_graph = [];
 var labels_graph = [];
+var markings_total = [];
+var markings_graph = [
+  { xaxis: { from: 200, to: 245 }, color: "#FFBBBB" }
+];
 var dados_kpis = {};
 var tickData = [];
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0];
-var grafico_atual = "todos";
+var grafico_atual = "";
 carregarDados();
 atualizarNotificacoes();
-mudarDadosGrafico("cpu");
 
 function mudarDadosGrafico(parametro) {
   if (parametro == "cpu" && grafico_atual != "cpu") {
     flotPlot.setData([
       {
-        label: "Estado de Alerta",
-        data: dashDataAlerta.cpu,
-        color: "rgba(253, 127, 99, 0.5)",
+        label: "Uso médio (%)",
+        data: dados_graph.cpu,
+        color: "rgba(99, 127, 253, 0.7)",
         lines: {
-          fillColor: "rgba(253, 127, 99, 0.5)",
-        },
-      },
-      {
-        label: "Estado Crítico",
-        data: dashDataUso.cpu,
-        color: "rgba(204, 22, 22, 0.6)",
-        lines: {
-          fillColor: "rgba(204, 22, 22, 0.6)",
+          fillColor: "rgba(99, 127, 253, 0.3)",
         },
       }
     ]);
     grafico_atual = "cpu";
     div_card_cpu.classList.add("background-item-selected");
-    div_card_gpu.classList.remove("background-item-selected");
-    div_card_bat.classList.remove("background-item-selected");
-  } else if (parametro == "gpu" && grafico_atual != "gpu") {
+    div_card_ram.classList.remove("background-item-selected");
+    div_card_disco.classList.remove("background-item-selected");
+  } else if (parametro == "ram" && grafico_atual != "ram") {
     flotPlot.setData([
       {
-        label: "Estado de Alerta",
-        data: dashDataAlerta.gpu,
-        color: "rgba(253, 127, 99, 0.5)",
+        label: "Uso médio (%)",
+        data: dados_graph.ram,
+        color: "rgba(99, 127, 253, 0.7)",
         lines: {
-          fillColor: "rgba(253, 127, 99, 0.5)",
+          fillColor: "rgba(99, 127, 253, 0.3)",
         },
       },
-      {
-        label: "Estado Crítico",
-        data: dashDataUso.gpu,
-        color: "rgba(204, 22, 22, 0.6)",
-        lines: {
-          fillColor: "rgba(204, 22, 22, 0.6)",
-        },
-      }
     ]);
-    grafico_atual = "gpu";
+    grafico_atual = "ram";
     div_card_cpu.classList.remove("background-item-selected");
-    div_card_gpu.classList.add("background-item-selected");
-    div_card_bat.classList.remove("background-item-selected");
-  } else if (parametro == "bat" && grafico_atual != "bat") {
+    div_card_ram.classList.add("background-item-selected");
+    div_card_disco.classList.remove("background-item-selected");
+  } else if (parametro == "disco" && grafico_atual != "disco") {
     flotPlot.setData([
       {
-        label: "Estado de Alerta",
-        data: dashDataAlerta.bat,
-        color: "rgba(253, 127, 99, 0.5)",
+        label: "Uso médio (%)",
+        data: dados_graph.disco,
+        color: "rgba(99, 127, 253, 0.7)",
         lines: {
-          fillColor: "rgba(253, 127, 99, 0.5)",
+          fillColor: "rgba(99, 127, 253, 0.3)",
         },
       },
-      {
-        label: "Estado Crítico",
-        data: dashDataUso.bat,
-        color: "rgba(204, 22, 22, 0.6)",
-        lines: {
-          fillColor: "rgba(204, 22, 22, 0.6)",
-        },
-      }
     ]);
-    grafico_atual = "bat"
+    grafico_atual = "disco"
     div_card_cpu.classList.remove("background-item-selected");
-    div_card_gpu.classList.remove("background-item-selected");
-    div_card_bat.classList.add("background-item-selected");
-  } else {
-    flotPlot.setData([
-      {
-        label: "Estado de Alerta",
-        data: dashDataAlerta.total,
-        color: "rgba(253, 127, 99, 0.5)",
-        lines: {
-          fillColor: "rgba(253, 127, 99, 0.5)",
-        },
-      },
-      {
-        label: "Estado Crítico",
-        data: dashDataUso.total,
-        color: "rgba(204, 22, 22, 0.6)",
-        lines: {
-          fillColor: "rgba(204, 22, 22, 0.6)",
-        },
-      }
-    ]);
-    grafico_atual = "todos";
-    div_card_cpu.classList.remove("background-item-selected");
-    div_card_gpu.classList.remove("background-item-selected");
-    div_card_bat.classList.remove("background-item-selected");
-  }
+    div_card_ram.classList.remove("background-item-selected");
+    div_card_disco.classList.add("background-item-selected");
+  } 
   flotPlot.setupGrid(true);
   flotPlot.draw();
 }
-
-function extrairDadosConcatenados(response) {
-
-  let jsonAlertas = {}
-
-  dados_kpis = {
-    cpu: { carros: new Set(), alerta: 0, critico: 0 },
-    gpu: { carros: new Set(), alerta: 0, critico: 0 },
-    bat: { carros: new Set(), alerta: 0, critico: 0 }
-  };
-
-  for (let i = 0; i < response.length; i++) {
-    let dia = response[i]['dia'];
-    let carro = response[i]['fkCarro'];
-    if (!(dia in jsonAlertas)) {
-      jsonAlertas[dia] = {
-        cpuAlerta: 0,
-        cpuCritico: 0,
-        gpuAlerta: 0,
-        gpuCritico: 0,
-        batAlerta: 0,
-        batCritico: 0,
-      }
-    }
-    let arrayCpu = response[i]['cpuConcat'].split(',');
-    let arrayGpu = response[i]['gpuConcat'].split(',');
-    let arrayBat = response[i]['bateriaNivelConcat'].split(',');
-
-    let cpuState = 0;
-    let gpuState = 0;
-    let batState = 0;
-
-    for (let j = 0; j < arrayCpu.length; j++) {
-      if (cpuState == 0 && arrayCpu[j] == '1') {
-        jsonAlertas[dia]['cpuAlerta'] += 1;
-        cpuState = 1;
-        dados_kpis.cpu.carros.add(carro)
-        dados_kpis.cpu.alerta += 1;
-      } else if ((cpuState == 0 || cpuState == 1) && arrayCpu[j] == '2') {
-        jsonAlertas[dia]['cpuCritico'] += 1;
-        jsonAlertas[dia]['cpuAlerta'] += 1;
-        cpuState = 2;
-        dados_kpis.cpu.carros.add(carro)
-        dados_kpis.cpu.alerta += 1;
-        dados_kpis.cpu.critico += 1;
-      } else if (cpuState == 2 && arrayCpu[j] == '1') {
-        cpuState = 1;
-      } else if ((cpuState == 1 || cpuState == 2) && arrayCpu[j] == '0') {
-        cpuState = 0;
-      }
-
-      if (gpuState == 0 && arrayGpu[j] == '1') {
-        jsonAlertas[dia]['gpuAlerta'] += 1;
-        gpuState = 1;
-        dados_kpis.gpu.carros.add(carro)
-        dados_kpis.gpu.alerta += 1;
-      } else if ((gpuState == 0 || gpuState == 1) && arrayGpu[j] == '2') {
-        jsonAlertas[dia]['gpuCritico'] += 1;
-        jsonAlertas[dia]['gpuAlerta'] += 1;
-        gpuState = 2;
-        dados_kpis.gpu.carros.add(carro)
-        dados_kpis.gpu.alerta += 1;
-        dados_kpis.gpu.critico += 1;
-      } else if (gpuState == 2 && arrayGpu[j] == '1') {
-        gpuState = 1;
-      } else if ((gpuState == 1 || gpuState == 2) && arrayGpu[j] == '0') {
-        gpuState = 0;
-      }
-
-      if (batState == 0 && arrayBat[j] == '1') {
-        jsonAlertas[dia]['batAlerta'] += 1;
-        batState = 1;
-        dados_kpis.bat.carros.add(carro)
-        dados_kpis.bat.alerta += 1;
-      } else if ((batState == 0 || batState == 1) && arrayBat[j] == '2') {
-        jsonAlertas[dia]['batCritico'] += 1;
-        jsonAlertas[dia]['batAlerta'] += 1;
-        batState = 2;
-        dados_kpis.bat.carros.add(carro)
-        dados_kpis.bat.alerta += 1;
-        dados_kpis.bat.critico += 1;
-      } else if (batState == 2 && arrayBat[j] == '1') {
-        batState = 1;
-      } else if ((batState == 1 || batState == 2) && arrayBat[j] == '0') {
-        batState = 0;
-      }
-    }
-  }
-
-  return jsonAlertas;
-}
-
-function extrairDadosGraficos(jsonAlertas) {
-  dados_graph = [];
-
-  for (const [key, value] of Object.entries(jsonAlertas)) {
-    value['dia'] = key;
-    dados_graph.push(value);
-  }
-
-  day = new Date();
-  cont = dados_graph.length - 1;
-
-  for (i = 0; i < 30; i++) {
-    labels_graph.push(day.getDate() + "/" + (day.getMonth() + 1));
-    day.setDate(day.getDate() - 1);
-    // if (cont >= 0 && dados_graph[cont].dia == labels_graph[i]) {
-    //   dados_graph[cont].tick = 29 - i;
-    //   cont--;
-    // }
-  }
-  labels_graph = labels_graph.reverse();
-  for (i = 0; i < 30; i++) {
-    let curDia = labels_graph[i];
-    let index = dados_graph.findIndex((x) => x.dia == curDia);
-    if (index > -1) {
-      dados_graph[index].tick = i;
-    }
-  }
-}
-
 
 function exibirGraficos() {
 
@@ -1499,45 +1358,6 @@ function exibirGraficos() {
       $(function () {
         "use strict";
 
-        // var dashData2 = [];
-        // dashDataUso = { "cpu": [], "gpu": [], "bat": [], "total": [] };
-        // dashDataAlerta = { "cpu": [], "gpu": [], "bat": [], "total": [] };
-        // tickData = [];
-
-        // let cont = 0;
-        // for (let i = 0; i < 30; i++) {
-        //   tickData.push([i, labels_graph[i]]);
-        //   let index = dados_graph.findIndex((x) => x.dia == labels_graph[i]);
-        //   if (index > -1) {
-
-        //     let dado = dados_graph[index];
-            
-        //     dashDataAlerta.cpu.push([i, Number(dado.cpuAlerta)]);
-        //     dashDataAlerta.gpu.push([i, Number(dado.gpuAlerta)]);
-        //     dashDataAlerta.bat.push([i, Number(dado.batAlerta)]);
-        //     dashDataAlerta.total.push([i, Number(dado.cpuAlerta) + Number(dado.gpuAlerta) + Number(dado.batAlerta)]);
-            
-        //     dashDataUso.cpu.push([i, Number(dado.cpuCritico)]);
-        //     dashDataUso.gpu.push([i, Number(dado.gpuCritico)]);
-        //     dashDataUso.bat.push([i, Number(dado.batCritico)]);
-        //     dashDataUso.total.push([i, Number(dado.cpuCritico) + Number(dado.gpuCritico) + Number(dado.batCritico)]);
-        //   } else {
-        //     dashDataAlerta.cpu.push([i, 0]);
-        //     dashDataAlerta.gpu.push([i, 0]);
-        //     dashDataAlerta.bat.push([i, 0]);
-        //     dashDataAlerta.total.push([i, 0]);
-            
-        //     dashDataUso.cpu.push([i, 0]);
-        //     dashDataUso.gpu.push([i, 0]);
-        //     dashDataUso.bat.push([i, 0]);
-        //     dashDataUso.total.push([i, 0]);
-        //   }
-
-          
-        // }
-        // console.log(tickData)
-        // console.log(dashDataAlerta)
-
         function bgFlotData(num, val) {
           var data = [];
           for (var i = 0; i < num; ++i) {
@@ -1558,19 +1378,11 @@ function exibirGraficos() {
           "#flotChart",
           [
             {
-              label: "Estado de Alerta",
+              label: "Uso médio (%)",
               data: dados_graph.cpu,
-              color: "rgba(253, 127, 99, 0.5)",
+              color: "rgba(99, 127, 253, 0.7)",
               lines: {
-                fillColor: "rgba(253, 127, 99, 0.5)",
-              },
-            },
-            {
-              label: "Estado Crítico",
-              data: dados_graph.ram,
-              color: "rgba(204, 22, 22, 0.6)",
-              lines: {
-                fillColor: "rgba(204, 22, 22, 0.6)",
+                fillColor: "rgba(99, 127, 253, 0.3)",
               },
             },
           ],
@@ -1591,6 +1403,7 @@ function exibirGraficos() {
             grid: {
               borderWidth: 0,
               labelMargin: 4,
+              markings: markings_graph,
             },
             yaxis: {
               show: true,

@@ -166,12 +166,22 @@
                       <button class="mdi mdi-replay" id="reloadButton"></button>
                     </div>
                     <div class="col-sm-3">
-                      Modelo:
-                      <select id="sel_modelo_carro" onchange="carregarDados();">
+                      Período:
+                      <select id="sel_periodo" onchange="carregarDados();">
+                        <option value="YEAR" id="opt_periodo_1">1 Ano</option>
+                        <option value="MONTH" id="opt_periodo_2" selected>1 Mês</option>
+                        <option value="WEEK" id="opt_periodo_3">1 Semana</option>
+                        <option value="DAY" id="opt_periodo_4">1 Dia</option>
                       </select>
                     </div>
-                    <div class="col-sm-4 text-md-right" id="div_total_carros">
-                      Carros monitorados: <span id="span_total_carros">0</span>
+                    <div class="col-sm-3">
+                      Agrupar por:
+                      <select id="sel_grupo" onchange="carregarDados();">
+                        <option value="mes" id="opt_grupo_1" disabled>Mês</option>
+                        <option value="dia" id="opt_grupo_2" selected>Dia</option>
+                        <option value="hora" id="opt_grupo_3">Hora</option>
+                        <option value="minuto" id="opt_grupo_4">Minuto</option>
+                      </select>
                     </div>
                     <!-- <div class="col-sm-5 text-md-right">
                         <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
