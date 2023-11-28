@@ -15,22 +15,21 @@
     <div class="container-scroller">
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
-          <a class="sidebar-brand brand-logo" href="../../index.html"><img src="../../../../assets/img/logo-preto2.png" alt="logo" /></a>
-          <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="../../index.html"><img src="../../../../assets/img/logo-preto.png" alt="logo" /></a>
+          <a class="sidebar-brand brand-logo" href="index.html"><img src="../../../../assets/img/logo-preto2.png"
+              alt="logo" /></a>
+          <a class="sidebar-brand brand-logo-mini pl-4 pt-3" href="index.html"><img src="../../../../assets/img/logo-preto.png"
+              alt="logo" /></a>
         </div>
         <ul class="nav">
           <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
               <div class="nav-profile-image">
-                <img src="../../../../assets/img/fotosUsuarios/user.png" alt="profile" />
+                <img src="../../../../assets/img/image.png" alt="profile" />
                 <span class="login-status online"></span>
-                <!--change to offline or busy as needed-->
               </div>
               <div class="nav-profile-text d-flex flex-column pr-3">
-                <span class="font-weight-medium mb-2">Fernando Brandão</span>
-                <span class="font-weight-normal">Analista de dados</span>
+                <span class="font-weight-medium mb-2" id="span_nome_usuario">Fernando Brandão</span>
               </div>
-              
             </a>
           </li>
           <li class="nav-item">
@@ -40,62 +39,36 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="mdi mdi-crosshairs-gps menu-icon"></i>
-              <span class="menu-title">Basic UI Elements</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item">
-                  <a class="nav-link" href="../../pages/ui-features/buttons.html">Buttons</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../../pages/ui-features/dropdowns.html">Dropdowns</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../../pages/ui-features/typography.html">Typography</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../../pages/icons/mdi.html">
-              <i class="mdi mdi-contacts menu-icon"></i>
-              <span class="menu-title">Icons</span>
+            <a class="nav-link" href="../charts/chartjs.html">
+              <i class="mdi mdi-chip menu-icon"></i>
+              <span class="menu-title">Veiculos</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../pages/forms/basic_elements.html">
-              <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-              <span class="menu-title">Forms</span>
+            <a class="nav-link" href="../dash-manutencao/index.html">
+              <i class="mdi mdi-memory menu-icon"></i>
+              <span class="menu-title">Manutenção</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../pages/charts/chartjs.html">
+            <a class="nav-link" href="../dash-motorista/tela_nova.html">
               <i class="mdi mdi-chart-bar menu-icon"></i>
-              <span class="menu-title">Gráficos</span>
+              <span class="menu-title">Painel motorista</span>
             </a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="../../../../perfil.html">
-              <i class="mdi mdi-account menu-icon"></i>
-              <span class="menu-title">Perfil</span>
-            </a>
-          </li> -->
           <li class="nav-item">
             <span class="nav-link" href="#">
               <span class="menu-title">Cadastros</span>
             </span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../../../cadastroCarro.html">
+            <a class="nav-link" href="../../cadastroCarro.html">
               <i class="mdi mdi-car menu-icon"></i>
               <span class="menu-title">Cadastro de Carro</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../../../cadastroADM.html">
+            <a class="nav-link" href="../../cadastroADM.html">
               <i class="mdi mdi-face menu-icon"></i>
               <span class="menu-title">Cadastro de Admin.</span>
             </a>
@@ -104,7 +77,9 @@
             <div class="nav-link">
               <div class="mt-4">
                 <ul class="mt-4 pl-0">
-                  <button onclick="sair()"><li>Sair</li></button>
+                  <a href="../../index.html">
+                    <li onclick="sair()">Sair</li>
+                  </a>
                 </ul>
               </div>
             </div>
@@ -164,18 +139,6 @@
                   </a>
                   <h6 class="p-3 mb-0">See all activity</h6>
                 </div>
-              </li>
-              <li class="nav-item nav-search border-0 ml-1 ml-md-3 ml-lg-5 d-none d-md-flex">
-                <form class="nav-link form-inline mt-2 mt-md-0">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Pesquisar Placa" />
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-                        <i class="mdi mdi-magnify"></i>
-                      </span>
-                    </div>
-                  </div>
-                </form>
               </li>
             </ul>
             <ul class="navbar-nav navbar-nav-right ml-lg-auto">

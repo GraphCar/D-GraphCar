@@ -744,7 +744,7 @@ body {
 }
 
 #chart {
-  max-width: 817px;            
+  max-width: 782px;            
   margin: 35px auto;
 }
 
@@ -756,4 +756,18 @@ body {
   100% { transform: scale(1); }
 }
 
+.titulo-velo{
+  font-size: 18px;
+  margin-bottom: 20px;
+  margin-left: 39%;
+  margin: -23px 121px;
+  color: #00000093;
+}
 
+.titulo-velo-temp{
+  font-size: 18px;
+  margin-bottom: 20px;
+  margin-left: 25%;
+  margin: -23px 42px;  
+  color: #00000093;
+}
