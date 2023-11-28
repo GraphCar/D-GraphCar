@@ -1,5 +1,11 @@
 function carregarDadosCarro(fkCarro) {
-    fetch(`/Dados/alertasCarro/${fkCarro}`).then(function (resposta) {
+    fetch(`/Dados/alertasCarro/${fkCarro}`, {
+      method: "GET",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function (resposta) {
         if (resposta.ok) {
             resposta.json().then(function (response) {
                 console.log(response)
@@ -14,7 +20,13 @@ function carregarDadosCarro(fkCarro) {
         }
     });
 
-    fetch(`/Dados/capturarDadosCarro/${fkCarro}`).then(function (resposta) {
+    fetch(`/Dados/capturarDadosCarro/${fkCarro}`, {
+      method: "GET",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(function (resposta) {
         if (resposta.ok) {
             resposta.json().then(function (response) {
 
