@@ -17,7 +17,7 @@
 </head>
 <!-- onload="validarSessao()" -->
 
-<body onload="validarSessao()">
+<body>
   <div class="container-scroller">
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <div class="text-center sidebar-brand-wrapper d-flex align-items-center">
@@ -258,7 +258,7 @@
                   <div class="row my-3">
                     <div class="col-sm-12">
                       <div class="flot-chart-wrapper">
-                        <div id="flotChartId" class="flot-chart">
+                        <div id="flotChart" class="flot-chart">
                           <canvas class="flot-base"></canvas>
                         </div>
                       </div>
@@ -318,6 +318,7 @@
   <!-- endinject -->
   <!-- Custom js for this page -->
   <script src="../../assets/js/dashboard_manutencao.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <!-- End custom js for this page -->
 </body>
 
