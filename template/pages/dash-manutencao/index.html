@@ -38,6 +38,12 @@
                         </div>
                     </a>
                 </li>
+                <li class="nav-item" id="li_servidores">
+                    <a class="nav-link" href="./../../dashboard_servers.html">
+                      <i class="mdi mdi-server menu-icon"></i>
+                      <span class="menu-title">Servidores</span>
+                    </a>
+                  </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../../index.html">
                         <i class="mdi mdi-trending-up menu-icon"></i>
@@ -239,6 +245,7 @@
 
   var idUsuario = sessionStorage.ID_USUARIO;
   var idModelo = sessionStorage.ID_MODELO;
+  var nivelAcesso = sessionStorage.NIVEL_ACESSO;
 
     console.log('Realizando o fetch("/Dados/identificarCarro") no login.html');  
 
@@ -251,12 +258,15 @@
     day = date.getDate();
     // document.getElementById("current_date").innerHTML =
     //   "<h3>" + day + "/" + month + "/" + year + "</h3>";
-
+    if (nivelAcesso < 4) {
+      li_servidores.style.display = "none";
+    }
     function sair() {
       delete sessionStorage.ID_USUARIO;
       delete sessionStorage.ID_MODELO;
       delete sessionStorage.NOME_USUARIO;
       delete sessionStorage.REDIRECIONAMENTO;
+      delete sessionStorage.NIVEL_ACESSO;
 
       window.location = "index.html";
     }
