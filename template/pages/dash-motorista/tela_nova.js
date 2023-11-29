@@ -34,7 +34,7 @@ function temperaturaCPU(taxaTemperaturaCPU) {
   
   valueText.textContent = formattedRate.replace(/(\.0*$|0+$)/, '') + "%";
 
-  frame3 = frame1 * 4;
+  frame3 = frame1 * 3;
 
   if (frame3 > 100) {
     frame3 = 60.4;
@@ -275,7 +275,7 @@ function dadosDahTemperaturaCpu() {
           chart.updateSeries([{ data: valores_cpu }]);
 
           var valores_gpu = dadosDahTemperaturaCPU.map(function (dadoGPU) {
-            return parseFloat((dadoGPU.cpuUso) * 4).toFixed(1);
+            return parseFloat((dadoGPU.cpuUso) * 3).toFixed(1);
           }).reverse(); 
 
           chartGPU.updateSeries([{ data: valores_gpu }]);
