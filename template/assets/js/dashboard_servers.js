@@ -1,5 +1,39 @@
+function carregarServidores() {
+  fetch('/Servidor/listarServidores', {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then((response) => {
+        sel_servidor.innerHTML = '';
+
+        for(let i = 0; i < response.length; i++) {
+          let mac = response[i].mac;
+          for (let m = 2; m < 15; m += 3) {
+            mac = mac.slice(0,m) + ':' + mac.slice(m);
+          }
+          sel_servidor.innerHTML += `<option value="${response[i].idServidor}">${response[i].hostname} (${mac})</option>`;
+        }
+
+        carregarChamados();
+      });
+    } else {
+      console.log(resposta)
+      console.log("Houve um erro ao tentar recuperar os dados!");
+
+      resposta.text().then(texto => {
+        console.error(texto);
+        alert("Houve um erro ao tentar recuperar os dados!");
+      });
+    }
+  });
+}
+
 function carregarChamados() {
-  fetch(`/Servidor/listarPeriodosChamados/-`, {
+  fetch(`/Servidor/listarPeriodosChamados/${sel_servidor.value}`, {
     method: "GET",
     cache: "no-store",
     headers: {
@@ -79,7 +113,7 @@ function carregarDados() {
     opt_grupo_4.disabled = false;
   }
 
-  fetch(`/Servidor/listarDados/${periodo}-${grupo}`, {
+  fetch(`/Servidor/listarDados/${sel_servidor.value}-${periodo}-${grupo}`, {
     method: "GET",
     cache: "no-store",
     headers: {
@@ -97,12 +131,12 @@ function carregarDados() {
 
         for (let i = 0; i < response.length; i ++) {
 
-          console.log("Iniciando " + i);
+          // console.log("Iniciando " + i);
 
           labels_graph.push([labels_graph.length, response[i].dataFormatada]);
           dados_graph.cpu.push([dados_graph.cpu.length, response[i].cpuUso]);
 
-          console.log("Label atual: " + labels_graph[i]);
+          // console.log("Label atual: " + labels_graph[i]);
 
           if (markings_total.cpu.length > 0) {
             if (curCpu != null) {
@@ -121,9 +155,9 @@ function carregarDados() {
             }
           }
 
-          console.log("curCpu: " + curCpu);
-          console.log("Last Marking: ");
-          console.log(markings_graph.cpu[markings_graph.cpu.length - 1]);
+          // console.log("curCpu: " + curCpu);
+          // console.log("Last Marking: ");
+          // console.log(markings_graph.cpu[markings_graph.cpu.length - 1]);
 
           dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
 
@@ -138,6 +172,7 @@ function carregarDados() {
             if (markings_total.ram.length > 0 && markings_total.ram[0][0] <= response[i].minDateDado) {
               curRam = markings_total.ram[0]
               markings_graph.ram.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
+              console.log(curRam);
               if (curRam[2] == 0) {
                 markings_graph.ram[markings_graph.ram.length -1].xaxis.from = response.length - 1;
               }
@@ -163,6 +198,8 @@ function carregarDados() {
             }
           }
         }
+
+        console.log(markings_graph);
 
         obterMetricas();
         exibirGraficos();
@@ -340,61 +377,62 @@ var grafico_atual = "";
 sel_periodo.value = "MONTH";
 sel_grupo.value = "dia";
 
-carregarChamados();
+carregarServidores();
 atualizarNotificacoes();
 
 function mudarDadosGrafico(parametro) {
   if (parametro == "cpu" && grafico_atual != "cpu") {
-    flotPlot.setData([
-      {
-        label: "Uso médio (%)",
-        data: dados_graph.cpu,
-        color: "rgba(99, 127, 253, 0.7)",
-        lines: {
-          fillColor: "rgba(99, 127, 253, 0.3)",
-        },
-      }
-    ]);
+    // flotPlot.setData([
+    //   {
+    //     label: "Uso médio (%)",
+    //     data: dados_graph.cpu,
+    //     color: "rgba(99, 127, 253, 0.7)",
+    //     lines: {
+    //       fillColor: "rgba(99, 127, 253, 0.3)",
+    //     },
+    //   }
+    // ]);
     grafico_atual = "cpu";
     div_card_cpu.classList.add("background-item-selected");
     div_card_ram.classList.remove("background-item-selected");
     div_card_disco.classList.remove("background-item-selected");
   } else if (parametro == "ram" && grafico_atual != "ram") {
-    flotPlot.setData([
-      {
-        label: "Uso médio (%)",
-        data: dados_graph.ram,
-        color: "rgba(99, 127, 253, 0.7)",
-        lines: {
-          fillColor: "rgba(99, 127, 253, 0.3)",
-        },
-      },
-    ]);
+    // flotPlot.setData([
+    //   {
+    //     label: "Uso médio (%)",
+    //     data: dados_graph.ram,
+    //     color: "rgba(99, 127, 253, 0.7)",
+    //     lines: {
+    //       fillColor: "rgba(99, 127, 253, 0.3)",
+    //     },
+    //   },
+    // ]);
     grafico_atual = "ram";
     div_card_cpu.classList.remove("background-item-selected");
     div_card_ram.classList.add("background-item-selected");
     div_card_disco.classList.remove("background-item-selected");
   } else if (parametro == "disco" && grafico_atual != "disco") {
-    flotPlot.setData([
-      {
-        label: "Uso médio (%)",
-        data: dados_graph.disco,
-        color: "rgba(99, 127, 253, 0.7)",
-        lines: {
-          fillColor: "rgba(99, 127, 253, 0.3)",
-        },
-      },
-    ]);
+    // flotPlot.setData([
+    //   {
+    //     label: "Uso médio (%)",
+    //     data: dados_graph.disco,
+    //     color: "rgba(99, 127, 253, 0.7)",
+    //     lines: {
+    //       fillColor: "rgba(99, 127, 253, 0.3)",
+    //     },
+    //   },
+    // ]);
     grafico_atual = "disco"
     div_card_cpu.classList.remove("background-item-selected");
     div_card_ram.classList.remove("background-item-selected");
     div_card_disco.classList.add("background-item-selected");
   } 
+  exibirGraficos();
   flotPlot.setupGrid(true);
   flotPlot.draw();
 }
 
-function exibirGraficos(componente) {
+function exibirGraficos() {
 
   (function ($) {
     "use strict";
@@ -1484,26 +1522,16 @@ function exibirGraficos(componente) {
               show: true,
               color: "#fff",
               tickColor: "#eee",
-              // min: 0,
-              // max: 200,
-              autoScale: "loose",
+              min: 0,
+              max: 100,
+              autoScale: false,
               labelWidth: 40,
-              // ticks: [0,50,100, 150,200],
             },
             xaxis: {
               show: true,
               color: "#fff",
               tickColor: "#eee",
-              ticks: labels_graph, /*[
-              [0, "2000"],
-              [10, "2500"],
-              [20, "3000"],
-              [30, "3500"],
-              [40, "4000"],
-              [50, "4500"],
-              [60, "5000"],
-              [70, "5500"],
-            ],*/
+              ticks: labels_graph,
             },
           }
         );
