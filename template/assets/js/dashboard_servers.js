@@ -104,15 +104,16 @@ function carregarDados() {
 
           console.log("Label atual: " + labels_graph[i]);
 
-          if (markings_total.cpu.length > 0 || curCpu != null) {
+          if (markings_total.cpu.length > 0) {
             if (curCpu != null) {
               if (curCpu[1] <= response[i].minDateDado) {
                 markings_graph.cpu[markings_graph.cpu.length - 1].xaxis.from = i;
               }
               curCpu = null;
+              markings_total.cpu.splice(0, 1);
             } 
             if (markings_total.cpu.length > 0 && markings_total.cpu[0][0] <= response[i].minDateDado) {
-              curCpu = markings_total.cpu.splice(0, 1);
+              curCpu = markings_total.cpu[0];
               markings_graph.cpu.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
               if (curCpu[2] == 0) {
                 markings_graph.cpu[markings_graph.cpu.length -1].xaxis.from = response.length - 1;
@@ -126,15 +127,16 @@ function carregarDados() {
 
           dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
 
-          if (markings_total.ram.length > 0 || curRam != null) {
+          if (markings_total.ram.length > 0) {
             if (curRam != null) {
               if (curRam[1] <= response[i].minDateDado) {
               markings_graph.ram[markings_graph.ram.length -1].xaxis.from = i;
             }
             curRam = null;
+            markings_total.ram.splice(0, 1);
             } 
             if (markings_total.ram.length > 0 && markings_total.ram[0][0] <= response[i].minDateDado) {
-              curRam = markings_total.ram.splice(0, 1);
+              curRam = markings_total.ram[0]
               markings_graph.ram.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
               if (curRam[2] == 0) {
                 markings_graph.ram[markings_graph.ram.length -1].xaxis.from = response.length - 1;
@@ -144,15 +146,16 @@ function carregarDados() {
           
           dados_graph.disco.push([dados_graph.disco.length, response[i].disco]);
 
-          if (markings_total.disco.length > 0 || curDisco != null) {
+          if (markings_total.disco.length > 0) {
             if (curDisco != null) {
               if (curDisco[1] <= response[i].minDateDado) {
                 markings_graph.disco[markings_graph.disco.length -1].xaxis.from = i;
               }
               curDisco = null;
+              markings_total.disco.splice(0, 1);
             } 
             if (markings_total.disco.length > 0 && markings_total.disco[0][0] <= response[i].minDateDado) {
-              curDisco = markings_total.disco.splice(0, 1);
+              curDisco = markings_total.disco[0]
               markings_graph.disco.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
               if (curDisco[2] == 0) {
                 markings_graph.disco[markings_graph.disco.length -1].xaxis.from = response.length - 1;
@@ -391,7 +394,7 @@ function mudarDadosGrafico(parametro) {
   flotPlot.draw();
 }
 
-function exibirGraficos() {
+function exibirGraficos(componente) {
 
   (function ($) {
     "use strict";
@@ -1441,13 +1444,17 @@ function exibirGraficos() {
           }
           return data;
         }
+        
+        if (flotPlot != null) {
+          flotPlot.destroy();
+        }
 
         flotPlot = $.plot(
           "#flotChart",
           [
             {
               label: "Uso médio (%)",
-              data: dados_graph.cpu,
+              data: dados_graph[grafico_atual],
               color: "rgba(99, 127, 253, 0.7)",
               lines: {
                 fillColor: "rgba(99, 127, 253, 0.3)",
@@ -1471,7 +1478,7 @@ function exibirGraficos() {
             grid: {
               borderWidth: 0,
               labelMargin: 4,
-              markings: markings_graph.cpu,
+              markings: markings_graph[grafico_atual],
             },
             yaxis: {
               show: true,
