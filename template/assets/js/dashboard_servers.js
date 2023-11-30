@@ -305,6 +305,33 @@ function atualizarNotificacoes() {
 }
 
 function obterMetricas() {
+  fetch("/Dados/metasDashboard", {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (resposta) {
+    if (resposta.ok) {
+      resposta.json().then((response) => {
+        metas.cpu = Number(response[0].meta_cpu);
+        metas.ram = Number(response[0].meta_ram);
+        metas.disco = Number(response[0].meta_disco);
+        obterTempos();
+      });
+    } else {
+      console.log(resposta)
+      console.log("Houve um erro ao tentar recuperar os dados!");
+
+      resposta.text().then(texto => {
+        console.error(texto);
+        alert("Houve um erro ao tentar recuperar os dados!");
+      });
+    }
+  });
+}
+
+function obterTempos() {
   fetch("/Servidor/listarTempoOcorrencias", {
     method: "GET",
     cache: "no-store",
@@ -319,7 +346,7 @@ function obterMetricas() {
             span_ocorrencia_cpu.innerHTML = response[i].qtdeChamados;
 
             p_cpu_real.innerHTML = `${response[i].tempoPorcent} %`;
-            if (response[i].tempoPorcent > 5) {
+            if (response[i].tempoPorcent > metas.cpu) {
               p_cpu_real.style = "color: red";
             } else {
               p_cpu_real.style = "color: green";
@@ -328,7 +355,7 @@ function obterMetricas() {
             span_ocorrencia_ram.innerHTML = response[i].qtdeChamados;
 
             p_ram_real.innerHTML = `${response[i].tempoPorcent} %`;
-            if (response[i].tempoPorcent > 10) {
+            if (response[i].tempoPorcent > metas.ram) {
               p_ram_real.style = "color: red";
             } else {
               p_ram_real.style = "color: green";
@@ -336,7 +363,7 @@ function obterMetricas() {
           } else {
             span_ocorrencia_disco.innerHTML = response[i].qtdeChamados;
             p_disco_real.innerHTML = `${response[i].tempoPorcent} %`;
-            if (response[i].tempoPorcent > 5) {
+            if (response[i].tempoPorcent > metas.disco) {
               p_disco_real.style = "color: red";
             } else {
               p_disco_real.style = "color: green";
@@ -364,6 +391,7 @@ var markings_total = [];
 var markings_graph = [];
 var dados_kpis = {};
 var tickData = [];
+var metas = {};
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0];
 var grafico_atual = "";
@@ -376,46 +404,16 @@ atualizarNotificacoes();
 
 function mudarDadosGrafico(parametro) {
   if (parametro == "cpu" && grafico_atual != "cpu") {
-    // flotPlot.setData([
-    //   {
-    //     label: "Uso médio (%)",
-    //     data: dados_graph.cpu,
-    //     color: "rgba(99, 127, 253, 0.7)",
-    //     lines: {
-    //       fillColor: "rgba(99, 127, 253, 0.3)",
-    //     },
-    //   }
-    // ]);
     grafico_atual = "cpu";
     div_card_cpu.classList.add("background-item-selected");
     div_card_ram.classList.remove("background-item-selected");
     div_card_disco.classList.remove("background-item-selected");
   } else if (parametro == "ram" && grafico_atual != "ram") {
-    // flotPlot.setData([
-    //   {
-    //     label: "Uso médio (%)",
-    //     data: dados_graph.ram,
-    //     color: "rgba(99, 127, 253, 0.7)",
-    //     lines: {
-    //       fillColor: "rgba(99, 127, 253, 0.3)",
-    //     },
-    //   },
-    // ]);
     grafico_atual = "ram";
     div_card_cpu.classList.remove("background-item-selected");
     div_card_ram.classList.add("background-item-selected");
     div_card_disco.classList.remove("background-item-selected");
   } else if (parametro == "disco" && grafico_atual != "disco") {
-    // flotPlot.setData([
-    //   {
-    //     label: "Uso médio (%)",
-    //     data: dados_graph.disco,
-    //     color: "rgba(99, 127, 253, 0.7)",
-    //     lines: {
-    //       fillColor: "rgba(99, 127, 253, 0.3)",
-    //     },
-    //   },
-    // ]);
     grafico_atual = "disco"
     div_card_cpu.classList.remove("background-item-selected");
     div_card_ram.classList.remove("background-item-selected");
