@@ -338,50 +338,6 @@ function buscarModelos() {
   });
 }
 
-function carregarDadosCarro() {
-
-  fkCarro = sessionStorage.FK_CARRO;
-
-  fetch(`/Dados/alertasCarro/:${fkCarro}`).then(function (resposta) {
-    if (resposta.ok) {
-      resposta.json().then(function (response) {
-        console.log(response)
-        span_ocorrencia_cpu_carro.innerHTML = Number(response[0].cpuAlerta) + Number(response[0].cpuCritico)
-        span_ocorrencia_gpu_carro.innerHTML = Number(response[0].gpuAlerta) + Number(response[0].gpuCritico)
-        span_ocorrencia_bateria_carro.innerHTML = Number(response[0].bateriaAlerta) + Number(response[0].bateriaCritico)
-
-      });
-    } else {
-      throw ('Houve um erro na API')
-    }
-  });
-
-  fetch(`/Dados/capturarDadosCarro/:${fkCarro}`).then(function (resposta) {
-    if (resposta.ok) {
-      resposta.json().then(function (response) {
-        console.log(response);
-
-        dados_graph_carro = {'cpu': [], 'gpu': [], 'bateria': []}
-
-        for (let i = 0; i < response.length; i++){
-          labels_graph_carro.push(response[i].dateDado)
-          dados_graph_carro.cpu.push(response[i].cpuUso)
-          dados_graph_carro.gpu.push(response[i].gpuUso)
-          dados_graph_carro.bateria.push(response[i].bateriaNivel)
-        }
-
-        span_cpu_atual.innerHTML = Number(response[0].cpuUso)
-        span_gpu_atual.innerHTML = Number(response[0].gpuUso)
-        span_bateria_atual.innerHTML = Number(response[0].bateriaNivel)
-
-        exibirGraficosPorCarro();
-      });
-    } else {
-      throw ('Houve um erro na API')
-    }
-  });
-}
-
 function exibirTabelaDeCarros() {
   fetch(`/Dados/exibirTabelaDeCarros`).then(function (resposta) {
     if (resposta.ok) {
@@ -429,8 +385,6 @@ var dashDataAlerta
 
 var dados_graph = [];
 var labels_graph = [];
-var dados_graph_carro = [];
-var labels_graph_carro = [];
 var dados_kpis = {};
 var tickData = [];
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
