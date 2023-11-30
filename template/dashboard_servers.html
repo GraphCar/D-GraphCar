@@ -155,9 +155,14 @@
               <div class="card">
                 <div class="card-body">
                   <div class="row atualizar">
-                    <div class="col-sm-5">
+                    <div class="col-sm-12 mb-3">
                       <span id="lastUpdate"></span>
                       <button class="mdi mdi-replay" id="reloadButton"></button>
+                    </div>
+                    <div class="col-sm-6 mb-3">
+                      Servidor:
+                      <select id="sel_servidor" onchange="carregarChamados();">
+                      </select>
                     </div>
                     <div class="col-sm-3">
                       Período:
@@ -365,7 +370,8 @@
   let intervalID;
 
   function reloadPage() {
-    location.reload();
+    carregarChamados();
+    atualizarNotificacoes();
     updateLastUpdate();
   }
 
