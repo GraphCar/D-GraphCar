@@ -158,10 +158,14 @@
                 <div class="card-body">
                   <div class="row atualizar">
                     <div class="col-sm-5">
+                      <span id="lastUpdate"></span>
+                      <button class="mdi mdi-replay" id="reloadButton"></button>
                     </div>
-                    <div class="col-sm-4 text-md-right" id="div_total_carros">
+                    <div class="col-sm-5">
+                    </div>
+                    <!-- <div class="col-sm-4 text-md-right" id="div_total_carros">
                       Número de Série: <span id="span_numero_de_serie">0</span>
-                    </div>
+                    </div> -->
                     <!-- <div class="col-sm-5 text-md-right">
                         <button type="button" class="btn btn-icon-text mb-3 mb-sm-0 btn-inverse-primary font-weight-normal">
                           <i class="mdi mdi-email btn-icon-prepend"></i>Download Report </button>
@@ -270,6 +274,15 @@
               </div>
             </div>
           </div>
+          <div class="row atualizacao">
+            <label for="refreshInterval">Escolha o intervalo de atualização:</label>
+            <select id="refreshInterval" class="selectAtualizar">
+              <option value="5000">5 segundos</option>
+              <option value="10000">10 segundos</option>
+              <option value="30000">30 segundos</option>
+              <option value="60000">1 minuto</option>
+            </select>
+          </div>
         </div>
         <!-- <div class="row">
             <div class="col-lg-6 grid-margin stretch-card">
@@ -345,4 +358,40 @@
       window.location = "index.html";
     }
   }
+</script>
+
+<script>
+  let intervalID;
+
+  function reloadPage() {
+    location.reload();
+    updateLastUpdate();
+  }
+
+  function updateLastUpdate() {
+    const now = new Date();
+    const lastUpdateElement = document.getElementById('lastUpdate');
+    lastUpdateElement.textContent = 'Última atualização: ' + now.toLocaleString();
+  }
+
+  function startInterval() {
+    const selectElement = document.getElementById('refreshInterval');
+    const selectedValue = selectElement.value;
+
+    if (intervalID) {
+      clearInterval(intervalID);
+    }
+
+    intervalID = setInterval(reloadPage, selectedValue);
+    updateLastUpdate();
+  }
+
+  document.getElementById('reloadButton').addEventListener('click', reloadPage);
+
+  document.getElementById('refreshInterval').addEventListener('change', startInterval);
+
+  startInterval();
+
+  var arrayTablet = [];
+
 </script>
