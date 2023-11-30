@@ -74,6 +74,8 @@ var labels_graph = [];
 var markings_total = [];
 var markings_graph = [];
 var grafico_atual = "todos";
+span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0];
 var dados_kpis = {};
 var tickData = [];
 
