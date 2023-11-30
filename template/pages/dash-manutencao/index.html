@@ -30,7 +30,7 @@
                 <li class="nav-item nav-profile">
                     <a href="#" class="nav-link">
                         <div class="nav-profile-image">
-                            <img src="../../../../assets/img/image.png" alt="profile" />
+                            <img src="../../../../assets/img/image.png" alt="profile" id="img_profile"/>
                             <span class="login-status online"></span>
                         </div>
                         <div class="nav-profile-text d-flex flex-column pr-3">
@@ -252,6 +252,9 @@
   if (idUsuario == undefined || idModelo == undefined) {
     window.location = "../../../../login.html";
   } else {
+    if (idUsuario == 4) {
+      img_profile.src = "../../assets/img/image_user_4.png"
+    }
     date = new Date();
     year = date.getFullYear();
     month = date.getMonth() + 1;
