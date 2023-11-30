@@ -38,14 +38,14 @@ function carregarDadosCarro(fkCarro) {
           dados_graph.gpu.push([i, response[i].gpuUso])
           dados_graph.bateria.push([i, response[i].bateriaNivel])
         }
-        
+
         for (let i = 0; i < response.length; i++) {
           const dataString = response[i].dateDado;
-        
+
           const data = new Date(Date.parse(dataString));
-        
+
           const dataFormatada = (data.getMonth() + 1).toString().padStart(2, '0') + '/' + data.getDate().toString().padStart(2, '0') + ' ' + data.getHours().toString().padStart(2, '0') + ':' + data.getMinutes().toString().padStart(2, '0');
-        
+
           labels_graph.push([i, dataFormatada]);
         }
         // console.log(`Datas: ${JSON.stringify(labels_graph)}`); 
@@ -53,10 +53,11 @@ function carregarDadosCarro(fkCarro) {
         // console.log(`Gpu: ${JSON.stringify(dados_graph.gpu)}`); 
         // console.log(`Bat: ${JSON.stringify(dados_graph.bateria)}`); 
 
-        
         span_cpu_atual.innerHTML = Number(response[0].cpuUso)
         span_gpu_atual.innerHTML = Number(response[0].gpuUso)
         span_bateria_atual.innerHTML = Number(response[0].bateriaNivel)
+
+        mudarCorAlerta()
 
         exibirGraficos();
       });
@@ -75,6 +76,32 @@ var markings_graph = [];
 var grafico_atual = "todos";
 var dados_kpis = {};
 var tickData = [];
+
+function mudarCorAlerta() {
+  if (Number(dados_graph.cpu[0][1]) >= 90) {
+    span_cpu_atual.classList.add("critico")
+  } else if (Number(dados_graph.cpu[0][1]) >= 70) {
+    span_cpu_atual.classList.add("alerta")
+  } else {
+    span_cpu_atual.classList.add("tranquilo")
+  }
+
+  if (Number(dados_graph.gpu[0][1]) >= 90) {
+    span_gpu_atual.classList.add("critico")
+  } else if (Number(dados_graph.gpu[0][1]) >= 70) {
+    span_gpu_atual.classList.add("alerta")
+  } else {
+    span_gpu_atual.classList.add("tranquilo")
+  }
+
+  if (Number(dados_graph.bateria[0][1]) <= 5) {
+    span_bateria_atual.classList.add("critico")
+  } else if (Number(dados_graph.bateria[0][1]) <= 20) {
+    span_bateria_atual.classList.add("alerta")
+  } else {
+    span_bateria_atual.classList.add("tranquilo")
+  }
+}
 
 function mudarDadosGrafico(parametro) {
   if (parametro == "cpu" && grafico_atual != "cpu") {

@@ -1,3 +1,12 @@
 .card-table{
     width: 120vw;
 }
+.critico{
+    color: rgba(253, 127, 99, 0.8);
+}
+.alerta{
+    color: rgba(252, 224, 98, 0.8);
+}
+.tranquilo{
+    color: rgba(186, 252, 98, 0.5);
+}
