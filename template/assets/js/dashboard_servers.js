@@ -17,7 +17,8 @@ function carregarServidores() {
           }
           sel_servidor.innerHTML += `<option value="${response[i].idServidor}">${response[i].hostname} (${mac})</option>`;
         }
-
+        console.log("Markings: ")
+        console.log(markings_total)
         carregarChamados();
       });
     } else {
@@ -139,14 +140,13 @@ function carregarDados() {
           // console.log("Label atual: " + labels_graph[i]);
 
           if (markings_total.cpu.length > 0) {
-            if (curCpu != null) {
-              if (curCpu[1] <= response[i].minDateDado) {
-                markings_graph.cpu[markings_graph.cpu.length - 1].xaxis.from = i;
-              }
+            if (curCpu != null && curCpu[1] <= response[i].maxDateDado) {
+              markings_graph.cpu[markings_graph.cpu.length - 1].xaxis.from = i;
+              
               curCpu = null;
               markings_total.cpu.splice(0, 1);
             } 
-            if (markings_total.cpu.length > 0 && markings_total.cpu[0][0] <= response[i].minDateDado) {
+            if (curCpu == null && markings_total.cpu.length > 0 && markings_total.cpu[0][0] <= response[i].minDateDado) {
               curCpu = markings_total.cpu[0];
               markings_graph.cpu.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
               if (curCpu[2] == 0) {
@@ -155,21 +155,16 @@ function carregarDados() {
             }
           }
 
-          // console.log("curCpu: " + curCpu);
-          // console.log("Last Marking: ");
-          // console.log(markings_graph.cpu[markings_graph.cpu.length - 1]);
-
           dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
 
           if (markings_total.ram.length > 0) {
-            if (curRam != null) {
-              if (curRam[1] <= response[i].minDateDado) {
-              markings_graph.ram[markings_graph.ram.length -1].xaxis.from = i;
-            }
-            curRam = null;
-            markings_total.ram.splice(0, 1);
+            if (curRam != null && curRam[1] <= response[i].maxDateDado) {
+                markings_graph.ram[markings_graph.ram.length -1].xaxis.from = i;
+            
+            	curRam = null;
+	        markings_total.ram.splice(0, 1);
             } 
-            if (markings_total.ram.length > 0 && markings_total.ram[0][0] <= response[i].minDateDado) {
+            if (curRam == null && markings_total.ram.length > 0 && markings_total.ram[0][0] <= response[i].minDateDado) {
               curRam = markings_total.ram[0]
               markings_graph.ram.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
               console.log(curRam);
@@ -182,14 +177,13 @@ function carregarDados() {
           dados_graph.disco.push([dados_graph.disco.length, response[i].disco]);
 
           if (markings_total.disco.length > 0) {
-            if (curDisco != null) {
-              if (curDisco[1] <= response[i].minDateDado) {
+            if (curDisco != null && curDisco[1] <= response[i].maxDateDado) {
                 markings_graph.disco[markings_graph.disco.length -1].xaxis.from = i;
-              }
-              curDisco = null;
-              markings_total.disco.splice(0, 1);
+
+                curDisco = null;
+                markings_total.disco.splice(0, 1);
             } 
-            if (markings_total.disco.length > 0 && markings_total.disco[0][0] <= response[i].minDateDado) {
+            if ( curDisco == null && markings_total.disco.length > 0 && markings_total.disco[0][0] <= response[i].minDateDado) {
               curDisco = markings_total.disco[0]
               markings_graph.disco.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
               if (curDisco[2] == 0) {
