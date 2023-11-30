@@ -38,20 +38,26 @@
             </div>
           </a>
         </li>
+        <li class="nav-item" id="li_servidores">
+          <a class="nav-link" href="./../../dashboard_servers.html">
+            <i class="mdi mdi-server menu-icon"></i>
+            <span class="menu-title">Servidores</span>
+          </a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="./../../index.html">
             <i class="mdi mdi-trending-up menu-icon"></i>
             <span class="menu-title">Dashboard</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#ramChart">
+          <a class="nav-link" href="pages/dash-manutencao/index.html">
             <i class="mdi mdi-memory menu-icon"></i>
             <span class="menu-title">Manutenção</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="pages/dash-motorista/tela_nova.html">
+          <a class="nav-link" href="./../dash-motorista/tela_nova.html">
             <i class="mdi mdi-chart-bar menu-icon"></i>
             <span class="menu-title">Painel motorista</span>
           </a>
@@ -317,6 +323,7 @@
   var idModelo = sessionStorage.ID_MODELO;
 
   var fkCarro = sessionStorage.FK_CARRO;
+  var nivelAcesso = sessionStorage.NIVEL_ACESSO;
   if (fkCarro == undefined) {
     window.location = "index.html"
   } else {
@@ -325,12 +332,15 @@
   if (idUsuario == undefined || idModelo == undefined) {
     window.location = "../../../../login.html";
   } else {
-
+    if (nivelAcesso < 4) {
+      li_servidores.style.display = "none";
+    }
     function sair() {
       delete sessionStorage.ID_USUARIO;
       delete sessionStorage.ID_MODELO;
       delete sessionStorage.NOME_USUARIO;
       delete sessionStorage.REDIRECIONAMENTO;
+      delete sessionStorage.NIVEL_ACESSO;
 
       window.location = "index.html";
     }

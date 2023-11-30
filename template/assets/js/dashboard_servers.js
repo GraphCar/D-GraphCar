@@ -8,8 +8,6 @@ function carregarChamados() {
   }).then(function (resposta) {
     if (resposta.ok) {
       resposta.json().then((response) => {
-        console.log("Batata");
-        console.log(response);
 
         markings_total = {'cpu': [], 'ram': [], 'disco': []}
         labels_graph = [];
@@ -17,11 +15,11 @@ function carregarChamados() {
 
         for (let i = 0; i < response.length; i ++) {
           if (response[i].fkComponente == 1) {
-            markings_total.cpu.push([response[i].dataAbertura, response[i].dataFechamento]);
+            markings_total.cpu.push([response[i].dataAbertura, response[i].dataFechamento, response[i].encerrado]);
           } else if (response[i].fkComponente == 2) {
-            markings_total.ram.push([response[i].dataAbertura, response[i].dataFechamento]);
+            markings_total.ram.push([response[i].dataAbertura, response[i].dataFechamento, response[i].encerrado]);
           } else {
-            markings_total.disco.push([response[i].dataAbertura, response[i].dataFechamento]);
+            markings_total.disco.push([response[i].dataAbertura, response[i].dataFechamento, response[i].encerrado]);
           }
         }
         console.log(markings_total)
@@ -62,7 +60,7 @@ function carregarDados() {
     opt_grupo_3.disabled = false;
     opt_grupo_4.disabled = true;
   } else if (periodo == "WEEK") {
-    if (grupo == "mes") {
+    if (grupo == "mes" || grupo == "minuto") {
       grupo = "dia";
       sel_grupo.value = "dia";
     }
@@ -90,9 +88,6 @@ function carregarDados() {
   }).then(function (resposta) {
     if (resposta.ok) {
       resposta.json().then((response) => {
-        console.log("Batata");
-        console.log(response);
-        console.log(markings_total);
         labels_graph = [];
         markings_graph = {'cpu': [], 'ram': [], 'disco': []};
         dados_graph = {'cpu': [], 'ram': [], 'disco': []};
@@ -100,58 +95,70 @@ function carregarDados() {
         curRam = null;
         curDisco = null;
 
-        // { xaxis: { from: 200, to: 245 }, color: "#FFBBBB" }
-
-
         for (let i = 0; i < response.length; i ++) {
+
+          console.log("Iniciando " + i);
+
           labels_graph.push([labels_graph.length, response[i].dataFormatada]);
           dados_graph.cpu.push([dados_graph.cpu.length, response[i].cpuUso]);
 
-          if (markings_total.cpu.length > 0) {
+          console.log("Label atual: " + labels_graph[i]);
+
+          if (markings_total.cpu.length > 0 || curCpu != null) {
             if (curCpu != null) {
-              if (i == response.length - 1 || curCpu[1] <= response[i].minDateDado) {
-                markings_graph.cpu[markings_graph.length -1].xaxis.from = i;
+              if (curCpu[1] <= response[i].minDateDado) {
+                markings_graph.cpu[markings_graph.cpu.length - 1].xaxis.from = i;
               }
               curCpu = null;
             } 
-            if (markings_total.cpu[0][0] <= response[i].minDateDado) {
+            if (markings_total.cpu.length > 0 && markings_total.cpu[0][0] <= response[i].minDateDado) {
               curCpu = markings_total.cpu.splice(0, 1);
-              markings_graph.cpu.push({ xaxis: { from: 0, to: i }, color: "#FFBBBB"});
+              markings_graph.cpu.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
+              if (curCpu[2] == 0) {
+                markings_graph.cpu[markings_graph.cpu.length -1].xaxis.from = response.length - 1;
+              }
             }
-          
           }
+
+          console.log("curCpu: " + curCpu);
+          console.log("Last Marking: ");
+          console.log(markings_graph.cpu[markings_graph.cpu.length - 1]);
 
           dados_graph.ram.push([dados_graph.ram.length, response[i].memoria]);
 
-          if (markings_total.ram.length > 0) {
+          if (markings_total.ram.length > 0 || curRam != null) {
             if (curRam != null) {
-              if (i == response.length - 1 || curRam[1] <= response[i].minDateDado) {
-              markings_graph.ram[markings_graph.length -1].xaxis.from = i;
+              if (curRam[1] <= response[i].minDateDado) {
+              markings_graph.ram[markings_graph.ram.length -1].xaxis.from = i;
             }
             curRam = null;
             } 
-            if (markings_total.ram[0][0] <= response[i].minDateDado) {
+            if (markings_total.ram.length > 0 && markings_total.ram[0][0] <= response[i].minDateDado) {
               curRam = markings_total.ram.splice(0, 1);
-              markings_graph.ram.push({ xaxis: { from: 0, to: i }, color: "#FFBBBB"});
+              markings_graph.ram.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
+              if (curRam[2] == 0) {
+                markings_graph.ram[markings_graph.ram.length -1].xaxis.from = response.length - 1;
+              }
             }
           }
           
           dados_graph.disco.push([dados_graph.disco.length, response[i].disco]);
 
-          if (markings_total.disco.length > 0) {
+          if (markings_total.disco.length > 0 || curDisco != null) {
             if (curDisco != null) {
-              if (i == response.length - 1 || curDisco[1] <= response[i].minDateDado) {
-                markings_graph.disco[markings_graph.length -1].xaxis.from = i;
+              if (curDisco[1] <= response[i].minDateDado) {
+                markings_graph.disco[markings_graph.disco.length -1].xaxis.from = i;
               }
               curDisco = null;
             } 
-            if (markings_total.disco[0][0] <= response[i].minDateDado) {
+            if (markings_total.disco.length > 0 && markings_total.disco[0][0] <= response[i].minDateDado) {
               curDisco = markings_total.disco.splice(0, 1);
-              markings_graph.disco.push({ xaxis: { from: 0, to: i }, color: "#FFBBBB"});
+              markings_graph.disco.push({ xaxis: { from: i, to: i }, color: "#FFBBBB"});
+              if (curDisco[2] == 0) {
+                markings_graph.disco[markings_graph.disco.length -1].xaxis.from = response.length - 1;
+              }
             }
-
           }
-
         }
 
         obterMetricas();
@@ -172,7 +179,13 @@ function carregarDados() {
 }
 
 function atualizarNotificacoes() {
-  fetch("/Servidor/listarAlertas/-").then(function (resposta) {
+  fetch("/Servidor/listarAlertas/-", {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(function (resposta) {
     if (resposta.ok) {
       if (resposta.status == 204) {
         var notificacoes = document.getElementById("div_lista_alertas");
@@ -186,8 +199,6 @@ function atualizarNotificacoes() {
       }
 
       resposta.json().then(function (resposta) {
-        console.log("Dados recebidos: ", JSON.stringify(resposta));
-
         var notificacoes = document.getElementById("div_lista_alertas");
 
         notificacoes.innerHTML = '<h6 class="p-3 mb-0">Mensagens</h6>';
@@ -322,6 +333,10 @@ var tickData = [];
 span_nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 span_nome_usuario_bem_vindo.innerHTML = sessionStorage.NOME_USUARIO.split(" ")[0];
 var grafico_atual = "";
+
+sel_periodo.value = "MONTH";
+sel_grupo.value = "dia";
+
 carregarChamados();
 atualizarNotificacoes();
 

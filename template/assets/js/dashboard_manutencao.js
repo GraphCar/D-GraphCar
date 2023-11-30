@@ -34,10 +34,10 @@ function carregarDadosCarro(fkCarro) {
                 dados_graph = { 'cpu': [], 'gpu': [], 'bateria': [] }
 
                 for (let i = 0; i < response.length; i++) {
-                    labels_graph.push(response[i].dateDado)
-                    dados_graph.cpu.push(response[i].cpuUso)
-                    dados_graph.gpu.push(response[i].gpuUso)
-                    dados_graph.bateria.push(response[i].bateriaNivel)
+                    labels_graph.push([i, response[i].dateDado])
+                    dados_graph.cpu.push([i, response[i].cpuUso])
+                    dados_graph.gpu.push([i, response[i].gpuUso])
+                    dados_graph.bateria.push([i, response[i].bateriaNivel])
                 }
                 // console.log(`Datas: ${JSON.stringify(labels_graph)}`); 
                 // console.log(`Cpu: ${JSON.stringify(dados_graph.cpu)}`); 
@@ -48,37 +48,8 @@ function carregarDadosCarro(fkCarro) {
                 span_gpu_atual.innerHTML = Number(response[0].gpuUso)
                 span_bateria_atual.innerHTML = Number(response[0].bateriaNivel)
 
-                
-
-                flotPlot.setData([
-                    {
-                      label: "CPU",
-                      data: dados_graph.cpu,
-                      color: "rgba(253, 127, 99, 0.5)",
-                      lines: {
-                        fillColor: "rgba(253, 127, 99, 0.5)",
-                      },
-                    },
-                    {
-                      label: "GPU",
-                      data: dados_graph.gpu,
-                      color: "rgba(204, 22, 22, 0.6)",
-                      lines: {
-                        fillColor: "rgba(204, 22, 22, 0.6)",
-                      },
-                    },
-                    {
-                        label: "Bateria",
-                        data: dados_graph.bateria,
-                        color: "rgba(204, 22, 22, 0.6)",
-                        lines: {
-                          fillColor: "rgba(204, 22, 22, 0.6)",
-                        },
-                      }
-                  ]);
-                });
-
                 exibirGraficos();
+                });
             } else {
             throw ('Houve um erro na API')
         }
@@ -1142,32 +1113,31 @@ function exibirGraficos() {
             }
             return data;
           }
-          console.log(dados_graph.cpu)
           flotPlot = $.plot(
             "#flotChart",
             [
               {
                 label: "CPU",
                 data: dados_graph.cpu,
-                color: "rgba(99, 127, 253, 0.7)",
+                color: "rgba(253, 127, 99, 0.7)",
                 lines: {
-                  fillColor: "rgba(99, 127, 253, 0.3)",
+                  fillColor: "rgba(253, 127, 99, 0.3)",
                 },
               },
               {
                 label: "GPU",
                 data: dados_graph.gpu,
-                color: "rgba(99, 127, 253, 0.7)",
+                color: "rgba(253, 127, 99, 0.7)",
                 lines: {
-                  fillColor: "rgba(99, 127, 253, 0.3)",
+                  fillColor: "rgba(253, 127, 99, 0.3)",
                 },
               },
               {
                 label: "Bateria",
                 data: dados_graph.bateria,
-                color: "rgba(99, 127, 253, 0.7)",
+                color: "rgba(253, 127, 99, 0.7)",
                 lines: {
-                  fillColor: "rgba(99, 127, 253, 0.3)",
+                  fillColor: "rgba(253, 127, 99, 0.3)",
                 },
               },
             ],

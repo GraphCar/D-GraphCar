@@ -36,6 +36,12 @@
             </div>
           </a>
         </li>
+        <li class="nav-item" id="li_servidores">
+          <a class="nav-link" href="dashboard_servers.html">
+            <i class="mdi mdi-server menu-icon"></i>
+            <span class="menu-title">Servidores</span>
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="index.html">
             <i class="mdi mdi-trending-up menu-icon"></i>
@@ -43,13 +49,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="x">
-            <i class="mdi mdi-flash menu-icon"></i>
-            <span class="menu-title">Carregamento</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#ramChart">
+          <a class="nav-link" href="pages/dash-manutencao/index.html">
             <i class="mdi mdi-memory menu-icon"></i>
             <span class="menu-title">Manutenção</span>
           </a>
@@ -161,7 +161,7 @@
                     </div>
                     <div class="col-sm-3">
                       Período:
-                      <select id="sel_periodo" onchange="carregarDados();">
+                      <select id="sel_periodo" onchange="carregarChamados();">
                         <option value="YEAR" id="opt_periodo_1">1 Ano</option>
                         <option value="MONTH" id="opt_periodo_2" selected>1 Mês</option>
                         <option value="WEEK" id="opt_periodo_3">1 Semana</option>
@@ -170,7 +170,7 @@
                     </div>
                     <div class="col-sm-3">
                       Agrupar por:
-                      <select id="sel_grupo" onchange="carregarDados();">
+                      <select id="sel_grupo" onchange="carregarChamados();">
                         <option value="mes" id="opt_grupo_1" disabled>Mês</option>
                         <option value="dia" id="opt_grupo_2" selected>Dia</option>
                         <option value="hora" id="opt_grupo_3">Hora</option>
